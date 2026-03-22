@@ -1,5 +1,5 @@
 ---
-import Welcome from '../components/Welcome.astro';
+import Hero from '../components/Hero.astro';
 import Layout from '../layouts/Layout.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -7,5 +7,9 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout>
-	<Welcome />
+	<Hero />
+	<div class="h-screen w-full bg-zinc-950 flex flex-col items-center justify-center text-zinc-500 text-xl border-t border-white/5 font-instrument-sans">
+		<p>Scroll down</p>
+		<p class="text-sm mt-2 opacity-50">To test the navigation animation ↓</p>
+	</div>
 </Layout>

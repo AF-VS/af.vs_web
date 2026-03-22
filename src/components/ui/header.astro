@@ -1,0 +1,125 @@
+---
+// src/components/ui/header.astro
+---
+
+<header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 pt-4 px-4 pointer-events-none text-white flex justify-center">
+  <div id="header-container" class="mx-auto w-full flex items-center justify-between transition-all duration-500 rounded-full pointer-events-auto border border-transparent max-w-6xl h-24 px-4">
+    <!-- Logo -->
+    <a href="/" id="header-logo" class="text-2xl font-bold tracking-tighter z-50 relative font-instrument-sans transition-all duration-500">AF.VS</a>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex items-center gap-12 lg:gap-16 font-instrument-sans">
+      <a href="#services" class="text-white/80 hover:text-white transition-colors">Services</a>
+      <a href="#cases" class="text-white/80 hover:text-white transition-colors">Cases</a>
+      <a href="#price" class="text-white/80 hover:text-white transition-colors">Price</a>
+    </nav>
+
+    <!-- Desktop CTA -->
+    <div class="hidden md:block">
+      <a href="#contact" class="px-5 py-2 bg-white text-[#0a0400] text-sm font-medium rounded-full hover:bg-white/90 transition-all font-instrument-sans">
+        Get Started
+      </a>
+    </div>
+
+    <!-- Mobile Menu Toggle Button -->
+    <button id="mobile-menu-toggle" class="md:hidden z-50 relative p-2 text-white" aria-label="Toggle Menu">
+      <!-- Hamburger Icon -->
+      <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="block transition-transform duration-300">
+        <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+      </svg>
+      <!-- Close Icon -->
+      <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden transition-transform duration-300">
+        <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu Backdrop/Container -->
+  <div id="mobile-menu" class="fixed inset-0 bg-black/95 backdrop-blur-md opacity-0 pointer-events-none flex flex-col justify-center items-center transition-all duration-300 md:hidden z-40">
+    <nav class="flex flex-col items-center gap-8 font-instrument-sans text-3xl pointer-events-auto">
+      <a href="#services" class="mobile-link text-white/80 hover:text-white transition-colors">Services</a>
+      <a href="#cases" class="mobile-link text-white/80 hover:text-white transition-colors">Cases</a>
+      <a href="#price" class="mobile-link text-white/80 hover:text-white transition-colors">Price</a>
+      
+      <a href="#contact" class="mobile-link mt-8 px-8 py-3 bg-white text-[#0a0400] font-medium rounded-full hover:bg-white/90 transition-all">
+        Get Started
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Ensure the script runs on initial load and after view transitions (if Astro's ViewTransitions are later used)
+  function initHeader() {
+    const headerContainer = document.getElementById('header-container');
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const menu = document.getElementById('mobile-menu');
+    const iconMenu = document.getElementById('icon-menu');
+    const iconClose = document.getElementById('icon-close');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+    const logo = document.getElementById('header-logo');
+    let isMenuOpen = false;
+
+    if (!headerContainer || !toggleBtn) return;
+
+    // Handle scroll for sticky header blur+bg
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        headerContainer.classList.add('bg-zinc-950/80', 'backdrop-blur-md', 'border-white/10', 'max-w-4xl', 'h-16', 'px-6');
+        headerContainer.classList.remove('border-transparent', 'max-w-6xl', 'h-24', 'px-4');
+        logo?.classList.add('text-xl');
+        logo?.classList.remove('text-2xl');
+      } else {
+        headerContainer.classList.remove('bg-zinc-950/80', 'backdrop-blur-md', 'border-white/10', 'max-w-4xl', 'h-16', 'px-6');
+        headerContainer.classList.add('border-transparent', 'max-w-6xl', 'h-24', 'px-4');
+        logo?.classList.remove('text-xl');
+        logo?.classList.add('text-2xl');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial scroll position
+
+    // Handle mobile menu toggle
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      
+      if (isMenuOpen) {
+        menu?.classList.remove('opacity-0', 'pointer-events-none');
+        menu?.classList.add('opacity-100', 'pointer-events-auto');
+        
+        iconMenu?.classList.add('hidden');
+        iconMenu?.classList.remove('block');
+        iconClose?.classList.add('block');
+        iconClose?.classList.remove('hidden');
+        
+        // Disable body scroll
+        document.body.style.overflow = 'hidden';
+      } else {
+        menu?.classList.remove('opacity-100', 'pointer-events-auto');
+        menu?.classList.add('opacity-0', 'pointer-events-none');
+        
+        iconClose?.classList.add('hidden');
+        iconClose?.classList.remove('block');
+        iconMenu?.classList.add('block');
+        iconMenu?.classList.remove('hidden');
+        
+        // Enable body scroll
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Assign click listener
+    toggleBtn.addEventListener('click', toggleMenu);
+
+    // Close menu when clicking a link
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (isMenuOpen) toggleMenu();
+      });
+    });
+  }
+
+  // Run initialization
+  initHeader();
+</script>
