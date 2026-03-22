@@ -1,6 +1,7 @@
 ---
 import Hero from '../components/Hero.astro';
 import Layout from '../layouts/Layout.astro';
+import Services from '../components/Services.astro';
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -8,8 +9,5 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout>
 	<Hero />
-	<div class="h-screen w-full bg-zinc-950 flex flex-col items-center justify-center text-zinc-500 text-xl border-t border-white/5 font-instrument-sans">
-		<p>Scroll down</p>
-		<p class="text-sm mt-2 opacity-50">To test the navigation animation ↓</p>
-	</div>
+	<Services />
 </Layout>
