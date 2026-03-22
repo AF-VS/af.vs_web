@@ -1,0 +1,291 @@
+---
+// Calculator.astro component
+---
+<style>
+  .font-instrument-sans {
+    font-family: 'Instrument Sans', sans-serif;
+  }
+  
+  /* Pill-shaped toggles for Glassmorphism */
+  .calc-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 9999px; /* full pill */
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background-color: rgba(255, 255, 255, 0.03);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-align: center;
+      cursor: pointer;
+  }
+  .calc-btn:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: rgb(255, 255, 255);
+  }
+  .calc-btn.active {
+      background-color: #3054ff; /* Hero button blue */
+      border-color: rgba(48, 84, 255, 0.8);
+      color: white;
+      box-shadow: 0 0 24px rgba(48, 84, 255, 0.5); /* Neon glow */
+  }
+
+  /* Thin elegant neon slider */
+  input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 9999px;
+      outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 0 16px rgba(48, 84, 255, 0.8), inset 0 0 4px rgba(0,0,0,0.2);
+      border: 2px solid #3054ff;
+      transition: transform 0.2s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+  }
+  input[type=range]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      cursor: pointer;
+      box-shadow: 0 0 16px rgba(48, 84, 255, 0.8), inset 0 0 4px rgba(0,0,0,0.2);
+      border: 2px solid #3054ff;
+      transition: transform 0.2s;
+  }
+  input[type=range]::-moz-range-thumb:hover {
+      transform: scale(1.2);
+  }
+</style>
+
+<section id="calculator" class="relative w-full min-h-screen bg-black text-white flex items-center justify-center font-instrument-sans px-4 py-20 overflow-hidden">
+  
+  <!-- Animated Neon Background Orbs (Colors from Hero) -->
+  <div id="orb-1" class="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[#3054ff]/40 rounded-full blur-[120px] pointer-events-none mix-blend-screen opacity-60"></div>
+  <div id="orb-2" class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#b4c0ff]/30 rounded-full blur-[140px] pointer-events-none mix-blend-screen opacity-60"></div>
+  <div id="orb-3" class="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-indigo-900/50 rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
+
+  <!-- Main Glassmorphic Container -->
+  <div class="relative z-10 w-full max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-semibold mb-4 bg-gradient-to-b from-white via-white to-[#b4c0ff] bg-clip-text text-transparent tracking-tighter">
+        Project Cost Calculator
+      </h2>
+      <p class="text-white/60 text-lg sm:text-xl max-w-2xl mx-auto">Configure your MVP requirements to instantly estimate pricing and team size.</p>
+    </div>
+
+    <div class="bg-white/[0.02] border border-white/[0.08] backdrop-blur-[40px] shadow-[0_8px_32px_rgba(0,0,0,0.5)] rounded-[32px] overflow-hidden flex flex-col lg:flex-row">
+      <!-- Left: Inputs Section -->
+      <div class="flex-1 p-8 sm:p-12 space-y-12">
+        
+        <!-- Category -->
+        <div class="space-y-5">
+          <label class="block text-sm font-medium text-white/50 uppercase tracking-widest pl-1">Select Category</label>
+          <div class="flex flex-wrap gap-3" id="calc-category">
+            <button type="button" class="calc-btn active" data-value="landing">Landing Page</button>
+            <button type="button" class="calc-btn" data-value="ecommerce">E-commerce</button>
+            <button type="button" class="calc-btn" data-value="saas">SaaS / Web App</button>
+            <button type="button" class="calc-btn" data-value="mobile">Mobile App</button>
+          </div>
+        </div>
+
+        <!-- Platform -->
+        <div class="space-y-5">
+          <label class="block text-sm font-medium text-white/50 uppercase tracking-widest pl-1">Select Platform</label>
+          <div class="flex flex-wrap gap-3" id="calc-platform">
+            <button type="button" class="calc-btn active" data-value="web">Web Only</button>
+            <button type="button" class="calc-btn" data-value="ios">iOS</button>
+            <button type="button" class="calc-btn" data-value="android">Android</button>
+            <button type="button" class="calc-btn" data-value="cross">Cross-Platform</button>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div class="space-y-5">
+          <div class="flex justify-between items-center pl-1 pr-1">
+            <label class="text-sm font-medium text-white/50 uppercase tracking-widest">Target Timeline</label>
+            <span id="timeline-display" class="bg-white/10 px-3 py-1 rounded-full text-sm font-semibold text-white">3 months</span>
+          </div>
+          <div class="relative pt-2 pb-6">
+              <input type="range" min="1" max="12" value="3" id="calc-timeline">
+              <div class="absolute left-0 right-0 flex justify-between text-[11px] font-medium text-white/40 mt-3 uppercase tracking-wider">
+                  <span>1 month</span>
+                  <span>12 months</span>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Output Section (Darker Inner Card) -->
+      <div class="w-full lg:w-[460px] bg-black/40 p-8 sm:p-12 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-white/[0.08]">
+        
+        <div class="space-y-10" id="calc-results-container">
+          <!-- Price Output -->
+          <div>
+            <div class="text-sm font-medium text-white/50 uppercase tracking-widest mb-3">Estimated Total</div>
+            <div class="flex items-baseline gap-2">
+              <div class="text-[64px] leading-none font-bold tracking-tighter" id="calc-price">$5,000</div>
+            </div>
+            <div class="text-sm font-medium text-white/30 mt-3 flex items-center gap-2">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+               Based on average MVP complexity
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="w-full h-px bg-white/10"></div>
+
+          <!-- Team Output -->
+          <div>
+            <div class="text-sm font-medium text-white/50 uppercase tracking-widest mb-4">Required Developers</div>
+            <div class="flex items-center gap-4">
+               <div class="text-[40px] leading-none font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60" id="calc-devs">
+                 2 Devs
+               </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="w-full mt-12 py-4 rounded-full bg-white hover:bg-white/90 text-black font-semibold text-lg transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-[1.02] active:scale-[0.98]">
+          Get Your Custom Quote
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+    import { animate } from "motion";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // --- Neon Background Animation using Motion ---
+        try {
+          // Slow pulsing/floating effect for the orbs
+          animate("#orb-1", 
+            { x: [0, 50, -30, 0], y: [0, -40, 40, 0], scale: [1, 1.1, 0.9, 1] }, 
+            { duration: 15, repeat: Infinity, ease: "linear" }
+          );
+          animate("#orb-2", 
+            { x: [0, -60, 40, 0], y: [0, 50, -30, 0], scale: [1, 0.9, 1.15, 1] }, 
+            { duration: 18, repeat: Infinity, ease: "linear", delay: 2 }
+          );
+          animate("#orb-3", 
+            { x: [0, 30, -50, 0], y: [0, 30, -50, 0], scale: [1, 1.2, 0.8, 1], opacity: [0.5, 0.8, 0.5] }, 
+            { duration: 20, repeat: Infinity, ease: "linear", delay: 1 }
+          );
+        } catch (e) {
+          console.error("Calculator motion animation error:", e);
+        }
+
+        // --- Calculator Logic ---
+        const categories = document.querySelectorAll("#calc-category .calc-btn");
+        const platforms = document.querySelectorAll("#calc-platform .calc-btn");
+        const timeline = document.getElementById("calc-timeline") as HTMLInputElement;
+        const timelineDisplay = document.getElementById("timeline-display");
+        const priceOut = document.getElementById("calc-price");
+        const devsOut = document.getElementById("calc-devs");
+        const resultsContainer = document.getElementById("calc-results-container");
+
+        let currentCategory = "landing";
+        let currentPlatform = "web";
+        let currentTimeline = 3;
+
+        // Base prices and devs mapping
+        const baseSettings = {
+            landing:   { price: 2000,  devs: 1 },
+            ecommerce: { price: 8000,  devs: 2 },
+            saas:      { price: 15000, devs: 3 },
+            mobile:    { price: 12000, devs: 2 }
+        };
+
+        const platformModifiers = {
+            web: 1.0,
+            ios: 1.3,
+            android: 1.25,
+            cross: 1.4
+        };
+
+        let lastPrice = 0;
+        let lastDevs = 0;
+
+        function animateNumber(element: HTMLElement | null, start: number, end: number, isCurrency: boolean, suffix: string = "") {
+            if (!element) return;
+            // Simple motion animation for numbers
+            animate(0, 1, {
+              duration: 0.5,
+              onUpdate: (latest) => {
+                const current = Math.round(start + (end - start) * latest);
+                if (isCurrency) {
+                  element.textContent = "$" + current.toLocaleString();
+                } else {
+                  element.textContent = current + suffix;
+                }
+              }
+            });
+        }
+
+        function calculate() {
+            let baseParams = baseSettings[currentCategory as keyof typeof baseSettings];
+            let modifier = platformModifiers[currentPlatform as keyof typeof platformModifiers];
+            
+            let standardTimeline = (baseParams.devs * 1.5) + (currentCategory === 'saas' ? 2 : 1);
+            let timelineFactor = standardTimeline / currentTimeline; 
+            
+            let finalPrice = Math.round((baseParams.price * modifier * timelineFactor) / 1000) * 1000;
+            finalPrice = Math.max(finalPrice, 2000);
+
+            let finalDevs = Math.max(1, Math.ceil(baseParams.devs * timelineFactor * 0.8));
+
+            if (resultsContainer) {
+              animate(resultsContainer, { opacity: [0.8, 1], scale: [0.99, 1] }, { duration: 0.3 });
+            }
+
+            // Animate Outputs
+            animateNumber(priceOut, lastPrice || finalPrice, finalPrice, true);
+            animateNumber(devsOut, lastDevs || finalDevs, finalDevs, false, finalDevs === 1 ? " Dev" : " Devs");
+
+            lastPrice = finalPrice;
+            lastDevs = finalDevs;
+        }
+
+        function setupButtonGroup(buttons: NodeListOf<Element>, callback: (val: string) => void) {
+            buttons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    buttons.forEach(b => b.classList.remove("active"));
+                    btn.classList.add("active");
+                    callback((btn as HTMLElement).dataset.value!);
+                    calculate();
+                });
+            });
+        }
+
+        setupButtonGroup(categories, val => currentCategory = val);
+        setupButtonGroup(platforms, val => currentPlatform = val);
+
+        if (timeline) {
+            timeline.addEventListener("input", (e) => {
+                currentTimeline = parseInt((e.target as HTMLInputElement).value);
+                if (timelineDisplay) {
+                    timelineDisplay.textContent = currentTimeline + (currentTimeline === 1 ? " month" : " months");
+                }
+                calculate();
+            });
+        }
+
+        // Initialize display
+        calculate();
+    });
+</script>
