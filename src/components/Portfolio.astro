@@ -1,44 +1,50 @@
 ---
 // src/components/Portfolio.astro
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { portfolioData } from '../i18n/ui';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const trans = portfolioData[lang];
+
 const projects = [
   { 
     id: 'memolink', 
-    name: 'Memolink', 
-    type: 'web & mob', 
-    subtitle: 'Connecting users through an interactive social networking app.',
+    name: trans[0].name, 
+    type: trans[0].type, 
+    subtitle: trans[0].subtitle,
     images: { web: '/portfolio/memolink_web.png', mob: '/portfolio/memolink_mob.jpg' },
     video: '/portfolio/memolink.mp4',
     color: '#6366f1' // Indigo
   },
   { 
     id: 'pandev', 
-    name: 'Pandev metrics', 
-    type: 'web', 
-    subtitle: 'Advanced analytics and dashboard reporting for tracking performance.',
+    name: trans[1].name, 
+    type: trans[1].type, 
+    subtitle: trans[1].subtitle,
     images: { web: '/portfolio/pandev_web.png' },
     video: '/portfolio/pandev.mp4',
     color: '#0ea5e9' // Sky Blue
   },
   { 
     id: 'neva', 
-    name: 'Neva marketplace', 
-    type: 'web & mob', 
-    subtitle: 'A full-scale e-commerce platform with seamless mobile experience.',
+    name: trans[2].name, 
+    type: trans[2].type, 
+    subtitle: trans[2].subtitle,
     images: { web: '/portfolio/neva_web.png', mob: '/portfolio/neva_mob.jpg' },
     color: '#10b981' // Emerald
   },
   { 
     id: 'hrms', 
-    name: 'HRMS ETC', 
-    type: 'web & mob', 
-    subtitle: 'Enterprise-grade human resource management system.',
+    name: trans[3].name, 
+    type: trans[3].type, 
+    subtitle: trans[3].subtitle,
     images: { web: '/portfolio/hrms_web.jpg', mob: '/portfolio/hrms_mob.jpg' },
     color: '#f43f5e' // Rose
   }
 ];
 ---
 
-<section id="cases" class="relative py-20 md:py-32 min-h-[100dvh] w-full flex flex-col justify-center bg-[#050505] overflow-hidden font-instrument-sans border-t border-white/5 cursor-default transition-colors duration-[1500ms]">
+<section id="cases" class="relative py-20 md:py-32 min-h-[100dvh] w-full flex flex-col justify-center bg-[#050505] overflow-hidden font-instrument-sans border-t border-white/5 cursor-default transition-colors duration-[1500ms] snap-start snap-always">
   <!-- Global Spotlight Beam (Concept 2, no clipping) -->
   <div 
     id="dynamic-spotlight" 
@@ -55,9 +61,9 @@ const projects = [
     <!-- Section Title -->
     <div class="portfolio-animate opacity-0 translate-y-8 transition-all duration-1000 ease-out flex-1">
       <h2 class="text-3xl md:text-5xl lg:text-5xl font-bold tracking-tighter text-white mb-2 md:mb-4 uppercase leading-tight">
-        OUR LATEST WORK
+        {t('portfolio.title')}
       </h2>
-      <p class="text-white/50 text-base md:text-xl font-medium max-w-[80%] md:max-w-none">Showcasing our digital expertise and innovation.</p>
+      <p class="text-white/50 text-base md:text-xl font-medium max-w-[80%] md:max-w-none">{t('portfolio.subtitle')}</p>
     </div>
 
     <!-- Navigation Arrows -->
@@ -122,10 +128,10 @@ const projects = [
               {p.type.toUpperCase()}
             </span>
             <span class="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[10px] md:text-[11px] font-medium tracking-wide hidden sm:inline-block">
-              UI/UX DESIGN
+              {t('portfolio.type.design')}
             </span>
             <span class="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-white/80 text-[10px] md:text-[11px] font-medium tracking-wide hidden lg:inline-block">
-              DIGITAL STRATEGY
+              {t('portfolio.type.strategy')}
             </span>
           </div>
 
