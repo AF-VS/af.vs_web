@@ -1,0 +1,94 @@
+---
+// src/components/Footer.astro
+---
+
+<footer class="bg-[#0a0400] text-white pt-24 px-6 md:px-12 lg:px-24 pb-8 font-instrument-sans flex flex-col justify-end h-screen min-h-[700px] w-full relative overflow-hidden z-20">
+  
+  <div class="max-w-[1400px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 relative z-10">
+    
+    <!-- Left Column: Contact Form -->
+    <div class="col-span-1 lg:col-span-6 flex flex-col">
+      <h2 class="text-3xl md:text-5xl font-medium mb-12 tracking-tight">Let's build something great.</h2>
+      
+      <form class="flex flex-col gap-8 w-full max-w-lg">
+        <div class="relative">
+          <input 
+            type="text" 
+            id="projectName" 
+            placeholder="Project name" 
+            class="w-full bg-transparent border-b border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-white py-3 transition-colors text-lg md:text-xl peer" 
+            required 
+          />
+        </div>
+        
+        <div class="relative">
+          <input 
+            type="text" 
+            id="userName" 
+            placeholder="Your name" 
+            class="w-full bg-transparent border-b border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-white py-3 transition-colors text-lg md:text-xl peer" 
+            required 
+          />
+        </div>
+        
+        <div class="relative">
+          <input 
+            type="text" 
+            id="userContact" 
+            placeholder="Contact (email or phone)" 
+            class="w-full bg-transparent border-b border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-white py-3 transition-colors text-lg md:text-xl peer" 
+            required 
+          />
+        </div>
+        
+        <button 
+          type="submit" 
+          class="mt-6 flex items-center gap-4 pl-6 pr-2 py-2 rounded-full bg-white group transition-all w-max hover:scale-105 active:scale-95"
+        >
+          <span class="font-instrument-sans font-medium text-lg text-[#0a0400]">Send Request</span>
+          <div class="w-[40px] h-[40px] rounded-full bg-[#3054ff] group-hover:bg-[#2040e0] flex items-center justify-center shrink-0 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] group-hover:scale-105">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </div>
+        </button>
+      </form>
+    </div>
+
+    <!-- Right Column: Links -->
+    <div class="col-span-1 lg:col-span-6 grid grid-cols-2 gap-12 lg:gap-16 pt-2">
+      
+      <!-- Social Column -->
+      <div class="flex flex-col gap-5">
+        <h3 class="text-white/40 text-[11px] font-bold uppercase tracking-[0.2em] mb-2">Social</h3>
+        <a href="#" class="text-white/80 hover:text-white transition-colors text-lg font-medium inline-block w-max">LinkedIn</a>
+        <a href="#" class="text-white/80 hover:text-white transition-colors text-lg font-medium inline-block w-max">Telegram</a>
+        <a href="#" class="text-white/80 hover:text-white transition-colors text-lg font-medium inline-block w-max">Whatsapp</a>
+        <a href="#" class="text-white/80 hover:text-white transition-colors text-lg font-medium inline-block w-max">Instagram</a>
+        <a href="#" class="text-white/80 hover:text-white transition-colors text-lg font-medium inline-block w-max">Youtube</a>
+      </div>
+
+      <!-- Contact Column -->
+      <div class="flex flex-col gap-5">
+        <h3 class="text-white/40 text-[11px] font-bold uppercase tracking-[0.2em] mb-2">Contact</h3>
+        <a href="mailto:hello@af.vs" class="text-white/80 hover:text-white transition-colors text-lg font-medium inline-block w-max">hello@af.vs</a>
+        <a href="https://t.me/afvs_contact" target="_blank" rel="noopener noreferrer" class="text-white/80 hover:text-white transition-colors text-lg font-medium inline-block w-max">@afvs_contact</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Giant Text Bottom -->
+  <div class="max-w-[1400px] w-full mx-auto mt-16 md:mt-24 relative z-10 flex flex-col items-start w-full">
+    <!-- Fluid typography for the giant text -->
+    <h1 class="text-[15vw] lg:text-[12vw] font-bold leading-none tracking-tighter text-white select-none text-left">
+      AF.VS
+    </h1>
+    
+    <div class="w-full h-[1px] bg-white/10 mt-8 mb-6"></div>
+    
+    <div class="w-full flex flex-col md:flex-row justify-between items-start md:items-center text-white/40 text-sm gap-4">
+      <p>© {new Date().getFullYear()} AF.VS. All rights reserved.</p>
+      <p>Powered by af.vs</p>
+    </div>
+  </div>
+
+</footer>
