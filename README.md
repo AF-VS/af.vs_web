@@ -1,46 +1,55 @@
-# Astro Starter Kit: Basics
+<div align="center">
+  <img src="public/favicon.svg" width=130px, height=130px>
+  <h3>af.vs_web</h3>
+  <p>Инновационные решения, адаптированные для вашего цифрового роста</p>
+  <p>
+    <img src="https://img.shields.io/badge/Astro-6.0-orange.svg" alt="Astro 6.0">
+    <img src="https://img.shields.io/badge/Stack-Astro%20%2B%20Tailwind-blue.svg" alt="Stack">
+    <img src="https://img.shields.io/badge/Architecture-Islands-brightgreen" alt="Architecture Islands">
+    <img src="https://img.shields.io/badge/UI-Tailwind%204.0-blueviolet.svg" alt="UI Tailwind">
+    <img src="https://img.shields.io/badge/Animation-Motion-yellow" alt="Animation">
+  </p>
+  <p>
+    <img src="https://img.shields.io/badge/Language-TypeScript-blue" alt="TypeScript">
+    <img src="https://img.shields.io/badge/I18n-Custom-orange" alt="I18n">
+  </p>
+</div>
 
-```sh
-npm create astro@latest -- --template basics
-```
+---
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+<div align="left">
+  <h3>О проекте</h3>
+  <p>
+    <b>af.vs_web</b> — это лендинг сайт, разработанный для привлечения клиентов. 
+    Проект использует архитектуру островов (Islands Architecture) для минимизации клиентского JavaScript и обеспечения молниеносной загрузки страниц. 
+    В основе лежит мощный стек на базе Astro и Tailwind CSS 4, дополненный сложными анимациями и полной поддержкой мультиязычности (RU/EN).
+  </p>
+  <hr>
+  <h3>Секции</h3>
+</div>
 
-## 🚀 Project Structure
+| <img src="src/screens/hero.png" width="200"/> | <img src="src/screens/services.png" width="200"/> | <img src="src/screens/cases.png" width="200"/> | <img src="src/screens/calculator.png" width="200"/> |
+| --------------------------------------------- | ------------------------------------------------- | ---------------------------------------------- | --------------------------------------------------- |
+| **Hero**                                      | **Services**                                      | **Portfolio**                                  | **Calculator**                                      |
 
-Inside of your Astro project, you'll see the following folders and files:
+<div align="left">
+  <h3>Структура</h3>
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+  <pre>
+    af.vs_web/
+    ├── src/
+    │   ├── components/    # Секции сайта (Hero, Services, etc.)
+    │   ├── i18n/          # Система интернационализации
+    │   ├── layouts/       # Базовые шаблоны страниц
+    │   ├── pages/         # Роутинг (включая /ru)
+    │   └── styles/        # Глобальные стили и Tailwind
+    └── public/            # Статические ресурсы
+  </pre>
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+  <h3>Установка</h3>
+  <pre>
+    git clone https://github.com/Yuldshev/af.vs_web
+    npm install
+    npm run dev
+  </pre>
+</div>
