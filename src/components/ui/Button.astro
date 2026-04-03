@@ -1,0 +1,127 @@
+---
+// src/components/ui/Button.astro
+interface Props {
+  variant?: 'primary' | 'ghost';
+  href?: string;
+  type?: 'submit' | 'button';
+  icon?: 'arrow-down' | 'arrow-right' | 'none';
+  class?: string;
+}
+
+const {
+  variant = 'primary',
+  href,
+  type = 'button',
+  icon = 'arrow-right',
+  class: className = '',
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={['ds-btn', `ds-btn--${variant}`, className]}
+  href={href}
+  type={!href ? type : undefined}
+>
+  <span class="ds-btn__label"><slot /></span>
+
+  {icon !== 'none' && (
+    <span class="ds-btn__icon" aria-hidden="true">
+      {icon === 'arrow-right' && (
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+        </svg>
+      )}
+      {icon === 'arrow-down' && (
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>
+        </svg>
+      )}
+    </span>
+  )}
+</Tag>
+
+<style>
+  .ds-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-2);
+    padding-inline-start: var(--space-6);
+    padding-inline-end: var(--space-2);
+    border-radius: var(--radius-full);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    transition: transform var(--ease-default), box-shadow var(--ease-default);
+  }
+
+  .ds-btn:hover {
+    transform: scale(1.02);
+  }
+
+  .ds-btn:active {
+    transform: scale(0.97);
+  }
+
+  /* Primary */
+  .ds-btn--primary {
+    background: var(--color-text);
+    color: #0a0400;
+  }
+
+  /* Ghost */
+  .ds-btn--ghost {
+    background: transparent;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    padding-inline-end: var(--space-6);
+  }
+
+  .ds-btn--ghost:hover {
+    border-color: var(--color-text-muted);
+  }
+
+  /* Icon circle */
+  .ds-btn__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: var(--color-accent);
+    color: var(--color-text);
+    flex-shrink: 0;
+    transition:
+      background var(--ease-default),
+      box-shadow var(--ease-default),
+      transform var(--ease-default);
+  }
+
+  .ds-btn--ghost .ds-btn__icon {
+    background: transparent;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+  }
+
+  .ds-btn:hover .ds-btn__icon {
+    background: var(--color-accent-hover);
+    box-shadow: var(--glow-white);
+    transform: scale(1.05);
+  }
+
+  .ds-btn--ghost:hover .ds-btn__icon {
+    background: transparent;
+    box-shadow: none;
+  }
+</style>
