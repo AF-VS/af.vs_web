@@ -1,0 +1,90 @@
+---
+// src/components/ui/Card.astro
+interface Props {
+  variant?: 'default' | 'bento';
+  hover?: boolean;
+  class?: string;
+}
+
+const { variant = 'default', hover = true, class: className = '' } = Astro.props;
+---
+
+<div class:list={[
+  'ds-card',
+  `ds-card--${variant}`,
+  hover && 'ds-card--hoverable',
+  className,
+]}>
+  {variant === 'bento' && (
+    <>
+      <div class="ds-card__gloss" aria-hidden="true"></div>
+      <div class="ds-card__glow" aria-hidden="true"></div>
+    </>
+  )}
+  <slot />
+</div>
+
+<style>
+  .ds-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .ds-card--hoverable {
+    transition:
+      border-color var(--ease-default),
+      box-shadow var(--ease-default),
+      transform var(--ease-default);
+  }
+
+  .ds-card--hoverable:hover {
+    border-color: var(--color-border-hover);
+    box-shadow: var(--glow-accent);
+    transform: translateY(-4px);
+  }
+
+  /* Bento: lighter bg, extra effects */
+  .ds-card--bento {
+    background: rgba(10, 15, 36, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Gloss overlay — fades in on hover */
+  .ds-card__gloss {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity var(--ease-slow);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ds-card--hoverable:hover .ds-card__gloss {
+    opacity: 1;
+  }
+
+  /* Ambient glow bottom-right */
+  .ds-card__glow {
+    position: absolute;
+    bottom: -4rem;
+    right: -4rem;
+    width: 12rem;
+    height: 12rem;
+    background: rgba(48, 84, 255, 0.1);
+    border-radius: var(--radius-full);
+    filter: blur(80px);
+    transition: background var(--ease-slow), transform var(--ease-slow);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .ds-card--hoverable:hover .ds-card__glow {
+    background: rgba(48, 84, 255, 0.2);
+    transform: scale(1.1);
+  }
+</style>

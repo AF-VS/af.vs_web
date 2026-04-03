@@ -1,0 +1,44 @@
+---
+// src/components/ui/Input.astro
+interface Props {
+  name: string;
+  placeholder: string;
+  type?: string;
+  required?: boolean;
+  id?: string;
+}
+
+const { name, placeholder, type = 'text', required = false, id } = Astro.props;
+---
+
+<input
+  class="ds-input"
+  name={name}
+  id={id}
+  type={type}
+  placeholder={placeholder}
+  required={required || undefined}
+/>
+
+<style>
+  .ds-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    padding-block: var(--space-2);
+    outline: none;
+    transition: border-color var(--ease-default);
+  }
+
+  .ds-input::placeholder {
+    color: var(--color-text-dim);
+  }
+
+  .ds-input:focus {
+    border-bottom-color: var(--color-text);
+  }
+</style>

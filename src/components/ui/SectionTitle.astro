@@ -1,0 +1,60 @@
+---
+// src/components/ui/SectionTitle.astro
+interface Props {
+  title: string;
+  subtitle?: string;
+  align?: 'center' | 'left';
+}
+
+const { title, subtitle, align = 'center' } = Astro.props;
+---
+
+<div class:list={['ds-section-title', `ds-section-title--${align}`]}>
+  <h2 class="ds-section-title__heading">{title}</h2>
+  {subtitle && <p class="ds-section-title__subtitle">{subtitle}</p>}
+</div>
+
+<style>
+  .ds-section-title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .ds-section-title--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .ds-section-title--left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .ds-section-title__heading {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-4xl);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    background: linear-gradient(180deg, var(--color-text) 60%, var(--color-accent-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  @media (max-width: 743px) {
+    .ds-section-title__heading {
+      font-size: var(--text-2xl);
+    }
+  }
+
+  .ds-section-title__subtitle {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    max-width: 40ch;
+  }
+</style>
