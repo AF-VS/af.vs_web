@@ -1,0 +1,177 @@
+---
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import Button from '../ui/Button.astro';
+import afvsBg from '../../assets/afvs_bg.mov';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="hero" class="hero">
+  <video
+    class="hero__video"
+    src={afvsBg}
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+  ></video>
+
+  <div class="hero__overlay" aria-hidden="true"></div>
+  <div class="hero__glow hero__glow--tl" aria-hidden="true"></div>
+  <div class="hero__glow hero__glow--br" aria-hidden="true"></div>
+  <div class="hero__fade" aria-hidden="true"></div>
+
+  <div class="hero__content ds-container">
+    <h1 class="hero__title">{t('hero.title')}</h1>
+    <p class="hero__subtitle">{t('hero.subtitle')}</p>
+    <div class="hero__cta">
+      <Button variant="primary" icon="arrow-down" href="#services">
+        {t('hero.cta')}
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--color-bg);
+    color: var(--color-text);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: hero-video-in 2000ms 400ms ease-out forwards;
+  }
+
+  @keyframes hero-video-in {
+    to { opacity: 0.5; }
+  }
+
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    pointer-events: none;
+  }
+
+  .hero__glow {
+    position: absolute;
+    width: 100%;
+    height: 500px;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    filter: blur(100px);
+  }
+
+  .hero__glow--tl {
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, rgba(48, 84, 255, 0.35), transparent 60%);
+  }
+
+  .hero__glow--br {
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(315deg, rgba(99, 102, 241, 0.35), transparent 60%);
+  }
+
+  .hero__fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(to top, var(--color-bg), transparent);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-12);
+  }
+
+  .hero__title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--text-hero);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    background: linear-gradient(180deg, #ffffff 50%, var(--color-accent-light) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transform: scale(0.92);
+    animation: hero-in 800ms 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hero__subtitle {
+    margin: 0;
+    max-width: 40ch;
+    font-size: var(--text-lg);
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    animation: hero-fade-in 700ms 400ms ease-out forwards;
+  }
+
+  .hero__cta {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hero-up 600ms 600ms ease-out forwards;
+  }
+
+  @keyframes hero-in {
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes hero-fade-in {
+    to { opacity: 1; }
+  }
+
+  @keyframes hero-up {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__video,
+    .hero__title,
+    .hero__subtitle,
+    .hero__cta {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .hero__video { opacity: 0.5; }
+  }
+</style>
