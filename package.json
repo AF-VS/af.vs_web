@@ -12,6 +12,7 @@
     "check": "astro check"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
     "@astrojs/vercel": "^8.0.0",
     "@fontsource/inter": "^5.0.0",
     "@fontsource/space-grotesk": "^5.0.0",

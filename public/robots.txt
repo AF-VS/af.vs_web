@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://afvs.studio/sitemap-index.xml
