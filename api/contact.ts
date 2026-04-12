@@ -14,13 +14,52 @@ interface ContactBody {
   phone: string;
 }
 
+// --- Rate limiting (in-memory, per-instance) ---
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 5;
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+
+  entry.count++;
+  return entry.count > RATE_LIMIT_MAX;
+}
+
+// --- CORS ---
+const ALLOWED_ORIGINS = [
+  'https://afvs.studio',
+  'https://www.afvs.studio',
+];
+
+function isOriginAllowed(origin: string | undefined): boolean {
+  if (!origin) return false;
+  if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) return true;
+  return ALLOWED_ORIGINS.includes(origin);
+}
+
+// --- Validation ---
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_FIELD_LEN = 500;
+const MAX_EMAIL_LEN = 254;
+const MAX_PHONE_LEN = 20;
+
+function truncate(val: unknown, max: number): string {
+  const s = typeof val === 'string' ? val.trim() : '';
+  return s.slice(0, max);
+}
 
 function validate(body: unknown): { ok: true; data: ContactBody } | { ok: false; error: string } {
   const b = body as Record<string, unknown>;
 
-  const name = typeof b.name === 'string' ? b.name.trim() : '';
-  const email = typeof b.email === 'string' ? b.email.trim() : '';
+  const name = truncate(b.name, MAX_FIELD_LEN);
+  const email = truncate(b.email, MAX_EMAIL_LEN);
 
   if (!name) return { ok: false, error: 'name is required' };
   if (!email || !EMAIL_RE.test(email)) return { ok: false, error: 'valid email is required' };
@@ -28,21 +67,45 @@ function validate(body: unknown): { ok: true; data: ContactBody } | { ok: false;
   return {
     ok: true,
     data: {
-      productType: String(b.productType || ''),
-      readinessStage: String(b.readinessStage || ''),
-      platform: String(b.platform || ''),
-      industry: String(b.industry || ''),
+      productType: truncate(b.productType, MAX_FIELD_LEN),
+      readinessStage: truncate(b.readinessStage, MAX_FIELD_LEN),
+      platform: truncate(b.platform, MAX_FIELD_LEN),
+      industry: truncate(b.industry, MAX_FIELD_LEN),
       name,
-      projectName: String(b.projectName || ''),
+      projectName: truncate(b.projectName, MAX_FIELD_LEN),
       email,
-      phone: String(b.phone || ''),
+      phone: truncate(b.phone, MAX_PHONE_LEN),
     },
   };
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  const origin = req.headers.origin as string | undefined;
+
+  // CORS preflight
+  if (req.method === 'OPTIONS') {
+    if (isOriginAllowed(origin)) {
+      res.setHeader('Access-Control-Allow-Origin', origin!);
+      res.setHeader('Access-Control-Allow-Methods', 'POST');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+      res.setHeader('Access-Control-Max-Age', '86400');
+    }
+    return res.status(204).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // CORS
+  if (isOriginAllowed(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin!);
+  }
+
+  // Rate limit
+  const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || 'unknown';
+  if (isRateLimited(ip)) {
+    return res.status(429).json({ error: 'Too many requests' });
   }
 
   const result = validate(req.body);
