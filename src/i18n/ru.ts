@@ -41,16 +41,6 @@ export const ru: Dict = {
         description: 'Социальная платформа для интерактивного общения пользователей',
         tags: ['web & mob', 'ui/ux дизайн', 'поддержка роста'],
       },
-      {
-        title: 'Pandev metrics',
-        description: 'Продвинутая аналитика и дашборды для отслеживания показателей',
-        tags: ['web', 'ui/ux дизайн', 'поддержка роста'],
-      },
-      {
-        title: 'Neva marketplace',
-        description: 'Полноценная e-commerce платформа с удобным мобильным опытом',
-        tags: ['web & mob', 'ui/ux дизайн', 'поддержка роста'],
-      },
     ],
   },
   bref: {

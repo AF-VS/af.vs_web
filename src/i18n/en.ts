@@ -41,16 +41,6 @@ export const en = {
         description: 'Connecting users through an interactive social networking app',
         tags: ['web & mob', 'ui/ux design', 'growth support'],
       },
-      {
-        title: 'Pandev metrics',
-        description: 'Advanced analytics and dashboard reporting for tracking performance',
-        tags: ['web', 'ui/ux design', 'growth support'],
-      },
-      {
-        title: 'Neva marketplace',
-        description: 'A full-scale e-commerce platform with seamless mobile experience',
-        tags: ['web & mob', 'ui/ux design', 'growth support'],
-      },
     ],
   },
   bref: {

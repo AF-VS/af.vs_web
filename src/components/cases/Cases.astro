@@ -3,19 +3,15 @@ import type { Dict } from '../../i18n/en';
 import CaseCard from './CaseCard.astro';
 import CasesCarousel from './CasesCarousel.astro';
 import case1 from '../../assets/cases/case-1.png';
-import case2 from '../../assets/cases/case-2.png';
-import case3 from '../../assets/cases/case-3.png';
 
 interface Props {
   dict: Dict;
 }
 
 const { dict } = Astro.props;
-const images = [case1, case2, case3];
+const images = [case1];
 const videos: (string | undefined)[] = [
   '/cases/memolink.mp4',
-  '/cases/pandev.mp4',
-  undefined,
 ];
 ---
 

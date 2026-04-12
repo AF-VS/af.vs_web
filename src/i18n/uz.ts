@@ -41,16 +41,6 @@ export const uz: Dict = {
         description: "Foydalanuvchilarni interaktiv ijtimoiy tarmoq ilovasi orqali bog'lash",
         tags: ['web & mob', 'ui/ux dizayn', "o'sishni qo'llab-quvvatlash"],
       },
-      {
-        title: 'Pandev metrics',
-        description: "Samaradorlikni kuzatish uchun ilg'or tahlillar va dashboard hisobotlari",
-        tags: ['web', 'ui/ux dizayn', "o'sishni qo'llab-quvvatlash"],
-      },
-      {
-        title: 'Neva marketplace',
-        description: "Qulay mobil tajriba bilan to'liq e-commerce platforma",
-        tags: ['web & mob', 'ui/ux dizayn', "o'sishni qo'llab-quvvatlash"],
-      },
     ],
   },
   bref: {
