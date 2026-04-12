@@ -1,0 +1,66 @@
+:root {
+  /* ── Surface ───────────────────────────────── */
+  --surface-white: #f8f9fe;
+  --surface-card:  #0a1626;
+  --surface-bg:    #060b14;
+
+  /* ── Primary ───────────────────────────────── */
+  --primary-default: #158ef2;
+  --primary-accent:  #91c6f2;
+
+  /* ── Text on dark ──────────────────────────── */
+  --text-primary:   #f8f9fe;
+  --text-subtle:    rgba(255, 255, 255, 0.8);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+
+  /* ── Borders ───────────────────────────────── */
+  --border-card: rgba(255, 255, 255, 0.6);
+
+  /* ── Typography families ───────────────────── */
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ── Font sizes ────────────────────────────── */
+  --font-size-h1:      62px;
+  --font-size-h2:      48px;
+  --font-size-h4:      32px;
+  --font-size-h5:      26px;
+  --font-size-body:    16px;
+  --font-size-caption: 14px;
+
+  /* ── Line heights ──────────────────────────── */
+  --line-height-h1:      1;
+  --line-height-h2:      1.1;
+  --line-height-h4:      1.3;
+  --line-height-h5:      1.2;
+  --line-height-body:    1.5;
+  --line-height-caption: 2;
+
+  /* ── Letter spacing ────────────────────────── */
+  --letter-spacing-h1: -2px;
+  --letter-spacing-h2: -0.864px;
+  --letter-spacing-h4: -1px;
+  --letter-spacing-h5: -1px;
+
+  /* ── Radii ─────────────────────────────────── */
+  --radius-card: 32px;
+  --radius-pill: 999px;
+
+  /* ── Card ──────────────────────────────────── */
+  --card-padding: 24px;
+  --card-border-width: 2px;
+
+  /* ── Container (mobile → desktop) ──────────── */
+  --container-max-desktop: 1200px;
+  --container-max-laptop:  936px;
+  --container-padding-desktop: 120px;
+  --container-padding-laptop:  24px;
+  --container-padding-mobile:  16px;
+
+  /* ── Header ────────────────────────────────── */
+  --header-height: 96px;
+
+  /* ── CTA Button ────────────────────────────── */
+  --cta-width:  256px;
+  --cta-height: 56px;
+}

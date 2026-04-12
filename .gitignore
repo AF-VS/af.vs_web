@@ -1,7 +1,6 @@
 # build output
 dist/
-
-# generated types
+.vercel/
 .astro/
 
 # dependencies
@@ -16,12 +15,12 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+.env.local
 
-# macOS-specific files
+# macOS
 .DS_Store
 
-# jetbrains setting folder
+# editors
+.vscode/
 .idea/
-
-# git worktrees
-.worktrees/
+.vercel

@@ -1,0 +1,142 @@
+---
+import type { Dict } from '../../i18n/en';
+import ServiceCard from './ServiceCard.astro';
+
+import codePng from '../../assets/services/code.png';
+import robotPng from '../../assets/services/robot.png';
+import compassPng from '../../assets/services/compass.png';
+import handsPng from '../../assets/services/hands.png';
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+const s = dict.services;
+---
+
+<section id="services" class="services">
+  <div class="grid">
+    <ServiceCard
+      class="card--build"
+      title={s.build.title}
+      description={s.build.description}
+      tags={s.build.tags}
+      image={codePng}
+    />
+
+    <ServiceCard
+      class="card--ai"
+      title={s.ai.title}
+      description={s.ai.description}
+      tags={s.ai.tags}
+      image={robotPng}
+    />
+
+    <ServiceCard
+      class="card--advisory"
+      title={s.advisory.title}
+      description={s.advisory.description}
+      tags={s.advisory.tags}
+      image={compassPng}
+    />
+
+    <ServiceCard
+      class="card--growth"
+      title={s.growth.title}
+      description={s.growth.description}
+      tags={s.growth.tags}
+      image={handsPng}
+    />
+  </div>
+</section>
+
+<style>
+  .services {
+    height: 100dvh;
+    padding: 48px 0;
+    box-sizing: border-box;
+  }
+
+  /* ── Grid ─────────────────────────────────────── */
+  .grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: 1fr;
+    height: 100%;
+    padding-inline: var(--container-padding-mobile);
+  }
+
+  /* ── Card image positioning ───────────────────── */
+  .grid :global(.card--build) {
+    --img-right: -5%;
+    --img-top: 50%;
+    --img-width: 55%;
+    --img-translate: 0 -50%;
+    --img-mask: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 25%, black 55%);
+  }
+
+  .grid :global(.card--ai) {
+    --img-left: 50%;
+    --img-top: 40%;
+    --img-width: 75%;
+    --img-translate: -50% -50%;
+    --img-rotate: -170.43deg;
+  }
+
+  .grid :global(.card--advisory) {
+    --img-left: 50%;
+    --img-top: 40%;
+    --img-width: 80%;
+    --img-translate: -50% -50%;
+  }
+
+  .grid :global(.card--growth) {
+    --img-left: 50%;
+    --img-top: 42%;
+    --img-width: 85%;
+    --img-translate: -50% -50%;
+  }
+
+  /* ── Tablet (2 columns) ──────────────────────── */
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      padding-inline: var(--container-padding-laptop);
+    }
+
+    .grid :global(.card--build) {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ── Desktop (asymmetric 3 columns) ──────────── */
+  @media (min-width: 1248px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: 1fr 1fr;
+      gap: 48px;
+      padding-inline: var(--container-padding-desktop);
+    }
+
+    .grid :global(.card--build) {
+      grid-column: 1 / 3;
+    }
+
+    .grid :global(.card--growth) {
+      grid-column: 3;
+      grid-row: 1 / 3;
+    }
+
+    .grid :global(.card--ai) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .grid :global(.card--advisory) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+  }
+</style>

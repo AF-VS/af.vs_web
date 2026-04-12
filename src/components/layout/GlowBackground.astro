@@ -1,0 +1,48 @@
+---
+// CSS-only ambient glow: grid pattern + 5 blurred radial eclipses.
+// No canvas, no JS. Lives behind all page content.
+---
+
+<div class="glow" aria-hidden="true">
+  <div class="grid"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+  <div class="orb orb-5"></div>
+</div>
+
+<style>
+  .glow {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .orb {
+    position: absolute;
+    width: 448px;
+    height: 448px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--primary-default) 0%, transparent 70%);
+    opacity: 0.35;
+    filter: blur(120px);
+  }
+
+  .orb-1 { top: 5%;  left: 10%;  }
+  .orb-2 { top: 25%; right: 15%; }
+  .orb-3 { top: 55%; left: 35%;  }
+  .orb-4 { top: 75%; right: 5%;  }
+  .orb-5 { top: 90%; left: 20%;  }
+</style>

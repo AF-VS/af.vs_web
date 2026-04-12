@@ -1,14 +1,21 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Hero from '../components/sections/Hero.astro';
-import Services from '../components/sections/Services.astro';
-import Portfolio from '../components/sections/Portfolio.astro';
-import Calculator from '../components/sections/Calculator.astro';
+import Layout from '../components/layout/Layout.astro';
+import Header from '../components/chrome/Header.astro';
+import Hero from '../components/hero/Hero.astro';
+import Services from '../components/services/Services.astro';
+import Cases from '../components/cases/Cases.astro';
+import BrefForm from '../components/form/BrefForm.astro';
+import Footer from '../components/chrome/Footer.astro';
+import { en } from '../i18n/en';
 ---
 
-<Layout>
-  <Hero />
-  <Services />
-  <Portfolio />
-  <Calculator />
+<Layout title="AF Venture Studio" description={en.hero.title} lang="en">
+  <Header dict={en} locale="en" />
+  <main>
+    <Hero dict={en} />
+    <Services dict={en} />
+    <Cases dict={en} />
+    <BrefForm dict={en} />
+  </main>
+  <Footer dict={en} locale="en" />
 </Layout>

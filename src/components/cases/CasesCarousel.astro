@@ -1,0 +1,185 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<section id="cases" class="cases">
+  <div class="cases__header">
+    <h2 class="cases__heading">{title}</h2>
+    <div class="cases__nav">
+      <button type="button" class="cases__arrow" data-dir="prev" aria-label="Previous case" disabled>
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button type="button" class="cases__arrow" data-dir="next" aria-label="Next case">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="cases__track" data-track>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .cases {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: clip;
+  }
+
+  .cases__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: var(--container-max-desktop);
+    margin-inline: auto;
+    padding-inline: var(--container-padding-mobile);
+    margin-bottom: 48px;
+  }
+
+  @media (min-width: 768px) {
+    .cases__header {
+      padding-inline: var(--container-padding-laptop);
+    }
+  }
+
+  @media (min-width: 1248px) {
+    .cases__header {
+      padding-inline: 0;
+    }
+  }
+
+  .cases__heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--font-size-h4);
+    line-height: var(--line-height-h2);
+    letter-spacing: var(--letter-spacing-h2);
+    color: var(--text-primary);
+  }
+
+  @media (min-width: 768px) {
+    .cases__heading {
+      font-size: var(--font-size-h2);
+    }
+  }
+
+  .cases__nav {
+    display: flex;
+    gap: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .cases__nav {
+      gap: 48px;
+    }
+  }
+
+  .cases__arrow {
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 12px;
+    transition: opacity 0.15s ease;
+  }
+
+  .cases__arrow[disabled] {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  .cases__track {
+    display: flex;
+    gap: 48px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding-left: calc(var(--container-padding-mobile) - 24px);
+    padding-right: var(--container-padding-mobile);
+    padding-block: 48px;
+    margin-block: -48px;
+  }
+
+  .cases__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .cases__track {
+      padding-left: calc(var(--container-padding-laptop) - 24px);
+      padding-right: var(--container-padding-laptop);
+    }
+  }
+
+  @media (min-width: 1248px) {
+    .cases__track {
+      padding-left: calc((100% - var(--container-max-desktop)) / 2 - 24px);
+      padding-right: 48px;
+    }
+  }
+</style>
+
+<script>
+  function initCarousels() {
+    document.querySelectorAll<HTMLElement>('#cases').forEach((section) => {
+      const track = section.querySelector<HTMLElement>('[data-track]');
+      if (!track) return;
+      const prev = section.querySelector<HTMLButtonElement>('[data-dir="prev"]');
+      const next = section.querySelector<HTMLButtonElement>('[data-dir="next"]');
+      if (!prev || !next) return;
+
+      const step = () => {
+        const card = track.firstElementChild as HTMLElement | null;
+        return card ? card.offsetWidth + 48 : 520;
+      };
+
+      const updateDisabled = () => {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        prev.toggleAttribute('disabled', track.scrollLeft <= 0);
+        next.toggleAttribute('disabled', track.scrollLeft >= maxScroll - 1);
+      };
+
+      prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+      next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+      track.addEventListener('scroll', updateDisabled, { passive: true });
+      updateDisabled();
+    });
+  }
+
+  function initVideoHover() {
+    document.querySelectorAll<HTMLElement>('.case').forEach((card) => {
+      const video = card.querySelector<HTMLVideoElement>('.case__video');
+      if (!video) return;
+      card.addEventListener('mouseenter', () => {
+        video.play().catch(() => {});
+      });
+      card.addEventListener('mouseleave', () => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => { initCarousels(); initVideoHover(); });
+  initCarousels();
+  initVideoHover();
+</script>

@@ -1,0 +1,107 @@
+---
+import type { Dict } from '../../i18n/en';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+
+const accentWords = dict.hero.accentWords ?? [];
+---
+
+<section class="hero">
+  <div class="container hero__inner">
+    <h1 class="hero__title" set:html={
+      accentWords.length > 0
+        ? accentWords.reduce<string>(
+            (html, word) => html.replace(word, `<span class="accent">${word}</span>`),
+            dict.hero.title
+          )
+        : dict.hero.title
+    } />
+  </div>
+
+  <div class="hero__cta">
+    <Button href="#contact">{dict.hero.cta}</Button>
+  </div>
+
+  <video
+    class="hero__mountain"
+    muted
+    playsinline
+    aria-hidden="true"
+    preload="auto"
+    id="heroVideo"
+  >
+    <source src="/hero/mountain.webm" type="video/webm" />
+    <source src="/hero/mountain-alpha.mp4" type="video/mp4" />
+    <source src="/hero/mountain.mp4" type="video/mp4" />
+  </video>
+</section>
+
+<script>
+  const video = document.getElementById('heroVideo') as HTMLVideoElement;
+  if (video) {
+    setTimeout(() => video.play(), 2000);
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin-top: calc(-1 * var(--header-height));
+    padding-top: calc(var(--header-height) + 64px);
+    padding-bottom: 0;
+    overflow: hidden;
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(40px, 6vw, var(--font-size-h1));
+    line-height: var(--line-height-h1);
+    letter-spacing: var(--letter-spacing-h1);
+    color: var(--text-primary);
+    max-width: 20ch;
+    text-align: center;
+    margin-inline: auto;
+  }
+
+  .hero__cta {
+    position: absolute;
+    bottom: 48px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+
+  .accent { color: var(--primary-accent); }
+
+  .hero__mountain {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: none;
+    height: auto;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+
+  @media (min-width: 1248px) {
+    .hero { padding-top: calc(var(--header-height) + 96px); }
+  }
+</style>

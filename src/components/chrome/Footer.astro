@@ -1,0 +1,198 @@
+---
+import type { Dict } from '../../i18n/en';
+import { type Locale } from '../../lib/paths';
+
+interface Props {
+  dict: Dict;
+  locale: Locale;
+}
+
+const { dict, locale } = Astro.props;
+---
+
+<footer class="footer" role="contentinfo">
+  <div class="container footer__inner">
+    <!-- Row 1: brand + social icons -->
+    <div class="top">
+      <a class="brand" href={locale === 'en' ? '/' : `/${locale}/`} aria-label="AF Venture Studio — home">
+        {dict.footer.brand}
+      </a>
+      <ul class="socials">
+        {dict.footer.social.map(({ label, href }) => (
+          <li>
+            <a
+              class="social-btn"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+            >
+              {label === 'LinkedIn' && (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+                  <rect width="4" height="12" x="2" y="9"/>
+                  <circle cx="4" cy="4" r="2"/>
+                </svg>
+              )}
+              {label === 'Instagram' && (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                </svg>
+              )}
+              {label === 'Telegram' && (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m22 2-7 20-4-9-9-4Z"/>
+                  <path d="M22 2 11 13"/>
+                </svg>
+              )}
+              {label === 'Mail' && (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              )}
+              {label === 'Clutch' && (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M14.31 8a4 4 0 1 0 0 8"/>
+                </svg>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Divider -->
+    <hr class="divider" />
+
+    <!-- Row 2: copyright + nav links -->
+    <div class="bottom">
+      <span class="copyright">{dict.footer.copyright}</span>
+      <nav class="nav-links" aria-label="Footer">
+        {dict.footer.nav.map(({ label, href }) => (
+          <a href={href}>{label}</a>
+        ))}
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding-block: 48px;
+    margin-top: 96px;
+    background: var(--surface-card);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* -- Row 1: brand + socials -- */
+  .top {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .top {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .brand {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+
+  .socials {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+  }
+
+  .social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-subtle);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .social-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+  }
+
+  /* -- Divider -- */
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-block: 24px;
+  }
+
+  /* -- Row 2: copyright + nav -- */
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  @media (min-width: 768px) {
+    .bottom {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .copyright {
+    font-size: var(--font-size-caption);
+    color: var(--text-secondary);
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .nav-links a {
+    font-size: var(--font-size-caption);
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: color 0.15s ease;
+    padding-block: 8px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .nav-links a:hover {
+    color: var(--text-primary);
+  }
+
+</style>

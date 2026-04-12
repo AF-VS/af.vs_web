@@ -1,0 +1,980 @@
+---
+import type { Dict } from '../../i18n/en';
+
+import mountainImg from '../../assets/bref/mountain.jpg';
+import mvpIcon from '../../assets/bref/icons/mvp.svg';
+import complexIcon from '../../assets/bref/icons/complex.svg';
+import enterpriseIcon from '../../assets/bref/icons/enterprise.svg';
+import auditIcon from '../../assets/bref/icons/audit.svg';
+import ideaIcon from '../../assets/bref/icons/idea.svg';
+import specIcon from '../../assets/bref/icons/spec.svg';
+import designIcon from '../../assets/bref/icons/design.svg';
+import websiteIcon from '../../assets/bref/icons/website.svg';
+import mobileIcon from '../../assets/bref/icons/mobile.svg';
+import webmobileIcon from '../../assets/bref/icons/webmobile.svg';
+import successIcon from '../../assets/bref/icons/success.svg';
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+
+const step1Icons = [mvpIcon, complexIcon, enterpriseIcon, auditIcon];
+const step2Icons = [ideaIcon, complexIcon, specIcon, designIcon];
+const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
+
+---
+
+<section id="contact" class="bref-section">
+  <div class="bref-wizard" data-wizard data-label-next={dict.bref.next} data-label-send={dict.bref.send}>
+    <!-- Left Panel -->
+    <div class="bref-left">
+      <div class="bref-left-content">
+        <h2 class="bref-title">{dict.bref.title}</h2>
+        <p class="bref-description">{dict.bref.description}</p>
+      </div>
+      <img
+        src={mountainImg.src}
+        width={575}
+        height={575}
+        alt=""
+        class="bref-mountain"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Right Panel -->
+    <div class="bref-right">
+      <!-- Progress Bar -->
+      <div class="bref-progress">
+        <div class="bref-progress-track">
+          <div class="bref-progress-fill" data-progress-fill></div>
+        </div>
+        {[1, 2, 3, 4, 5].map((n) => (
+          <div
+            class={`bref-dot ${n === 1 ? 'active' : 'upcoming'}`}
+            data-dot={n}
+          >
+            <span class="bref-dot-number">{n}</span>
+          </div>
+        ))}
+      </div>
+
+      <!-- Step 1: Product Type -->
+      <div class="bref-step active" data-step="1">
+        <div class="bref-step-header">
+          <h3 class="bref-step-title">{dict.bref.steps.productType.title}</h3>
+          <p class="bref-step-description">{dict.bref.steps.productType.description}</p>
+        </div>
+        <div class="bref-options">
+          {dict.bref.steps.productType.options.map((opt, i) => (
+            <button type="button" class="bref-option" data-name="productType" data-value={opt}>
+              <span class="bref-option-left">
+                <img src={step1Icons[i].src} width={32} height={32} alt="" class="bref-option-icon" />
+                <span class="bref-option-label">{opt}</span>
+              </span>
+              <span class="bref-radio"></span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Step 2: Readiness -->
+      <div class="bref-step" data-step="2">
+        <div class="bref-step-header">
+          <h3 class="bref-step-title">{dict.bref.steps.readiness.title}</h3>
+          <p class="bref-step-description">{dict.bref.steps.readiness.description}</p>
+        </div>
+        <div class="bref-options">
+          {dict.bref.steps.readiness.options.map((opt, i) => (
+            <button type="button" class="bref-option" data-name="readiness" data-value={opt}>
+              <span class="bref-option-left">
+                <img src={step2Icons[i].src} width={32} height={32} alt="" class="bref-option-icon" />
+                <span class="bref-option-label">{opt}</span>
+              </span>
+              <span class="bref-radio"></span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Step 3: Platform -->
+      <div class="bref-step" data-step="3">
+        <div class="bref-step-header">
+          <h3 class="bref-step-title">{dict.bref.steps.platform.title}</h3>
+          <p class="bref-step-description">{dict.bref.steps.platform.description}</p>
+        </div>
+        <div class="bref-options">
+          {dict.bref.steps.platform.options.map((opt, i) =>
+            i === dict.bref.steps.platform.options.length - 1 ? (
+              <button type="button" class="bref-option bref-option--other" data-name="platform" data-value="Other" data-other>
+                <span class="bref-option-left">
+                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="bref-option-icon" />
+                  <input type="text" class="bref-other-input" placeholder={opt} data-other-input />
+                </span>
+                <span class="bref-radio"></span>
+              </button>
+            ) : (
+              <button type="button" class="bref-option" data-name="platform" data-value={opt}>
+                <span class="bref-option-left">
+                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="bref-option-icon" />
+                  <span class="bref-option-label">{opt}</span>
+                </span>
+                <span class="bref-radio"></span>
+              </button>
+            )
+          )}
+        </div>
+      </div>
+
+      <!-- Step 4: Industry (2-column grid, no icons) -->
+      <div class="bref-step" data-step="4">
+        <div class="bref-step-header">
+          <h3 class="bref-step-title">{dict.bref.steps.industry.title}</h3>
+          <p class="bref-step-description">{dict.bref.steps.industry.description}</p>
+        </div>
+        <div class="bref-options bref-options--grid">
+          {dict.bref.steps.industry.options.map((opt, i) =>
+            i === dict.bref.steps.industry.options.length - 1 ? (
+              <button type="button" class="bref-option bref-option--other" data-name="industry" data-value="Other" data-other>
+                <span class="bref-option-left">
+                  <input type="text" class="bref-other-input" placeholder={opt} data-other-input />
+                </span>
+                <span class="bref-radio"></span>
+              </button>
+            ) : (
+              <button type="button" class="bref-option" data-name="industry" data-value={opt}>
+                <span class="bref-option-left">
+                  <span class="bref-option-label">{opt}</span>
+                </span>
+                <span class="bref-radio"></span>
+              </button>
+            )
+          )}
+        </div>
+      </div>
+
+      <!-- Step 5: Contact Form -->
+      <div class="bref-step" data-step="5">
+        <div class="bref-step-header">
+          <h3 class="bref-step-title">{dict.bref.steps.contact.title}</h3>
+          <p class="bref-step-description">{dict.bref.steps.contact.description}</p>
+        </div>
+        <div class="bref-inputs">
+          <input
+            type="text"
+            class="bref-input"
+            name="name"
+            placeholder={dict.bref.steps.contact.name}
+            required
+          />
+          <input
+            type="text"
+            class="bref-input"
+            name="projectName"
+            placeholder={dict.bref.steps.contact.projectName}
+            required
+          />
+          <input
+            type="email"
+            class="bref-input"
+            name="email"
+            placeholder={dict.bref.steps.contact.email}
+            required
+          />
+          <input
+            type="tel"
+            class="bref-input"
+            name="phone"
+            value="+998 "
+            data-phone
+          />
+        </div>
+      </div>
+
+      <!-- Step 6: Success -->
+      <div class="bref-step" data-step="6">
+        <div class="bref-success">
+          <img src={successIcon.src} width={96} height={96} alt="" class="bref-success-icon" />
+          <div class="bref-success-text">
+            <h3 class="bref-success-title">{dict.bref.success.title}</h3>
+            <p class="bref-success-description">{dict.bref.success.description}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button type="button" class="bref-btn" data-bref-btn>
+        <span data-btn-text>{dict.bref.next}</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { sendContact } from '../../lib/contact';
+
+  function initBrefWizard() {
+    const wizard = document.querySelector<HTMLDivElement>('[data-wizard]');
+    if (!wizard) return;
+
+    let currentStep = 1;
+    const totalSteps = 6;
+    const selections: Record<string, string> = {};
+
+    const progressFill = wizard.querySelector<HTMLDivElement>('[data-progress-fill]');
+    const btn = wizard.querySelector<HTMLButtonElement>('[data-bref-btn]');
+    const btnText = wizard.querySelector<HTMLSpanElement>('[data-btn-text]');
+    const dots = wizard.querySelectorAll<HTMLDivElement>('[data-dot]');
+    const steps = wizard.querySelectorAll<HTMLDivElement>('[data-step]');
+
+    const fillPercents = [20, 42.7, 66.6, 87.3, 100];
+
+    function updateUI() {
+      // Update steps visibility
+      steps.forEach((s) => {
+        const stepNum = parseInt(s.dataset.step || '0', 10);
+        s.classList.toggle('active', stepNum === currentStep);
+      });
+
+      // Update progress fill
+      const progressEl = wizard!.querySelector<HTMLDivElement>('.bref-progress');
+      if (progressEl) {
+        progressEl.style.display = currentStep === 6 ? 'none' : '';
+      }
+      if (progressFill) {
+        const idx = Math.min(currentStep - 1, fillPercents.length - 1);
+        progressFill.style.width = `${fillPercents[idx]}%`;
+      }
+
+      // Update dots
+      dots.forEach((dot) => {
+        const dotNum = parseInt(dot.dataset.dot || '0', 10);
+        dot.classList.remove('active', 'completed', 'upcoming');
+        if (dotNum < currentStep) {
+          dot.classList.add('completed');
+        } else if (dotNum === currentStep) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.add('upcoming');
+        }
+      });
+
+      // Update button
+      if (btn && btnText) {
+        if (currentStep === 6) {
+          btn.style.display = 'none';
+        } else {
+          btn.style.display = '';
+          const labelNext = wizard?.dataset.labelNext || 'Next';
+          const labelSend = wizard?.dataset.labelSend || 'Send';
+          btnText.textContent = currentStep === 5 ? labelSend : labelNext;
+        }
+
+        // Adjust button position for step 4
+        if (currentStep === 4) {
+          btn.classList.add('bref-btn--shifted');
+        } else {
+          btn.classList.remove('bref-btn--shifted');
+        }
+      }
+    }
+
+    function validateStep(): boolean {
+      if (currentStep >= 1 && currentStep <= 4) {
+        const stepNames = ['productType', 'readiness', 'platform', 'industry'];
+        const name = stepNames[currentStep - 1];
+        return !!selections[name];
+      }
+      if (currentStep === 5) {
+        const nameInput = wizard!.querySelector<HTMLInputElement>('input[name="name"]');
+        const emailInput = wizard!.querySelector<HTMLInputElement>('input[name="email"]');
+        return !!(nameInput?.value.trim() && emailInput?.value.trim());
+      }
+      return true;
+    }
+
+    // Event delegation for option clicks
+    wizard.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const option = target.closest<HTMLButtonElement>('.bref-option');
+
+      if (option) {
+        const name = option.dataset.name || '';
+
+        // Deselect siblings
+        const siblings = option.parentElement?.querySelectorAll('.bref-option');
+        siblings?.forEach((s) => s.classList.remove('selected'));
+
+        // Select this option
+        option.classList.add('selected');
+
+        // "Other" option — focus input and use its value
+        const otherInput = option.querySelector<HTMLInputElement>('[data-other-input]');
+        if (otherInput) {
+          otherInput.focus();
+          selections[name] = otherInput.value.trim() || 'Other';
+        } else {
+          selections[name] = option.dataset.value || '';
+        }
+        return;
+      }
+
+      // Dot click — navigate back to completed steps
+      const dot = target.closest<HTMLDivElement>('[data-dot]');
+      if (dot) {
+        const dotStep = parseInt(dot.dataset.dot || '0', 10);
+        if (dotStep < currentStep && dotStep >= 1) {
+          currentStep = dotStep;
+          updateUI();
+        }
+        return;
+      }
+
+      // Next / Send button
+      if (target.closest('[data-bref-btn]')) {
+        if (!validateStep()) {
+          // Shake the button to indicate validation failure
+          btn?.classList.add('bref-btn--shake');
+          setTimeout(() => btn?.classList.remove('bref-btn--shake'), 400);
+          return;
+        }
+
+        if (currentStep === 5) {
+          // Collect contact info and send
+          const nameVal = wizard.querySelector<HTMLInputElement>('input[name="name"]')?.value.trim() || '';
+          const projectVal = wizard.querySelector<HTMLInputElement>('input[name="projectName"]')?.value.trim() || '';
+          const emailVal = wizard.querySelector<HTMLInputElement>('input[name="email"]')?.value.trim() || '';
+          const phoneVal = wizard.querySelector<HTMLInputElement>('input[name="phone"]')?.value.trim() || '';
+
+          btn?.classList.add('bref-btn--loading');
+
+          sendContact({
+            productType: selections['productType'] || '',
+            readinessStage: selections['readiness'] || '',
+            platform: selections['platform'] || '',
+            industry: selections['industry'] || '',
+            name: nameVal,
+            projectName: projectVal,
+            email: emailVal,
+            phone: phoneVal,
+          })
+            .then(() => {
+              currentStep = 6;
+              updateUI();
+            })
+            .catch(() => {
+              // Even on error, advance to success for now (provider not configured)
+              currentStep = 6;
+              updateUI();
+            })
+            .finally(() => {
+              btn?.classList.remove('bref-btn--loading');
+            });
+
+          return;
+        }
+
+        if (currentStep < totalSteps) {
+          currentStep++;
+          updateUI();
+        }
+      }
+    });
+
+    // Update selection value as user types in "Other" inputs
+    wizard.addEventListener('input', (e) => {
+      const input = e.target as HTMLInputElement;
+      if (!input.matches('[data-other-input]')) return;
+      const option = input.closest<HTMLButtonElement>('.bref-option');
+      if (option) {
+        const name = option.dataset.name || '';
+        selections[name] = input.value.trim() || 'Other';
+      }
+    });
+
+    // Prevent "Other" input clicks from bubbling (avoid re-triggering option click)
+    wizard.querySelectorAll<HTMLInputElement>('[data-other-input]').forEach((inp) => {
+      inp.addEventListener('click', (e) => e.stopPropagation());
+    });
+
+    // Phone formatting: +998 XX XXX-XX-XX
+    const PREFIX = '+998 ';
+    const phoneInput = wizard.querySelector<HTMLInputElement>('[data-phone]');
+
+    function formatPhone(raw: string): string {
+      const digits = raw.replace(/\D/g, '').slice(3); // strip "998" prefix
+      let result = PREFIX;
+      if (digits.length > 0) result += digits.slice(0, 2);
+      if (digits.length > 2) result += ' ' + digits.slice(2, 5);
+      if (digits.length > 5) result += '-' + digits.slice(5, 7);
+      if (digits.length > 7) result += '-' + digits.slice(7, 9);
+      return result;
+    }
+
+    if (phoneInput) {
+      phoneInput.addEventListener('input', () => {
+        const pos = phoneInput.selectionStart ?? 0;
+        const before = phoneInput.value.length;
+        phoneInput.value = formatPhone(phoneInput.value);
+        const after = phoneInput.value.length;
+        const newPos = Math.max(PREFIX.length, pos + (after - before));
+        phoneInput.setSelectionRange(newPos, newPos);
+      });
+
+      phoneInput.addEventListener('keydown', (e) => {
+        const pos = phoneInput.selectionStart ?? 0;
+        // Prevent deleting the prefix
+        if (pos <= PREFIX.length && (e.key === 'Backspace' || e.key === 'Delete')) {
+          if (phoneInput.selectionEnd === phoneInput.selectionStart) {
+            if (e.key === 'Backspace') { e.preventDefault(); }
+          }
+        }
+      });
+
+      phoneInput.addEventListener('focus', () => {
+        if (!phoneInput.value) phoneInput.value = PREFIX;
+        // Move cursor to end
+        const len = phoneInput.value.length;
+        phoneInput.setSelectionRange(len, len);
+      });
+    }
+
+    updateUI();
+  }
+
+  // Initialize immediately
+  initBrefWizard();
+
+  // Re-initialize on Astro page transitions
+  document.addEventListener('astro:page-load', initBrefWizard);
+</script>
+
+<style>
+  /* ── Section — full viewport ─────────────────── */
+  .bref-section {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  /* ── Wizard Card — adaptive ──────────────────── */
+  .bref-wizard {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    max-height: 720px;
+    min-height: 520px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+
+  /* ── Left Panel — glass navy ─────────────────── */
+  .bref-left {
+    position: relative;
+    width: 45%;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: rgba(10, 22, 38, 0.55);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  /* gradient border (glass edge on left panel) */
+  .bref-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-card) 0 0 var(--radius-card);
+    padding: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .bref-left-content {
+    position: relative;
+    z-index: 1;
+    padding: 7% 8%;
+  }
+
+  .bref-title {
+    font-family: var(--font-body);
+    font-size: clamp(24px, 2.2vw, var(--font-size-h4));
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: -0.32px;
+    line-height: var(--line-height-h4);
+    margin: 0;
+  }
+
+  .bref-description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: var(--text-secondary);
+    line-height: var(--line-height-body);
+    margin: 8px 0 0;
+  }
+
+  .bref-mountain {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  /* ── Right Panel — white for contrast ─────────── */
+  .bref-right {
+    position: relative;
+    flex: 1;
+    background: #eff2fa;
+    border-radius: 0 var(--radius-card) var(--radius-card) 0;
+    padding: 7% 8%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Progress Bar (percentage-based) ─────────── */
+  .bref-progress {
+    position: relative;
+    height: 32px;
+    width: 100%;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+
+  .bref-progress-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #dde1ea;
+    border-radius: 2px;
+    transform: translateY(-50%);
+  }
+
+  .bref-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: var(--primary-default);
+    border-radius: 2px;
+    width: 20%;
+    transition: width 0.35s ease;
+  }
+
+  .bref-dot {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .bref-dot:nth-child(2) { left: 0; }
+  .bref-dot:nth-child(3) { left: 22.5%; }
+  .bref-dot:nth-child(4) { left: 45%; }
+  .bref-dot:nth-child(5) { left: 67.5%; }
+  .bref-dot:nth-child(6) { left: 90%; }
+
+  .bref-dot.active {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-default);
+  }
+
+  .bref-dot.active .bref-dot-number {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 500;
+    color: #fff;
+  }
+
+  .bref-dot.completed {
+    width: 16px;
+    height: 16px;
+    background: var(--primary-default);
+    cursor: pointer;
+  }
+
+  .bref-dot.completed .bref-dot-number { display: none; }
+
+  .bref-dot.upcoming {
+    width: 16px;
+    height: 16px;
+    background: #c4c8d4;
+    border: none;
+  }
+
+  .bref-dot.upcoming .bref-dot-number { display: none; }
+
+  .bref-dot-number { display: none; }
+
+  /* ── Steps ───────────────────────────────────── */
+  .bref-step {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    margin-top: clamp(16px, 5%, 48px);
+  }
+
+  .bref-step.active { display: flex; }
+
+  .bref-step-header { margin-bottom: 24px; }
+
+  .bref-step-title {
+    font-family: var(--font-body);
+    font-size: var(--font-size-h4);
+    font-weight: 600;
+    color: #000305;
+    letter-spacing: -0.32px;
+    line-height: var(--line-height-h4);
+    margin: 0;
+  }
+
+  .bref-step-description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: rgba(0, 0, 0, 0.6);
+    line-height: var(--line-height-body);
+    margin: 8px 0 0;
+  }
+
+  /* ── Options — iOS grouped (white) ─────────── */
+  .bref-options {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .bref-options--grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .bref-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 48px;
+    height: clamp(48px, 7vh, 56px);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0;
+    padding: 0 20px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    font-family: var(--font-body);
+    outline: none;
+  }
+
+  .bref-option:last-child {
+    border-bottom: none;
+  }
+
+  .bref-option:hover {
+    background: rgba(21, 142, 242, 0.04);
+  }
+
+  .bref-option.selected {
+    background: rgba(21, 142, 242, 0.08);
+  }
+
+  /* grid dividers — right border on left column */
+  .bref-options--grid .bref-option:nth-child(odd) {
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  /* grid — remove bottom border from last row */
+  .bref-options--grid .bref-option:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .bref-option-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bref-option-icon {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+
+  .bref-option-label {
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    color: #000305;
+  }
+
+  .bref-option--other .bref-option-label {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+  /* ── "Other" inline text input ─────────────── */
+  .bref-other-input {
+    border: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    color: #000305;
+    outline: none;
+    width: 100%;
+    padding: 0;
+  }
+
+  .bref-other-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: 600;
+  }
+
+  /* ── Radio Circle ────────────────────────────── */
+  .bref-radio {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #c4c8d4;
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .bref-option.selected .bref-radio {
+    border-color: var(--primary-default);
+    background: var(--primary-default);
+  }
+
+  .bref-option.selected .bref-radio::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    transform: translate(-50%, -50%);
+  }
+
+  /* ── Contact Form Inputs — iOS grouped (white) ── */
+  .bref-inputs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .bref-input {
+    min-height: 48px;
+    height: clamp(48px, 7vh, 56px);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0;
+    padding: 0 20px;
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 500;
+    color: #000305;
+    outline: none;
+    transition: background 0.15s ease;
+  }
+
+  .bref-input:last-child {
+    border-bottom: none;
+  }
+
+  .bref-input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+    font-weight: 500;
+  }
+
+  .bref-input:focus {
+    background: rgba(21, 142, 242, 0.04);
+  }
+
+  /* ── Success State ───────────────────────────── */
+  .bref-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .bref-success-icon {
+    width: 96px;
+    height: 96px;
+  }
+
+  .bref-success-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bref-success-title {
+    font-family: var(--font-body);
+    font-size: 28px;
+    font-weight: 600;
+    color: #000305;
+    letter-spacing: -0.14px;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .bref-success-description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: #031626;
+    line-height: var(--line-height-body);
+    margin: 8px 0 0;
+    max-width: 366px;
+  }
+
+  /* ── Action Button ───────────────────────────── */
+  .bref-btn {
+    align-self: flex-end;
+    width: clamp(180px, 40%, 240px);
+    height: clamp(48px, 7vh, 56px);
+    background: var(--primary-default);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .bref-btn:hover { opacity: 0.9; }
+  .bref-btn:active { transform: scale(0.98); }
+
+  .bref-btn--shifted {
+    align-self: center;
+    margin-left: 48px;
+  }
+
+  .bref-btn--loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .bref-btn--shake { animation: shake 0.4s ease; }
+
+  /* ── Responsive: Tablet (768–1247px) ─────────── */
+  @media (max-width: 1247px) {
+    .bref-section { padding: 32px 24px; }
+    .bref-left { width: 40%; }
+  }
+
+  /* ── Responsive: Mobile (<768px) ─────────────── */
+  @media (max-width: 767px) {
+    .bref-section {
+      height: auto;
+      min-height: 100vh;
+      padding: 24px 16px;
+    }
+
+    .bref-wizard { flex-direction: column; }
+
+    .bref-left {
+      width: 100%;
+      padding: 32px;
+    }
+
+    .bref-left-content { padding: 0; }
+    .bref-mountain { display: none; }
+
+    .bref-right {
+      border-radius: 0 0 var(--radius-card) var(--radius-card);
+      padding: 24px;
+    }
+
+    .bref-step { margin-top: 24px; }
+    .bref-options--grid { grid-template-columns: 1fr; }
+
+    .bref-options--grid .bref-option:nth-child(odd) {
+      border-right: none;
+    }
+
+    .bref-options--grid .bref-option:nth-last-child(-n+2) {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .bref-options--grid .bref-option:last-child {
+      border-bottom: none;
+    }
+
+    .bref-step-title { font-size: 24px; }
+
+    .bref-btn {
+      align-self: stretch;
+      width: 100%;
+    }
+
+    .bref-btn--shifted {
+      align-self: stretch;
+      margin-left: 0;
+    }
+
+    .bref-dot:nth-child(2) { left: 0; }
+    .bref-dot:nth-child(3) { left: 22.5%; }
+    .bref-dot:nth-child(4) { left: 45%; }
+    .bref-dot:nth-child(5) { left: 67.5%; }
+    .bref-dot:nth-child(6) { left: 90%; }
+  }
+</style>

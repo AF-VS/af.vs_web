@@ -1,0 +1,177 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  title: string;
+  description: string;
+  tags: string[];
+  image: ImageMetadata;
+  video?: string;
+}
+
+const { title, description, tags, image, video } = Astro.props;
+---
+
+<article class="case">
+  <div class="case__photo">
+    <Image
+      src={image}
+      alt=""
+      class="case__image"
+      widths={[320, 472, 640]}
+      sizes="(min-width: 1248px) 472px, 80vw"
+    />
+    {video && (
+      <video
+        class="case__video"
+        src={video}
+        muted
+        loop
+        playsinline
+        preload="metadata"
+      />
+    )}
+  </div>
+
+  <div class="case__tags">
+    {tags.map((tag) => (
+      <span class="case__chip">{tag}</span>
+    ))}
+  </div>
+
+  <div class="case__meta">
+    <h3 class="case__title">{title}</h3>
+    <p class="case__desc">{description}</p>
+  </div>
+</article>
+
+<style>
+  .case {
+    flex: 0 0 auto;
+    width: min(85vw, 560px);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: rgba(10, 22, 38, 0.55);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: var(--card-padding);
+    scroll-snap-align: start;
+    position: relative;
+    transition: box-shadow 0.4s ease;
+  }
+
+  /* ── Gradient border (top-lit glass edge) ──── */
+  .case::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.03) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+    transition: background 0.4s ease;
+  }
+
+  .case:hover {
+    box-shadow:
+      0 0 48px rgba(21, 142, 242, 0.15),
+      0 0 96px rgba(21, 142, 242, 0.08);
+  }
+
+  .case:hover::before {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.28) 0%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+  }
+
+  .case__photo {
+    position: relative;
+    height: 380px;
+    overflow: hidden;
+    border-radius: 22px;
+  }
+
+  .case__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .case__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 600ms ease;
+  }
+
+  .case:hover .case__video {
+    opacity: 1;
+  }
+
+  .case__tags {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .case__chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 16px;
+    border: 1px solid var(--text-secondary);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: var(--font-size-caption);
+    font-weight: 500;
+    line-height: var(--line-height-caption);
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .case__meta {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .case__title {
+    flex-shrink: 0;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--font-size-h5);
+    line-height: var(--line-height-h5);
+    letter-spacing: var(--letter-spacing-h5);
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .case__desc {
+    flex: 1;
+    font-family: var(--font-body);
+    font-size: var(--font-size-caption);
+    line-height: 1.4;
+    color: var(--text-secondary);
+  }
+</style>
