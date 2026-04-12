@@ -162,35 +162,47 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
           <p class="bref-step-description">{dict.bref.steps.contact.description}</p>
         </div>
         <div class="bref-inputs">
-          <input
-            type="text"
-            class="bref-input"
-            name="name"
-            placeholder={dict.bref.steps.contact.name}
-            required
-          />
-          <input
-            type="text"
-            class="bref-input"
-            name="projectName"
-            placeholder={dict.bref.steps.contact.projectName}
-            required
-          />
-          <input
-            type="email"
-            class="bref-input"
-            name="email"
-            placeholder={dict.bref.steps.contact.email}
-            required
-          />
-          <input
-            type="tel"
-            class="bref-input"
-            name="phone"
-            value="+998 "
-            data-phone
-          />
+          <label class="bref-input-label">
+            <span class="sr-only">{dict.bref.steps.contact.name}</span>
+            <input
+              type="text"
+              class="bref-input"
+              name="name"
+              placeholder={dict.bref.steps.contact.name}
+              required
+            />
+          </label>
+          <label class="bref-input-label">
+            <span class="sr-only">{dict.bref.steps.contact.projectName}</span>
+            <input
+              type="text"
+              class="bref-input"
+              name="projectName"
+              placeholder={dict.bref.steps.contact.projectName}
+            />
+          </label>
+          <label class="bref-input-label">
+            <span class="sr-only">{dict.bref.steps.contact.email}</span>
+            <input
+              type="email"
+              class="bref-input"
+              name="email"
+              placeholder={dict.bref.steps.contact.email}
+              required
+            />
+          </label>
+          <label class="bref-input-label">
+            <span class="sr-only">{dict.bref.steps.contact.phone}</span>
+            <input
+              type="tel"
+              class="bref-input"
+              name="phone"
+              value="+998 "
+              data-phone
+            />
+          </label>
         </div>
+        <p class="bref-error" data-bref-error aria-live="polite"></p>
       </div>
 
       <!-- Step 6: Success -->
@@ -364,10 +376,11 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
               currentStep = 6;
               updateUI();
             })
-            .catch(() => {
-              // Even on error, advance to success for now (provider not configured)
-              currentStep = 6;
-              updateUI();
+            .catch((err) => {
+              const errorEl = wizard!.querySelector<HTMLParagraphElement>('[data-bref-error]');
+              if (errorEl) {
+                errorEl.textContent = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+              }
             })
             .finally(() => {
               btn?.classList.remove('bref-btn--loading');
@@ -831,6 +844,33 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   .bref-input:focus {
     background: rgba(21, 142, 242, 0.04);
+  }
+
+  /* ── Accessibility — screen reader only ──── */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .bref-input-label {
+    display: contents;
+  }
+
+  /* ── Error message ─────────────────────────── */
+  .bref-error {
+    color: #d32f2f;
+    font-family: var(--font-body);
+    font-size: var(--font-size-caption);
+    line-height: var(--line-height-body);
+    margin: 8px 0 0;
+    min-height: 1.5em;
   }
 
   /* ── Success State ───────────────────────────── */
