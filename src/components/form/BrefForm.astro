@@ -562,7 +562,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-right {
     position: relative;
     flex: 1;
-    background: #eff2fa;
+    background: var(--surface-light);
     border-radius: 0 var(--radius-card) var(--radius-card) 0;
     padding: 7% 8%;
     display: flex;
@@ -584,7 +584,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     left: 0;
     width: 100%;
     height: 4px;
-    background: #dde1ea;
+    background: var(--surface-light-muted);
     border-radius: 2px;
     transform: translateY(-50%);
   }
@@ -628,7 +628,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     font-weight: 500;
-    color: #fff;
+    color: var(--surface-light-card);
   }
 
   .bref-dot.completed {
@@ -643,7 +643,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-dot.upcoming {
     width: 16px;
     height: 16px;
-    background: #c4c8d4;
+    background: var(--neutral-400);
     border: none;
   }
 
@@ -667,7 +667,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-family: var(--font-body);
     font-size: var(--font-size-h4);
     font-weight: 600;
-    color: #000305;
+    color: var(--text-dark-primary);
     letter-spacing: -0.32px;
     line-height: var(--line-height-h4);
     margin: 0;
@@ -676,7 +676,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-step-description {
     font-family: var(--font-body);
     font-size: var(--font-size-body);
-    color: rgba(0, 0, 0, 0.6);
+    color: var(--text-dark-secondary);
     line-height: var(--line-height-body);
     margin: 8px 0 0;
   }
@@ -688,7 +688,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    background: #fff;
+    background: var(--surface-light-card);
     border-radius: 20px;
     overflow: hidden;
   }
@@ -706,7 +706,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     height: clamp(48px, 7vh, 56px);
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid var(--text-dark-divider);
     border-radius: 0;
     padding: 0 20px;
     cursor: pointer;
@@ -720,16 +720,16 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   .bref-option:hover {
-    background: rgba(21, 142, 242, 0.04);
+    background: color-mix(in srgb, var(--primary-default) 4%, transparent);
   }
 
   .bref-option.selected {
-    background: rgba(21, 142, 242, 0.08);
+    background: color-mix(in srgb, var(--primary-default) 8%, transparent);
   }
 
   /* grid dividers — right border on left column */
   .bref-options--grid .bref-option:nth-child(odd) {
-    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    border-right: 1px solid var(--text-dark-divider);
   }
 
   /* grid — remove bottom border from last row */
@@ -752,11 +752,11 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-option-label {
     font-size: var(--font-size-body);
     font-weight: 600;
-    color: #000305;
+    color: var(--text-dark-primary);
   }
 
   .bref-option--other .bref-option-label {
-    color: rgba(0, 0, 0, 0.4);
+    color: var(--text-dark-tertiary);
   }
 
   /* ── "Other" inline text input ─────────────── */
@@ -766,14 +766,14 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     font-weight: 600;
-    color: #000305;
+    color: var(--text-dark-primary);
     outline: none;
     width: 100%;
     padding: 0;
   }
 
   .bref-other-input::placeholder {
-    color: rgba(0, 0, 0, 0.4);
+    color: var(--text-dark-tertiary);
     font-weight: 600;
   }
 
@@ -782,7 +782,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    border: 2px solid #c4c8d4;
+    border: 2px solid var(--neutral-400);
     flex-shrink: 0;
     position: relative;
     transition: border-color 0.2s ease, background 0.2s ease;
@@ -801,7 +801,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--surface-light-card);
     transform: translate(-50%, -50%);
   }
 
@@ -812,7 +812,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    background: #fff;
+    background: var(--surface-light-card);
     border-radius: 20px;
     overflow: hidden;
   }
@@ -822,13 +822,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     height: clamp(48px, 7vh, 56px);
     background: transparent;
     border: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid var(--text-dark-divider);
     border-radius: 0;
     padding: 0 20px;
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     font-weight: 500;
-    color: #000305;
+    color: var(--text-dark-primary);
     outline: none;
     transition: background 0.15s ease;
   }
@@ -838,12 +838,12 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   .bref-input::placeholder {
-    color: rgba(0, 0, 0, 0.4);
+    color: var(--text-dark-tertiary);
     font-weight: 500;
   }
 
   .bref-input:focus {
-    background: rgba(21, 142, 242, 0.04);
+    background: color-mix(in srgb, var(--primary-default) 4%, transparent);
   }
 
   /* ── Accessibility — screen reader only ──── */
@@ -899,7 +899,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-family: var(--font-body);
     font-size: 28px;
     font-weight: 600;
-    color: #000305;
+    color: var(--text-dark-primary);
     letter-spacing: -0.14px;
     line-height: 1.4;
     margin: 0;
@@ -908,7 +908,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-success-description {
     font-family: var(--font-body);
     font-size: var(--font-size-body);
-    color: #031626;
+    color: var(--surface-card);
     line-height: var(--line-height-body);
     margin: 8px 0 0;
     max-width: 366px;
@@ -920,7 +920,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     width: clamp(180px, 40%, 240px);
     height: clamp(48px, 7vh, 56px);
     background: var(--primary-default);
-    color: #fff;
+    color: var(--surface-light-card);
     border: none;
     border-radius: var(--radius-pill);
     font-family: var(--font-body);
@@ -992,7 +992,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     }
 
     .bref-options--grid .bref-option:nth-last-child(-n+2) {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid var(--text-dark-divider);
     }
 
     .bref-options--grid .bref-option:last-child {
