@@ -16,6 +16,20 @@
   /* ── Borders ───────────────────────────────── */
   --border-card: rgba(255, 255, 255, 0.6);
 
+  /* ── Surfaces (light — for form panels) ──── */
+  --surface-light:       #eff2fa;
+  --surface-light-card:  #ffffff;
+  --surface-light-muted: #dde1ea;
+
+  /* ── Text on light ──────────────────────────── */
+  --text-dark-primary:   #000305;
+  --text-dark-secondary: rgba(0, 0, 0, 0.6);
+  --text-dark-tertiary:  rgba(0, 0, 0, 0.4);
+  --text-dark-divider:   rgba(0, 0, 0, 0.06);
+
+  /* ── Neutral ────────────────────────────────── */
+  --neutral-400: #c4c8d4;
+
   /* ── Typography families ───────────────────── */
   --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
