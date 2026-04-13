@@ -11,7 +11,7 @@ const { dict } = Astro.props;
 const accentWords = dict.hero.accentWords ?? [];
 ---
 
-<section class="hero">
+<section class="hero section-viewport">
   <div class="container hero__inner">
     <h1 class="hero__title" set:html={
       accentWords.length > 0
@@ -51,10 +51,8 @@ const accentWords = dict.hero.accentWords ?? [];
 <style>
   .hero {
     position: relative;
-    min-height: 100vh;
-    min-height: 100dvh;
     margin-top: calc(-1 * var(--header-height));
-    padding-top: calc(var(--header-height) + 64px);
+    padding-top: calc(var(--header-height) + var(--spacing-section));
     padding-bottom: 0;
     overflow: hidden;
   }
@@ -67,7 +65,7 @@ const accentWords = dict.hero.accentWords ?? [];
   .hero__title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(40px, 6vw, var(--font-size-h1));
+    font-size: var(--font-size-h1);
     line-height: var(--line-height-h1);
     letter-spacing: var(--letter-spacing-h1);
     color: var(--text-primary);
@@ -78,7 +76,7 @@ const accentWords = dict.hero.accentWords ?? [];
 
   .hero__cta {
     position: absolute;
-    bottom: 48px;
+    bottom: clamp(32px, 4vh, 64px);
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;
@@ -99,9 +97,5 @@ const accentWords = dict.hero.accentWords ?? [];
     user-select: none;
     mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-  }
-
-  @media (min-width: 1248px) {
-    .hero { padding-top: calc(var(--header-height) + 96px); }
   }
 </style>
