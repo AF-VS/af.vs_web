@@ -1,7 +1,9 @@
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { APIRoute } from 'astro';
 import { createClient } from '@libsql/client';
 import { drizzle } from 'drizzle-orm/libsql';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+
+export const prerender = false;
 
 // --- Schema ---
 const submissions = sqliteTable('submissions', {
@@ -22,17 +24,17 @@ let _db: ReturnType<typeof drizzle> | null = null;
 
 function getDb() {
   if (_db) return _db;
-  const url = process.env.TURSO_DATABASE_URL;
+  const url = import.meta.env.TURSO_DATABASE_URL;
   if (!url) throw new Error('TURSO_DATABASE_URL is not configured');
-  const turso = createClient({ url, authToken: process.env.TURSO_AUTH_TOKEN });
+  const turso = createClient({ url, authToken: import.meta.env.TURSO_AUTH_TOKEN });
   _db = drizzle(turso, { schema: { submissions } });
   return _db;
 }
 
 // --- Telegram ---
 async function sendTelegramMessage(messageText: string): Promise<void> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const token = import.meta.env.TELEGRAM_BOT_TOKEN;
+  const chatId = import.meta.env.TELEGRAM_CHAT_ID;
 
   if (!token || !chatId) {
     console.warn('[telegram] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set, skipping');
@@ -59,6 +61,18 @@ function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;');
 }
 
+// --- Types ---
+interface ContactBody {
+  productType: string;
+  readinessStage: string;
+  platform: string;
+  industry: string;
+  name: string;
+  projectName: string;
+  email: string;
+  phone: string;
+}
+
 function formatSubmissionMessage(data: ContactBody): string {
   return [
     `<b>Новая заявка</b>`,
@@ -73,18 +87,6 @@ function formatSubmissionMessage(data: ContactBody): string {
     `<b>Email:</b> ${escapeHtml(data.email)}`,
     `<b>Тел:</b> ${escapeHtml(data.phone || '—')}`,
   ].join('\n');
-}
-
-// --- Types ---
-interface ContactBody {
-  productType: string;
-  readinessStage: string;
-  platform: string;
-  industry: string;
-  name: string;
-  projectName: string;
-  email: string;
-  phone: string;
 }
 
 // --- Rate limiting (in-memory, per-instance) ---
@@ -115,6 +117,15 @@ function isOriginAllowed(origin: string | undefined): boolean {
   if (!origin) return false;
   if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) return true;
   return ALLOWED_ORIGINS.includes(origin);
+}
+
+function corsHeaders(origin: string): Record<string, string> {
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Methods': 'POST',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+  };
 }
 
 // --- Validation ---
@@ -152,38 +163,42 @@ function validate(body: unknown): { ok: true; data: ContactBody } | { ok: false;
   };
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const origin = req.headers.origin as string | undefined;
+// --- CORS preflight ---
+export const OPTIONS: APIRoute = ({ request }) => {
+  const origin = request.headers.get('origin') ?? undefined;
 
-  // CORS preflight
-  if (req.method === 'OPTIONS') {
-    if (isOriginAllowed(origin)) {
-      res.setHeader('Access-Control-Allow-Origin', origin!);
-      res.setHeader('Access-Control-Allow-Methods', 'POST');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-      res.setHeader('Access-Control-Max-Age', '86400');
-    }
-    return res.status(204).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // CORS
   if (isOriginAllowed(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin!);
+    return new Response(null, { status: 204, headers: corsHeaders(origin!) });
+  }
+
+  return new Response(null, { status: 204 });
+};
+
+// --- POST handler ---
+export const POST: APIRoute = async ({ request, clientAddress }) => {
+  const origin = request.headers.get('origin') ?? undefined;
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+
+  if (isOriginAllowed(origin)) {
+    headers['Access-Control-Allow-Origin'] = origin!;
   }
 
   // Rate limit
-  const ip = (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() || 'unknown';
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || clientAddress || 'unknown';
   if (isRateLimited(ip)) {
-    return res.status(429).json({ error: 'Too many requests' });
+    return new Response(JSON.stringify({ error: 'Too many requests' }), { status: 429, headers });
   }
 
-  const result = validate(req.body);
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400, headers });
+  }
+
+  const result = validate(body);
   if (!result.ok) {
-    return res.status(400).json({ error: result.error });
+    return new Response(JSON.stringify({ error: result.error }), { status: 400, headers });
   }
 
   const { data } = result;
@@ -203,7 +218,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     });
   } catch (err) {
     console.error('[api/contact] DB insert failed:', err);
-    return res.status(500).json({ error: 'Database error' });
+    return new Response(JSON.stringify({ error: 'Database error' }), { status: 500, headers });
   }
 
   // Telegram — fire and forget
@@ -214,5 +229,5 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.warn('[api/contact] Telegram failed:', err);
   }
 
-  return res.status(200).json({ ok: true });
-}
+  return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
+};
