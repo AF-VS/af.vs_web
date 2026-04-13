@@ -26,7 +26,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
 ---
 
-<section id="contact" class="bref-section">
+<section id="contact" class="bref-section section-viewport">
   <div class="bref-wizard" data-wizard data-label-next={dict.bref.next} data-label-send={dict.bref.send}>
     <!-- Left Panel -->
     <div class="bref-left">
@@ -467,11 +467,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 <style>
   /* ── Section — full viewport ─────────────────── */
   .bref-section {
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 48px;
+    padding: var(--spacing-section);
   }
 
   /* ── Wizard Card — adaptive ──────────────────── */
@@ -479,9 +478,9 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     position: relative;
     display: flex;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1600px;
     height: 100%;
-    max-height: 720px;
+    max-height: clamp(520px, 60vh, 900px);
     min-height: 520px;
     border-radius: var(--radius-card);
     overflow: hidden;
@@ -530,7 +529,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   .bref-title {
     font-family: var(--font-body);
-    font-size: clamp(24px, 2.2vw, var(--font-size-h4));
+    font-size: var(--font-size-h4);
     font-weight: 600;
     color: var(--text-primary);
     letter-spacing: -0.32px;
@@ -957,16 +956,14 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   /* ── Responsive: Tablet (768–1247px) ─────────── */
   @media (max-width: 1247px) {
-    .bref-section { padding: 32px 24px; }
+    .bref-section { padding: var(--spacing-card); }
     .bref-left { width: 40%; }
   }
 
   /* ── Responsive: Mobile (<768px) ─────────────── */
-  @media (max-width: 767px) {
+  @media (max-width: 743px) {
     .bref-section {
-      height: auto;
-      min-height: 100vh;
-      padding: 24px 16px;
+      padding: var(--container-padding);
     }
 
     .bref-wizard { flex-direction: column; }
@@ -981,7 +978,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
     .bref-right {
       border-radius: 0 0 var(--radius-card) var(--radius-card);
-      padding: 24px;
+      padding: var(--spacing-card);
     }
 
     .bref-step { margin-top: 24px; }
@@ -998,8 +995,6 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     .bref-options--grid .bref-option:last-child {
       border-bottom: none;
     }
-
-    .bref-step-title { font-size: 24px; }
 
     .bref-btn {
       align-self: stretch;
