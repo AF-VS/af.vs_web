@@ -15,7 +15,7 @@ const { dict } = Astro.props;
 const s = dict.services;
 ---
 
-<section id="services" class="services">
+<section id="services" class="services section-viewport">
   <div class="grid">
     <ServiceCard
       class="card--build"
@@ -53,21 +53,19 @@ const s = dict.services;
 
 <style>
   .services {
-    height: 100dvh;
-    padding: 48px 0;
+    padding: var(--spacing-section) 0;
     box-sizing: border-box;
   }
 
-  /* ── Grid ─────────────────────────────────────── */
   .grid {
     display: grid;
-    gap: 24px;
+    gap: var(--spacing-grid);
     grid-template-columns: 1fr;
     height: 100%;
-    padding-inline: var(--container-padding-mobile);
+    padding-inline: var(--container-padding);
   }
 
-  /* ── Card image positioning ───────────────────── */
+  /* Card image positioning — keep all unchanged */
   .grid :global(.card--build) {
     --img-right: -5%;
     --img-top: 50%;
@@ -98,12 +96,9 @@ const s = dict.services;
     --img-translate: -50% -50%;
   }
 
-  /* ── Tablet (2 columns) ──────────────────────── */
-  @media (min-width: 768px) {
+  @media (min-width: 744px) {
     .grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-      padding-inline: var(--container-padding-laptop);
     }
 
     .grid :global(.card--build) {
@@ -111,13 +106,10 @@ const s = dict.services;
     }
   }
 
-  /* ── Desktop (asymmetric 3 columns) ──────────── */
   @media (min-width: 1248px) {
     .grid {
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: 1fr 1fr;
-      gap: 48px;
-      padding-inline: var(--container-padding-desktop);
     }
 
     .grid :global(.card--build) {
