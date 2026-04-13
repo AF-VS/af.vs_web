@@ -128,7 +128,7 @@ const { title, description, tags, image, class: className } = Astro.props;
   .card__text {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--spacing-text-gap);
   }
 
   .card__title {
@@ -147,12 +147,12 @@ const { title, description, tags, image, class: className } = Astro.props;
     line-height: var(--line-height-body);
     color: var(--text-secondary);
     margin: 0;
-    max-width: 28ch;
+    max-width: 40ch;
   }
 
   .card__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 16px;
+    gap: var(--spacing-tags-gap);
   }
 </style>

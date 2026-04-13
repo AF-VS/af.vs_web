@@ -478,10 +478,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     position: relative;
     display: flex;
     width: 100%;
-    max-width: 1600px;
+    max-width: clamp(600px, 88vw, 1600px);
     height: 100%;
-    max-height: clamp(520px, 60vh, 900px);
-    min-height: 520px;
+    max-height: clamp(520px, 78vh, 1200px);
+    min-height: clamp(420px, 55vh, 520px);
     border-radius: var(--radius-card);
     overflow: hidden;
   }
@@ -532,7 +532,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-size: var(--font-size-h4);
     font-weight: 600;
     color: var(--text-primary);
-    letter-spacing: -0.32px;
+    letter-spacing: var(--letter-spacing-h4);
     line-height: var(--line-height-h4);
     margin: 0;
   }
@@ -542,7 +542,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-size: var(--font-size-body);
     color: var(--text-secondary);
     line-height: var(--line-height-body);
-    margin: 8px 0 0;
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
   }
 
   .bref-mountain {
@@ -566,12 +566,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     padding: 7% 8%;
     display: flex;
     flex-direction: column;
+    gap: clamp(12px, 1.5vh, 24px);
   }
 
   /* ── Progress Bar (percentage-based) ─────────── */
   .bref-progress {
     position: relative;
-    height: 32px;
+    height: clamp(24px, 3.5vh, 40px);
     width: 100%;
     margin: 0 auto;
     flex-shrink: 0;
@@ -582,9 +583,9 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     top: 50%;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: clamp(3px, 0.4vh, 6px);
     background: var(--surface-light-muted);
-    border-radius: 2px;
+    border-radius: clamp(1px, 0.2vh, 3px);
     transform: translateY(-50%);
   }
 
@@ -592,9 +593,9 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     position: absolute;
     top: 0;
     left: 0;
-    height: 4px;
+    height: clamp(3px, 0.4vh, 6px);
     background: var(--primary-default);
-    border-radius: 2px;
+    border-radius: clamp(1px, 0.2vh, 3px);
     width: 20%;
     transition: width 0.35s ease;
   }
@@ -617,8 +618,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-dot:nth-child(6) { left: 90%; }
 
   .bref-dot.active {
-    width: 32px;
-    height: 32px;
+    width: clamp(24px, 3.5vh, 40px);
+    height: clamp(24px, 3.5vh, 40px);
     background: var(--primary-default);
   }
 
@@ -631,8 +632,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   .bref-dot.completed {
-    width: 16px;
-    height: 16px;
+    width: clamp(12px, 1.5vh, 20px);
+    height: clamp(12px, 1.5vh, 20px);
     background: var(--primary-default);
     cursor: pointer;
   }
@@ -640,8 +641,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-dot.completed .bref-dot-number { display: none; }
 
   .bref-dot.upcoming {
-    width: 16px;
-    height: 16px;
+    width: clamp(12px, 1.5vh, 20px);
+    height: clamp(12px, 1.5vh, 20px);
     background: var(--neutral-400);
     border: none;
   }
@@ -660,14 +661,14 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   .bref-step.active { display: flex; }
 
-  .bref-step-header { margin-bottom: 24px; }
+  .bref-step-header { margin-bottom: clamp(16px, 2.5vh, 36px); }
 
   .bref-step-title {
     font-family: var(--font-body);
     font-size: var(--font-size-h4);
     font-weight: 600;
     color: var(--text-dark-primary);
-    letter-spacing: -0.32px;
+    letter-spacing: var(--letter-spacing-h4);
     line-height: var(--line-height-h4);
     margin: 0;
   }
@@ -677,7 +678,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-size: var(--font-size-body);
     color: var(--text-dark-secondary);
     line-height: var(--line-height-body);
-    margin: 8px 0 0;
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
   }
 
   /* ── Options — iOS grouped (white) ─────────── */
@@ -688,7 +689,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     max-width: 100%;
     margin: 0 auto;
     background: var(--surface-light-card);
-    border-radius: 20px;
+    border-radius: clamp(12px, 1.5vw, 24px);
     overflow: hidden;
   }
 
@@ -701,13 +702,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 48px;
-    height: clamp(48px, 7vh, 56px);
+    min-height: clamp(40px, 5vh, 48px);
+    height: clamp(48px, 7.5vh, 72px);
     background: transparent;
     border: none;
     border-bottom: 1px solid var(--text-dark-divider);
     border-radius: 0;
-    padding: 0 20px;
+    padding: 0 clamp(12px, 1.5vw, 28px);
     cursor: pointer;
     transition: background 0.15s ease;
     font-family: var(--font-body);
@@ -739,12 +740,12 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-option-left {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-inline-gap);
   }
 
   .bref-option-icon {
-    width: 32px;
-    height: 32px;
+    width: clamp(24px, 2.5vw, 40px);
+    height: clamp(24px, 2.5vw, 40px);
     flex-shrink: 0;
   }
 
@@ -778,10 +779,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   /* ── Radio Circle ────────────────────────────── */
   .bref-radio {
-    width: 24px;
-    height: 24px;
+    width: clamp(18px, 1.8vw, 28px);
+    height: clamp(18px, 1.8vw, 28px);
     border-radius: 50%;
-    border: 2px solid var(--neutral-400);
+    border: clamp(1.5px, 0.15vw, 3px) solid var(--neutral-400);
     flex-shrink: 0;
     position: relative;
     transition: border-color 0.2s ease, background 0.2s ease;
@@ -797,8 +798,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 10px;
-    height: 10px;
+    width: clamp(8px, 0.7vw, 14px);
+    height: clamp(8px, 0.7vw, 14px);
     border-radius: 50%;
     background: var(--surface-light-card);
     transform: translate(-50%, -50%);
@@ -812,18 +813,18 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     max-width: 100%;
     margin: 0 auto;
     background: var(--surface-light-card);
-    border-radius: 20px;
+    border-radius: clamp(12px, 1.5vw, 24px);
     overflow: hidden;
   }
 
   .bref-input {
-    min-height: 48px;
-    height: clamp(48px, 7vh, 56px);
+    min-height: clamp(40px, 5vh, 48px);
+    height: clamp(48px, 7.5vh, 72px);
     background: transparent;
     border: none;
     border-bottom: 1px solid var(--text-dark-divider);
     border-radius: 0;
-    padding: 0 20px;
+    padding: 0 clamp(12px, 1.5vw, 28px);
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     font-weight: 500;
@@ -832,7 +833,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     transition: background 0.15s ease;
   }
 
-  .bref-input:last-child {
+  .bref-input-label:last-child .bref-input {
     border-bottom: none;
   }
 
@@ -868,7 +869,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-family: var(--font-body);
     font-size: var(--font-size-caption);
     line-height: var(--line-height-body);
-    margin: 8px 0 0;
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
     min-height: 1.5em;
   }
 
@@ -879,13 +880,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     align-items: center;
     justify-content: center;
     flex: 1;
-    gap: 32px;
+    gap: clamp(20px, 3.5vh, 48px);
     text-align: center;
   }
 
   .bref-success-icon {
-    width: 96px;
-    height: 96px;
+    width: clamp(64px, 9vh, 120px);
+    height: clamp(64px, 9vh, 120px);
   }
 
   .bref-success-text {
@@ -896,11 +897,11 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   .bref-success-title {
     font-family: var(--font-body);
-    font-size: 28px;
+    font-size: var(--font-size-h4);
     font-weight: 600;
     color: var(--text-dark-primary);
-    letter-spacing: -0.14px;
-    line-height: 1.4;
+    letter-spacing: var(--letter-spacing-h4);
+    line-height: var(--line-height-h4);
     margin: 0;
   }
 
@@ -909,8 +910,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-size: var(--font-size-body);
     color: var(--surface-card);
     line-height: var(--line-height-body);
-    margin: 8px 0 0;
-    max-width: 366px;
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
+    max-width: clamp(280px, 28vw, 460px);
   }
 
   /* ── Action Button ───────────────────────────── */
@@ -935,8 +936,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-btn:active { transform: scale(0.98); }
 
   .bref-btn--shifted {
-    align-self: center;
-    margin-left: 48px;
+    align-self: flex-end;
   }
 
   .bref-btn--loading {
@@ -970,7 +970,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
     .bref-left {
       width: 100%;
-      padding: 32px;
+      padding: clamp(20px, 5vw, 40px);
     }
 
     .bref-left-content { padding: 0; }
@@ -981,7 +981,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       padding: var(--spacing-card);
     }
 
-    .bref-step { margin-top: 24px; }
+    .bref-step { margin-top: clamp(16px, 3vh, 28px); }
     .bref-options--grid { grid-template-columns: 1fr; }
 
     .bref-options--grid .bref-option:nth-child(odd) {
@@ -1003,7 +1003,6 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
     .bref-btn--shifted {
       align-self: stretch;
-      margin-left: 0;
     }
 
     .bref-dot:nth-child(2) { left: 0; }

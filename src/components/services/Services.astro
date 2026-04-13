@@ -53,6 +53,8 @@ const s = dict.services;
 
 <style>
   .services {
+    display: flex;
+    flex-direction: column;
     padding: var(--spacing-section) 0;
     box-sizing: border-box;
   }
@@ -61,7 +63,7 @@ const s = dict.services;
     display: grid;
     gap: var(--spacing-grid);
     grid-template-columns: 1fr;
-    height: 100%;
+    flex: 1;
     padding-inline: var(--container-padding);
   }
 
@@ -110,7 +112,7 @@ const s = dict.services;
   @media (min-width: 1248px) {
     .grid {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, minmax(clamp(280px, 25vw, 420px), 1fr));
+      grid-template-rows: repeat(2, minmax(clamp(220px, 20vw, 36vh), 1fr));
     }
 
     .grid :global(.card--build) {
