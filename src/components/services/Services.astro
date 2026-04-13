@@ -65,34 +65,35 @@ const s = dict.services;
     padding-inline: var(--container-padding);
   }
 
-  /* Card image positioning — keep all unchanged */
+  /* ── Card image positioning (% values adapt to card size) ── */
   .grid :global(.card--build) {
-    --img-right: -5%;
+    --img-right: 0;
     --img-top: 50%;
-    --img-width: 55%;
+    --img-width: 64%;
+    --img-height: 84%;
     --img-translate: 0 -50%;
     --img-mask: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 25%, black 55%);
   }
 
   .grid :global(.card--ai) {
-    --img-left: 50%;
-    --img-top: 40%;
-    --img-width: 75%;
+    --img-left: 64%;
+    --img-top: 27%;
+    --img-width: 77%;
     --img-translate: -50% -50%;
     --img-rotate: -170.43deg;
   }
 
   .grid :global(.card--advisory) {
-    --img-left: 50%;
-    --img-top: 40%;
-    --img-width: 80%;
+    --img-left: 57%;
+    --img-top: 19%;
+    --img-width: 95%;
     --img-translate: -50% -50%;
   }
 
   .grid :global(.card--growth) {
     --img-left: 50%;
-    --img-top: 42%;
-    --img-width: 85%;
+    --img-top: 44%;
+    --img-width: 100%;
     --img-translate: -50% -50%;
   }
 
@@ -109,7 +110,7 @@ const s = dict.services;
   @media (min-width: 1248px) {
     .grid {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: repeat(2, minmax(clamp(280px, 25vw, 420px), 1fr));
     }
 
     .grid :global(.card--build) {
