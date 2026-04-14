@@ -51,7 +51,7 @@ const { title, description, tags, image, video } = Astro.props;
     width: min(85vw, clamp(400px, 38vw, 720px));
     border-radius: var(--radius-card);
     overflow: hidden;
-    background: rgba(10, 22, 38, 0.55);
+    background: var(--surface-card-glass);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: none;
@@ -73,8 +73,8 @@ const { title, description, tags, image, video } = Astro.props;
     padding: 1px;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.03) 100%
+      var(--border-glass-top) 0%,
+      var(--border-glass-bottom) 100%
     );
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
@@ -91,15 +91,15 @@ const { title, description, tags, image, video } = Astro.props;
 
   .case:hover {
     box-shadow:
-      0 0 48px rgba(21, 142, 242, 0.15),
-      0 0 96px rgba(21, 142, 242, 0.08);
+      0 0 48px var(--glow-primary-mid),
+      0 0 96px var(--glow-primary-faint);
   }
 
   .case:hover::before {
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.28) 0%,
-      rgba(255, 255, 255, 0.06) 100%
+      var(--border-glass-hover-top) 0%,
+      var(--border-glass-hover-bottom) 100%
     );
   }
 
