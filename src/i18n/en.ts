@@ -4,7 +4,7 @@ export const en = {
   nav: {
     services: 'Services',
     cases: 'Cases',
-    bref: 'Bref',
+    brif: 'Brif',
   },
   hero: {
     title: 'From idea to product, from product to growth',
@@ -43,8 +43,8 @@ export const en = {
       },
     ],
   },
-  bref: {
-    title: 'Project Bref',
+  brif: {
+    title: 'Project Brif',
     description:
       'Share the basics of your project so we can review your goals, scope, and requirements before the first call',
     steps: {
@@ -91,7 +91,7 @@ export const en = {
     nav: [
       { label: 'Services', href: '#services' },
       { label: 'Cases', href: '#cases' },
-      { label: 'Bref', href: '#contact' },
+      { label: 'Brif', href: '#contact' },
     ],
     social: [
       { label: 'LinkedIn', href: 'https://linkedin.com' },

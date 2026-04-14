@@ -4,7 +4,7 @@ export const uz: Dict = {
   nav: {
     services: 'Xizmatlar',
     cases: 'Loyihalar',
-    bref: 'Brif',
+    brif: 'Brif',
   },
   hero: {
     title: "G'oyadan mahsulotga, mahsulotdan o'sishga",
@@ -43,7 +43,7 @@ export const uz: Dict = {
       },
     ],
   },
-  bref: {
+  brif: {
     title: 'Loyiha brifi',
     description:
       "Birinchi qo'ng'iroqdan oldin maqsadlaringiz, ko'lami va talablaringizni ko'rib chiqishimiz uchun loyihangiz haqida asosiy ma'lumotlarni ulashing",

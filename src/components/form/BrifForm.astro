@@ -1,18 +1,18 @@
 ---
 import type { Dict } from '../../i18n/en';
 
-import mountainImg from '../../assets/bref/mountain.jpg';
-import mvpIcon from '../../assets/bref/icons/mvp.svg';
-import complexIcon from '../../assets/bref/icons/complex.svg';
-import enterpriseIcon from '../../assets/bref/icons/enterprise.svg';
-import auditIcon from '../../assets/bref/icons/audit.svg';
-import ideaIcon from '../../assets/bref/icons/idea.svg';
-import specIcon from '../../assets/bref/icons/spec.svg';
-import designIcon from '../../assets/bref/icons/design.svg';
-import websiteIcon from '../../assets/bref/icons/website.svg';
-import mobileIcon from '../../assets/bref/icons/mobile.svg';
-import webmobileIcon from '../../assets/bref/icons/webmobile.svg';
-import successIcon from '../../assets/bref/icons/success.svg';
+import mountainImg from '../../assets/brif/mountain.jpg';
+import mvpIcon from '../../assets/brif/icons/mvp.svg';
+import complexIcon from '../../assets/brif/icons/complex.svg';
+import enterpriseIcon from '../../assets/brif/icons/enterprise.svg';
+import auditIcon from '../../assets/brif/icons/audit.svg';
+import ideaIcon from '../../assets/brif/icons/idea.svg';
+import specIcon from '../../assets/brif/icons/spec.svg';
+import designIcon from '../../assets/brif/icons/design.svg';
+import websiteIcon from '../../assets/brif/icons/website.svg';
+import mobileIcon from '../../assets/brif/icons/mobile.svg';
+import webmobileIcon from '../../assets/brif/icons/webmobile.svg';
+import successIcon from '../../assets/brif/icons/success.svg';
 
 interface Props {
   dict: Dict;
@@ -26,34 +26,34 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
 ---
 
-<section id="contact" class="bref-section section-viewport">
-  <div class="bref-wizard" data-wizard data-label-next={dict.bref.next} data-label-send={dict.bref.send}>
+<section id="contact" class="brif-section section-viewport">
+  <div class="brif-wizard" data-wizard data-label-next={dict.brif.next} data-label-send={dict.brif.send}>
     <!-- Left Panel -->
     <div
-      class="bref-left"
+      class="brif-left"
       data-animate
       data-animate-direction="right"
       data-animate-distance="60px"
       data-animate-delay="120"
       data-animate-duration="1100"
     >
-      <div class="bref-left-content">
-        <h2 class="bref-title">{dict.bref.title}</h2>
-        <p class="bref-description">{dict.bref.description}</p>
+      <div class="brif-left-content">
+        <h2 class="brif-title">{dict.brif.title}</h2>
+        <p class="brif-description">{dict.brif.description}</p>
       </div>
       <img
         src={mountainImg.src}
         width={575}
         height={575}
         alt=""
-        class="bref-mountain"
+        class="brif-mountain"
         loading="lazy"
       />
     </div>
 
     <!-- Right Panel -->
     <div
-      class="bref-right"
+      class="brif-right"
       data-animate
       data-animate-direction="left"
       data-animate-distance="60px"
@@ -61,83 +61,83 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       data-animate-duration="1100"
     >
       <!-- Progress Bar -->
-      <div class="bref-progress">
-        <div class="bref-progress-track">
-          <div class="bref-progress-fill" data-progress-fill></div>
+      <div class="brif-progress">
+        <div class="brif-progress-track">
+          <div class="brif-progress-fill" data-progress-fill></div>
         </div>
         {[1, 2, 3, 4, 5].map((n) => (
           <div
-            class={`bref-dot ${n === 1 ? 'active' : 'upcoming'}`}
+            class={`brif-dot ${n === 1 ? 'active' : 'upcoming'}`}
             data-dot={n}
           >
-            <span class="bref-dot-number">{n}</span>
+            <span class="brif-dot-number">{n}</span>
           </div>
         ))}
       </div>
 
       <!-- Steps wrapper — slides between steps -->
-      <div class="bref-steps" data-steps>
+      <div class="brif-steps" data-steps>
       <!-- Step 1: Product Type -->
-      <div class="bref-step is-active" data-step="1">
-        <div class="bref-step-header">
-          <h3 class="bref-step-title">{dict.bref.steps.productType.title}</h3>
-          <p class="bref-step-description">{dict.bref.steps.productType.description}</p>
+      <div class="brif-step is-active" data-step="1">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.productType.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.productType.description}</p>
         </div>
-        <div class="bref-options">
-          {dict.bref.steps.productType.options.map((opt, i) => (
-            <button type="button" class="bref-option" data-name="productType" data-value={opt}>
-              <span class="bref-option-left">
-                <img src={step1Icons[i].src} width={32} height={32} alt="" class="bref-option-icon" />
-                <span class="bref-option-label">{opt}</span>
+        <div class="brif-options">
+          {dict.brif.steps.productType.options.map((opt, i) => (
+            <button type="button" class="brif-option" data-name="productType" data-value={opt}>
+              <span class="brif-option-left">
+                <img src={step1Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                <span class="brif-option-label">{opt}</span>
               </span>
-              <span class="bref-radio"></span>
+              <span class="brif-radio"></span>
             </button>
           ))}
         </div>
       </div>
 
       <!-- Step 2: Readiness -->
-      <div class="bref-step" data-step="2">
-        <div class="bref-step-header">
-          <h3 class="bref-step-title">{dict.bref.steps.readiness.title}</h3>
-          <p class="bref-step-description">{dict.bref.steps.readiness.description}</p>
+      <div class="brif-step" data-step="2">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.readiness.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.readiness.description}</p>
         </div>
-        <div class="bref-options">
-          {dict.bref.steps.readiness.options.map((opt, i) => (
-            <button type="button" class="bref-option" data-name="readiness" data-value={opt}>
-              <span class="bref-option-left">
-                <img src={step2Icons[i].src} width={32} height={32} alt="" class="bref-option-icon" />
-                <span class="bref-option-label">{opt}</span>
+        <div class="brif-options">
+          {dict.brif.steps.readiness.options.map((opt, i) => (
+            <button type="button" class="brif-option" data-name="readiness" data-value={opt}>
+              <span class="brif-option-left">
+                <img src={step2Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                <span class="brif-option-label">{opt}</span>
               </span>
-              <span class="bref-radio"></span>
+              <span class="brif-radio"></span>
             </button>
           ))}
         </div>
       </div>
 
       <!-- Step 3: Platform -->
-      <div class="bref-step" data-step="3">
-        <div class="bref-step-header">
-          <h3 class="bref-step-title">{dict.bref.steps.platform.title}</h3>
-          <p class="bref-step-description">{dict.bref.steps.platform.description}</p>
+      <div class="brif-step" data-step="3">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.platform.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.platform.description}</p>
         </div>
-        <div class="bref-options">
-          {dict.bref.steps.platform.options.map((opt, i) =>
-            i === dict.bref.steps.platform.options.length - 1 ? (
-              <button type="button" class="bref-option bref-option--other" data-name="platform" data-value="Other" data-other>
-                <span class="bref-option-left">
-                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="bref-option-icon" />
-                  <input type="text" class="bref-other-input" placeholder={opt} data-other-input />
+        <div class="brif-options">
+          {dict.brif.steps.platform.options.map((opt, i) =>
+            i === dict.brif.steps.platform.options.length - 1 ? (
+              <button type="button" class="brif-option brif-option--other" data-name="platform" data-value="Other" data-other>
+                <span class="brif-option-left">
+                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                  <input type="text" class="brif-other-input" placeholder={opt} data-other-input />
                 </span>
-                <span class="bref-radio"></span>
+                <span class="brif-radio"></span>
               </button>
             ) : (
-              <button type="button" class="bref-option" data-name="platform" data-value={opt}>
-                <span class="bref-option-left">
-                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="bref-option-icon" />
-                  <span class="bref-option-label">{opt}</span>
+              <button type="button" class="brif-option" data-name="platform" data-value={opt}>
+                <span class="brif-option-left">
+                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                  <span class="brif-option-label">{opt}</span>
                 </span>
-                <span class="bref-radio"></span>
+                <span class="brif-radio"></span>
               </button>
             )
           )}
@@ -145,26 +145,26 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       </div>
 
       <!-- Step 4: Industry (2-column grid, no icons) -->
-      <div class="bref-step" data-step="4">
-        <div class="bref-step-header">
-          <h3 class="bref-step-title">{dict.bref.steps.industry.title}</h3>
-          <p class="bref-step-description">{dict.bref.steps.industry.description}</p>
+      <div class="brif-step" data-step="4">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.industry.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.industry.description}</p>
         </div>
-        <div class="bref-options bref-options--grid">
-          {dict.bref.steps.industry.options.map((opt, i) =>
-            i === dict.bref.steps.industry.options.length - 1 ? (
-              <button type="button" class="bref-option bref-option--other" data-name="industry" data-value="Other" data-other>
-                <span class="bref-option-left">
-                  <input type="text" class="bref-other-input" placeholder={opt} data-other-input />
+        <div class="brif-options brif-options--grid">
+          {dict.brif.steps.industry.options.map((opt, i) =>
+            i === dict.brif.steps.industry.options.length - 1 ? (
+              <button type="button" class="brif-option brif-option--other" data-name="industry" data-value="Other" data-other>
+                <span class="brif-option-left">
+                  <input type="text" class="brif-other-input" placeholder={opt} data-other-input />
                 </span>
-                <span class="bref-radio"></span>
+                <span class="brif-radio"></span>
               </button>
             ) : (
-              <button type="button" class="bref-option" data-name="industry" data-value={opt}>
-                <span class="bref-option-left">
-                  <span class="bref-option-label">{opt}</span>
+              <button type="button" class="brif-option" data-name="industry" data-value={opt}>
+                <span class="brif-option-left">
+                  <span class="brif-option-label">{opt}</span>
                 </span>
-                <span class="bref-radio"></span>
+                <span class="brif-radio"></span>
               </button>
             )
           )}
@@ -172,71 +172,71 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       </div>
 
       <!-- Step 5: Contact Form -->
-      <div class="bref-step" data-step="5">
-        <div class="bref-step-header">
-          <h3 class="bref-step-title">{dict.bref.steps.contact.title}</h3>
-          <p class="bref-step-description">{dict.bref.steps.contact.description}</p>
+      <div class="brif-step" data-step="5">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.contact.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.contact.description}</p>
         </div>
-        <div class="bref-inputs">
-          <label class="bref-input-label">
-            <span class="sr-only">{dict.bref.steps.contact.name}</span>
+        <div class="brif-inputs">
+          <label class="brif-input-label">
+            <span class="sr-only">{dict.brif.steps.contact.name}</span>
             <input
               type="text"
-              class="bref-input"
+              class="brif-input"
               name="name"
-              placeholder={dict.bref.steps.contact.name}
+              placeholder={dict.brif.steps.contact.name}
               required
             />
           </label>
-          <label class="bref-input-label">
-            <span class="sr-only">{dict.bref.steps.contact.projectName}</span>
+          <label class="brif-input-label">
+            <span class="sr-only">{dict.brif.steps.contact.projectName}</span>
             <input
               type="text"
-              class="bref-input"
+              class="brif-input"
               name="projectName"
-              placeholder={dict.bref.steps.contact.projectName}
+              placeholder={dict.brif.steps.contact.projectName}
             />
           </label>
-          <label class="bref-input-label">
-            <span class="sr-only">{dict.bref.steps.contact.email}</span>
+          <label class="brif-input-label">
+            <span class="sr-only">{dict.brif.steps.contact.email}</span>
             <input
               type="email"
-              class="bref-input"
+              class="brif-input"
               name="email"
-              placeholder={dict.bref.steps.contact.email}
+              placeholder={dict.brif.steps.contact.email}
               required
             />
           </label>
-          <label class="bref-input-label">
-            <span class="sr-only">{dict.bref.steps.contact.phone}</span>
+          <label class="brif-input-label">
+            <span class="sr-only">{dict.brif.steps.contact.phone}</span>
             <input
               type="tel"
-              class="bref-input"
+              class="brif-input"
               name="phone"
               value="+998 "
               data-phone
             />
           </label>
         </div>
-        <p class="bref-error" data-bref-error aria-live="polite"></p>
+        <p class="brif-error" data-brif-error aria-live="polite"></p>
       </div>
 
       <!-- Step 6: Success -->
-      <div class="bref-step" data-step="6">
-        <div class="bref-success">
-          <img src={successIcon.src} width={96} height={96} alt="" class="bref-success-icon" />
-          <div class="bref-success-text">
-            <h3 class="bref-success-title">{dict.bref.success.title}</h3>
-            <p class="bref-success-description">{dict.bref.success.description}</p>
+      <div class="brif-step" data-step="6">
+        <div class="brif-success">
+          <img src={successIcon.src} width={96} height={96} alt="" class="brif-success-icon" />
+          <div class="brif-success-text">
+            <h3 class="brif-success-title">{dict.brif.success.title}</h3>
+            <p class="brif-success-description">{dict.brif.success.description}</p>
           </div>
         </div>
       </div>
       </div>
-      <!-- /.bref-steps -->
+      <!-- /.brif-steps -->
 
       <!-- Action Button -->
-      <button type="button" class="bref-btn" data-bref-btn>
-        <span data-btn-text>{dict.bref.next}</span>
+      <button type="button" class="brif-btn" data-brif-btn>
+        <span data-btn-text>{dict.brif.next}</span>
       </button>
     </div>
   </div>
@@ -245,7 +245,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 <script>
   import { sendContact } from '../../lib/contact';
 
-  function initBrefWizard() {
+  function initBrifWizard() {
     const wizard = document.querySelector<HTMLDivElement>('[data-wizard]');
     if (!wizard) return;
 
@@ -255,7 +255,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     const selections: Record<string, string> = {};
 
     const progressFill = wizard.querySelector<HTMLDivElement>('[data-progress-fill]');
-    const btn = wizard.querySelector<HTMLButtonElement>('[data-bref-btn]');
+    const btn = wizard.querySelector<HTMLButtonElement>('[data-brif-btn]');
     const btnText = wizard.querySelector<HTMLSpanElement>('[data-btn-text]');
     const dots = wizard.querySelectorAll<HTMLDivElement>('[data-dot]');
     const steps = wizard.querySelectorAll<HTMLDivElement>('[data-step]');
@@ -299,7 +299,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       // Strip animation modifiers once the entering step finishes
       if (dir !== 0 && !prefersReducedMotion) {
         const entering = wizard!.querySelector<HTMLDivElement>(
-          '.bref-step.is-entering-fwd, .bref-step.is-entering-back'
+          '.brif-step.is-entering-fwd, .brif-step.is-entering-back'
         );
         if (entering) {
           entering.addEventListener(
@@ -317,7 +317,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       previousStep = currentStep;
 
       // Update progress fill
-      const progressEl = wizard!.querySelector<HTMLDivElement>('.bref-progress');
+      const progressEl = wizard!.querySelector<HTMLDivElement>('.brif-progress');
       if (progressEl) {
         progressEl.style.display = currentStep === 6 ? 'none' : '';
       }
@@ -352,9 +352,9 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
         // Adjust button position for step 4
         if (currentStep === 4) {
-          btn.classList.add('bref-btn--shifted');
+          btn.classList.add('brif-btn--shifted');
         } else {
-          btn.classList.remove('bref-btn--shifted');
+          btn.classList.remove('brif-btn--shifted');
         }
       }
     }
@@ -376,13 +376,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     // Event delegation for option clicks
     wizard.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
-      const option = target.closest<HTMLButtonElement>('.bref-option');
+      const option = target.closest<HTMLButtonElement>('.brif-option');
 
       if (option) {
         const name = option.dataset.name || '';
 
         // Deselect siblings
-        const siblings = option.parentElement?.querySelectorAll('.bref-option');
+        const siblings = option.parentElement?.querySelectorAll('.brif-option');
         siblings?.forEach((s) => s.classList.remove('selected'));
 
         // Select this option
@@ -411,11 +411,11 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       }
 
       // Next / Send button
-      if (target.closest('[data-bref-btn]')) {
+      if (target.closest('[data-brif-btn]')) {
         if (!validateStep()) {
           // Shake the button to indicate validation failure
-          btn?.classList.add('bref-btn--shake');
-          setTimeout(() => btn?.classList.remove('bref-btn--shake'), 400);
+          btn?.classList.add('brif-btn--shake');
+          setTimeout(() => btn?.classList.remove('brif-btn--shake'), 400);
           return;
         }
 
@@ -426,7 +426,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
           const emailVal = wizard.querySelector<HTMLInputElement>('input[name="email"]')?.value.trim() || '';
           const phoneVal = wizard.querySelector<HTMLInputElement>('input[name="phone"]')?.value.trim() || '';
 
-          btn?.classList.add('bref-btn--loading');
+          btn?.classList.add('brif-btn--loading');
 
           sendContact({
             productType: selections['productType'] || '',
@@ -443,13 +443,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
               updateUI();
             })
             .catch((err) => {
-              const errorEl = wizard!.querySelector<HTMLParagraphElement>('[data-bref-error]');
+              const errorEl = wizard!.querySelector<HTMLParagraphElement>('[data-brif-error]');
               if (errorEl) {
                 errorEl.textContent = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
               }
             })
             .finally(() => {
-              btn?.classList.remove('bref-btn--loading');
+              btn?.classList.remove('brif-btn--loading');
             });
 
           return;
@@ -466,7 +466,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     wizard.addEventListener('input', (e) => {
       const input = e.target as HTMLInputElement;
       if (!input.matches('[data-other-input]')) return;
-      const option = input.closest<HTMLButtonElement>('.bref-option');
+      const option = input.closest<HTMLButtonElement>('.brif-option');
       if (option) {
         const name = option.dataset.name || '';
         selections[name] = input.value.trim() || 'Other';
@@ -524,15 +524,15 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   // Initialize immediately
-  initBrefWizard();
+  initBrifWizard();
 
   // Re-initialize on Astro page transitions
-  document.addEventListener('astro:page-load', initBrefWizard);
+  document.addEventListener('astro:page-load', initBrifWizard);
 </script>
 
 <style>
   /* ── Section — full viewport ─────────────────── */
-  .bref-section {
+  .brif-section {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -540,7 +540,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Wizard Card — adaptive ──────────────────── */
-  .bref-wizard {
+  .brif-wizard {
     position: relative;
     display: flex;
     width: 100%;
@@ -553,7 +553,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Left Panel — glass navy ─────────────────── */
-  .bref-left {
+  .brif-left {
     position: relative;
     width: 45%;
     flex-shrink: 0;
@@ -564,7 +564,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* gradient border (glass edge on left panel) */
-  .bref-left::before {
+  .brif-left::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -587,13 +587,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     z-index: 2;
   }
 
-  .bref-left-content {
+  .brif-left-content {
     position: relative;
     z-index: 1;
     padding: 7% 8%;
   }
 
-  .bref-title {
+  .brif-title {
     font-family: var(--font-body);
     font-size: var(--font-size-h4);
     font-weight: 600;
@@ -603,7 +603,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     margin: 0;
   }
 
-  .bref-description {
+  .brif-description {
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     color: var(--text-secondary);
@@ -611,7 +611,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     margin: clamp(6px, 0.8vh, 12px) 0 0;
   }
 
-  .bref-mountain {
+  .brif-mountain {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -624,7 +624,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Right Panel — white for contrast ─────────── */
-  .bref-right {
+  .brif-right {
     position: relative;
     flex: 1;
     background: var(--surface-light);
@@ -636,7 +636,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Progress Bar (percentage-based) ─────────── */
-  .bref-progress {
+  .brif-progress {
     position: relative;
     height: clamp(24px, 3.5vh, 40px);
     width: 100%;
@@ -644,7 +644,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     flex-shrink: 0;
   }
 
-  .bref-progress-track {
+  .brif-progress-track {
     position: absolute;
     top: 50%;
     left: 0;
@@ -655,7 +655,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     transform: translateY(-50%);
   }
 
-  .bref-progress-fill {
+  .brif-progress-fill {
     position: absolute;
     top: 0;
     left: 0;
@@ -666,7 +666,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     transition: width 0.35s ease;
   }
 
-  .bref-dot {
+  .brif-dot {
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -677,19 +677,19 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     transition: all 0.3s ease;
   }
 
-  .bref-dot:nth-child(2) { left: 0; }
-  .bref-dot:nth-child(3) { left: 22.5%; }
-  .bref-dot:nth-child(4) { left: 45%; }
-  .bref-dot:nth-child(5) { left: 67.5%; }
-  .bref-dot:nth-child(6) { left: 90%; }
+  .brif-dot:nth-child(2) { left: 0; }
+  .brif-dot:nth-child(3) { left: 22.5%; }
+  .brif-dot:nth-child(4) { left: 45%; }
+  .brif-dot:nth-child(5) { left: 67.5%; }
+  .brif-dot:nth-child(6) { left: 90%; }
 
-  .bref-dot.active {
+  .brif-dot.active {
     width: clamp(24px, 3.5vh, 40px);
     height: clamp(24px, 3.5vh, 40px);
     background: var(--primary-default);
   }
 
-  .bref-dot.active .bref-dot-number {
+  .brif-dot.active .brif-dot-number {
     display: block;
     font-family: var(--font-body);
     font-size: var(--font-size-body);
@@ -697,31 +697,31 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     color: var(--surface-light-card);
   }
 
-  .bref-dot.completed {
+  .brif-dot.completed {
     width: clamp(12px, 1.5vh, 20px);
     height: clamp(12px, 1.5vh, 20px);
     background: var(--primary-default);
     cursor: pointer;
   }
 
-  .bref-dot.completed .bref-dot-number { display: none; }
+  .brif-dot.completed .brif-dot-number { display: none; }
 
-  .bref-dot.upcoming {
+  .brif-dot.upcoming {
     width: clamp(12px, 1.5vh, 20px);
     height: clamp(12px, 1.5vh, 20px);
     background: var(--neutral-400);
     border: none;
   }
 
-  .bref-dot.upcoming .bref-dot-number { display: none; }
+  .brif-dot.upcoming .brif-dot-number { display: none; }
 
-  .bref-dot-number { display: none; }
+  .brif-dot-number { display: none; }
 
   /* ── Steps Wrapper — slide stage ─────────────── */
   /* CSS grid: all steps share grid-area "stack" so they overlay each other,
      but inactive steps still contribute to the row's intrinsic height —
      that keeps the wizard from collapsing while we slide between them. */
-  .bref-steps {
+  .brif-steps {
     position: relative;
     flex: 1;
     min-height: 0;
@@ -733,7 +733,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Steps ───────────────────────────────────── */
-  .bref-step {
+  .brif-step {
     grid-area: stack;
     display: flex;
     flex-direction: column;
@@ -744,15 +744,15 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     will-change: transform, opacity;
   }
 
-  .bref-step.is-active,
-  .bref-step.is-entering-fwd,
-  .bref-step.is-entering-back,
-  .bref-step.is-leaving-fwd,
-  .bref-step.is-leaving-back {
+  .brif-step.is-active,
+  .brif-step.is-entering-fwd,
+  .brif-step.is-entering-back,
+  .brif-step.is-leaving-fwd,
+  .brif-step.is-leaving-back {
     visibility: visible;
   }
 
-  .bref-step.is-active {
+  .brif-step.is-active {
     opacity: 1;
     pointer-events: auto;
   }
@@ -760,40 +760,40 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   /* Reactbits-style slide:
      - dir = previous - current; forward (Next) => new enters from right, old exits to left
      - duration 0.4s, ease-out feels closest to framer's default */
-  @keyframes bref-step-enter-fwd {
+  @keyframes brif-step-enter-fwd {
     from { transform: translateX(100%); opacity: 0; }
     to   { transform: translateX(0);    opacity: 1; }
   }
-  @keyframes bref-step-enter-back {
+  @keyframes brif-step-enter-back {
     from { transform: translateX(-100%); opacity: 0; }
     to   { transform: translateX(0);     opacity: 1; }
   }
-  @keyframes bref-step-leave-fwd {
+  @keyframes brif-step-leave-fwd {
     from { transform: translateX(0);    opacity: 1; }
     to   { transform: translateX(-50%); opacity: 0; }
   }
-  @keyframes bref-step-leave-back {
+  @keyframes brif-step-leave-back {
     from { transform: translateX(0);   opacity: 1; }
     to   { transform: translateX(50%); opacity: 0; }
   }
 
-  .bref-step.is-entering-fwd  { animation: bref-step-enter-fwd  0.4s ease both; }
-  .bref-step.is-entering-back { animation: bref-step-enter-back 0.4s ease both; }
-  .bref-step.is-leaving-fwd   { animation: bref-step-leave-fwd  0.4s ease both; opacity: 1; }
-  .bref-step.is-leaving-back  { animation: bref-step-leave-back 0.4s ease both; opacity: 1; }
+  .brif-step.is-entering-fwd  { animation: brif-step-enter-fwd  0.4s ease both; }
+  .brif-step.is-entering-back { animation: brif-step-enter-back 0.4s ease both; }
+  .brif-step.is-leaving-fwd   { animation: brif-step-leave-fwd  0.4s ease both; opacity: 1; }
+  .brif-step.is-leaving-back  { animation: brif-step-leave-back 0.4s ease both; opacity: 1; }
 
   @media (prefers-reduced-motion: reduce) {
-    .bref-step.is-entering-fwd,
-    .bref-step.is-entering-back,
-    .bref-step.is-leaving-fwd,
-    .bref-step.is-leaving-back {
+    .brif-step.is-entering-fwd,
+    .brif-step.is-entering-back,
+    .brif-step.is-leaving-fwd,
+    .brif-step.is-leaving-back {
       animation: none;
     }
   }
 
-  .bref-step-header { margin-bottom: clamp(16px, 2.5vh, 36px); }
+  .brif-step-header { margin-bottom: clamp(16px, 2.5vh, 36px); }
 
-  .bref-step-title {
+  .brif-step-title {
     font-family: var(--font-body);
     font-size: var(--font-size-h4);
     font-weight: 600;
@@ -803,7 +803,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     margin: 0;
   }
 
-  .bref-step-description {
+  .brif-step-description {
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     color: var(--text-dark-secondary);
@@ -812,7 +812,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Options — iOS grouped (white) ─────────── */
-  .bref-options {
+  .brif-options {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -823,12 +823,12 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     overflow: hidden;
   }
 
-  .bref-options--grid {
+  .brif-options--grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
 
-  .bref-option {
+  .brif-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -845,52 +845,52 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     outline: none;
   }
 
-  .bref-option:last-child {
+  .brif-option:last-child {
     border-bottom: none;
   }
 
-  .bref-option:hover {
+  .brif-option:hover {
     background: color-mix(in srgb, var(--primary-default) 4%, transparent);
   }
 
-  .bref-option.selected {
+  .brif-option.selected {
     background: color-mix(in srgb, var(--primary-default) 8%, transparent);
   }
 
   /* grid dividers — right border on left column */
-  .bref-options--grid .bref-option:nth-child(odd) {
+  .brif-options--grid .brif-option:nth-child(odd) {
     border-right: 1px solid var(--text-dark-divider);
   }
 
   /* grid — remove bottom border from last row */
-  .bref-options--grid .bref-option:nth-last-child(-n+2) {
+  .brif-options--grid .brif-option:nth-last-child(-n+2) {
     border-bottom: none;
   }
 
-  .bref-option-left {
+  .brif-option-left {
     display: flex;
     align-items: center;
     gap: var(--spacing-inline-gap);
   }
 
-  .bref-option-icon {
+  .brif-option-icon {
     width: clamp(24px, 2.5vw, 40px);
     height: clamp(24px, 2.5vw, 40px);
     flex-shrink: 0;
   }
 
-  .bref-option-label {
+  .brif-option-label {
     font-size: var(--font-size-body);
     font-weight: 600;
     color: var(--text-dark-primary);
   }
 
-  .bref-option--other .bref-option-label {
+  .brif-option--other .brif-option-label {
     color: var(--text-dark-tertiary);
   }
 
   /* ── "Other" inline text input ─────────────── */
-  .bref-other-input {
+  .brif-other-input {
     border: none;
     background: transparent;
     font-family: var(--font-body);
@@ -902,13 +902,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     padding: 0;
   }
 
-  .bref-other-input::placeholder {
+  .brif-other-input::placeholder {
     color: var(--text-dark-tertiary);
     font-weight: 600;
   }
 
   /* ── Radio Circle ────────────────────────────── */
-  .bref-radio {
+  .brif-radio {
     width: clamp(18px, 1.8vw, 28px);
     height: clamp(18px, 1.8vw, 28px);
     border-radius: 50%;
@@ -918,12 +918,12 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     transition: border-color 0.2s ease, background 0.2s ease;
   }
 
-  .bref-option.selected .bref-radio {
+  .brif-option.selected .brif-radio {
     border-color: var(--primary-default);
     background: var(--primary-default);
   }
 
-  .bref-option.selected .bref-radio::after {
+  .brif-option.selected .brif-radio::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -936,7 +936,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Contact Form Inputs — iOS grouped (white) ── */
-  .bref-inputs {
+  .brif-inputs {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -947,7 +947,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     overflow: hidden;
   }
 
-  .bref-input {
+  .brif-input {
     min-height: clamp(40px, 5vh, 48px);
     height: clamp(48px, 7.5vh, 72px);
     background: transparent;
@@ -963,16 +963,16 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     transition: background 0.15s ease;
   }
 
-  .bref-input-label:last-child .bref-input {
+  .brif-input-label:last-child .brif-input {
     border-bottom: none;
   }
 
-  .bref-input::placeholder {
+  .brif-input::placeholder {
     color: var(--text-dark-tertiary);
     font-weight: 500;
   }
 
-  .bref-input:focus {
+  .brif-input:focus {
     background: color-mix(in srgb, var(--primary-default) 4%, transparent);
   }
 
@@ -989,12 +989,12 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     border: 0;
   }
 
-  .bref-input-label {
+  .brif-input-label {
     display: contents;
   }
 
   /* ── Error message ─────────────────────────── */
-  .bref-error {
+  .brif-error {
     color: #d32f2f;
     font-family: var(--font-body);
     font-size: var(--font-size-caption);
@@ -1004,7 +1004,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Success State ───────────────────────────── */
-  .bref-success {
+  .brif-success {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1014,18 +1014,18 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     text-align: center;
   }
 
-  .bref-success-icon {
+  .brif-success-icon {
     width: clamp(64px, 9vh, 120px);
     height: clamp(64px, 9vh, 120px);
   }
 
-  .bref-success-text {
+  .brif-success-text {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .bref-success-title {
+  .brif-success-title {
     font-family: var(--font-body);
     font-size: var(--font-size-h4);
     font-weight: 600;
@@ -1035,7 +1035,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     margin: 0;
   }
 
-  .bref-success-description {
+  .brif-success-description {
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     color: var(--surface-card);
@@ -1045,7 +1045,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   /* ── Action Button ───────────────────────────── */
-  .bref-btn {
+  .brif-btn {
     align-self: flex-end;
     width: clamp(180px, 40%, 240px);
     height: clamp(48px, 7vh, 56px);
@@ -1062,14 +1062,14 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     flex-shrink: 0;
   }
 
-  .bref-btn:hover { opacity: 0.9; }
-  .bref-btn:active { transform: scale(0.98); }
+  .brif-btn:hover { opacity: 0.9; }
+  .brif-btn:active { transform: scale(0.98); }
 
-  .bref-btn--shifted {
+  .brif-btn--shifted {
     align-self: flex-end;
   }
 
-  .bref-btn--loading {
+  .brif-btn--loading {
     opacity: 0.6;
     pointer-events: none;
   }
@@ -1082,63 +1082,63 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     80% { transform: translateX(4px); }
   }
 
-  .bref-btn--shake { animation: shake 0.4s ease; }
+  .brif-btn--shake { animation: shake 0.4s ease; }
 
   /* ── Responsive: Tablet (768–1247px) ─────────── */
   @media (max-width: 1247px) {
-    .bref-section { padding: var(--spacing-card); }
-    .bref-left { width: 40%; }
+    .brif-section { padding: var(--spacing-card); }
+    .brif-left { width: 40%; }
   }
 
   /* ── Responsive: Mobile (<768px) ─────────────── */
   @media (max-width: 743px) {
-    .bref-section {
+    .brif-section {
       padding: var(--container-padding);
     }
 
-    .bref-wizard { flex-direction: column; }
+    .brif-wizard { flex-direction: column; }
 
-    .bref-left {
+    .brif-left {
       width: 100%;
       padding: clamp(20px, 5vw, 40px);
     }
 
-    .bref-left-content { padding: 0; }
-    .bref-mountain { display: none; }
+    .brif-left-content { padding: 0; }
+    .brif-mountain { display: none; }
 
-    .bref-right {
+    .brif-right {
       border-radius: 0 0 var(--radius-card) var(--radius-card);
       padding: var(--spacing-card);
     }
 
-    .bref-steps { margin-top: clamp(16px, 3vh, 28px); }
-    .bref-options--grid { grid-template-columns: 1fr; }
+    .brif-steps { margin-top: clamp(16px, 3vh, 28px); }
+    .brif-options--grid { grid-template-columns: 1fr; }
 
-    .bref-options--grid .bref-option:nth-child(odd) {
+    .brif-options--grid .brif-option:nth-child(odd) {
       border-right: none;
     }
 
-    .bref-options--grid .bref-option:nth-last-child(-n+2) {
+    .brif-options--grid .brif-option:nth-last-child(-n+2) {
       border-bottom: 1px solid var(--text-dark-divider);
     }
 
-    .bref-options--grid .bref-option:last-child {
+    .brif-options--grid .brif-option:last-child {
       border-bottom: none;
     }
 
-    .bref-btn {
+    .brif-btn {
       align-self: stretch;
       width: 100%;
     }
 
-    .bref-btn--shifted {
+    .brif-btn--shifted {
       align-self: stretch;
     }
 
-    .bref-dot:nth-child(2) { left: 0; }
-    .bref-dot:nth-child(3) { left: 22.5%; }
-    .bref-dot:nth-child(4) { left: 45%; }
-    .bref-dot:nth-child(5) { left: 67.5%; }
-    .bref-dot:nth-child(6) { left: 90%; }
+    .brif-dot:nth-child(2) { left: 0; }
+    .brif-dot:nth-child(3) { left: 22.5%; }
+    .brif-dot:nth-child(4) { left: 45%; }
+    .brif-dot:nth-child(5) { left: 67.5%; }
+    .brif-dot:nth-child(6) { left: 90%; }
   }
 </style>
