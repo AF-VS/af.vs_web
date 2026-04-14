@@ -1,6 +1,8 @@
 ---
 import Landing from '../../components/pages/Landing.astro';
 import { uz } from '../../i18n/uz';
+
+export const prerender = true;
 ---
 
 <Landing dict={uz} locale="uz" />

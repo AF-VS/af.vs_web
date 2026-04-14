@@ -15,9 +15,12 @@ interface Props {
 }
 
 const { dict, locale } = Astro.props;
+
+// Strip <br> tags so meta description / OG / Twitter read as plain prose.
+const description = dict.hero.title.replace(/<br\s*\/?>/gi, ' ');
 ---
 
-<Layout title="AF Venture Studio" description={dict.hero.title} lang={locale}>
+<Layout title="AF Venture Studio" description={description} lang={locale}>
   <Header dict={dict} locale={locale} />
   <main>
     <Hero dict={dict} />
