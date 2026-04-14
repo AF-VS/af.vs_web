@@ -29,6 +29,7 @@ html {
      ::-webkit rules add rounded thumb + hover for Chromium/WebKit. */
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) transparent;
+  scroll-behavior: smooth;
 }
 
 html::-webkit-scrollbar {
@@ -128,4 +129,5 @@ h1, h2, h3, h4, h5, h6 {
   [data-animate] {
     opacity: 1;
   }
+  html { scroll-behavior: auto; }
 }

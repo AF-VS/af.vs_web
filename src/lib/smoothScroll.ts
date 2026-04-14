@@ -1,11 +1,8 @@
-import Lenis from 'lenis';
+// Native smooth-scroll: `html { scroll-behavior: smooth }` + programmatic scrollIntoView.
+// Respects prefers-reduced-motion.
 
-export function initSmoothScroll(): Lenis | null {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    return null;
-  }
-
-  const lenis = new Lenis({ autoRaf: true });
+export function initSmoothScroll(): void {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   document.addEventListener('click', (event) => {
     const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[href^="#"]');
@@ -18,16 +15,14 @@ export function initSmoothScroll(): Lenis | null {
     if (!target) return;
 
     event.preventDefault();
-    lenis.scrollTo(target as HTMLElement);
+    (target as HTMLElement).scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
     history.pushState(null, '', hash);
   });
 
   if (location.hash) {
     const target = document.querySelector(location.hash);
     if (target) {
-      lenis.scrollTo(target as HTMLElement, { immediate: true });
+      (target as HTMLElement).scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   }
-
-  return lenis;
 }
