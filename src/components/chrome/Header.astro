@@ -183,12 +183,12 @@ const otherLocales = locales.filter((l) => l !== locale);
     gap: 24px;
     height: 64px;
     padding-inline: 24px;
-    background-color: rgba(6, 11, 20, 0.6);
+    background-color: var(--surface-header-glass);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-subtle);
     border-radius: 9999px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-header);
     transition: all 0.4s ease;
   }
 
@@ -271,10 +271,10 @@ const otherLocales = locales.filter((l) => l !== locale);
     top: calc(100% + 4px);
     right: 0;
     min-width: 64px;
-    background: rgba(6, 11, 20, 0.95);
+    background: var(--surface-overlay-glass);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     padding: 4px;
     opacity: 0;
@@ -301,7 +301,7 @@ const otherLocales = locales.filter((l) => l !== locale);
 
   .lang-option:hover {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--surface-lang-hover);
   }
 
   /* ── Burger button ─────────────────────────── */
@@ -349,7 +349,7 @@ const otherLocales = locales.filter((l) => l !== locale);
     bottom: 0;
     padding-top: 100px;
     z-index: 40;
-    background-color: rgba(6, 11, 20, 0.95);
+    background-color: var(--surface-overlay-glass);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     display: flex;

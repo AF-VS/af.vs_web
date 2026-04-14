@@ -133,20 +133,20 @@ const { dict, locale } = Astro.props;
     width: clamp(36px, 3vw, 52px);
     height: clamp(36px, 3vw, 52px);
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--surface-social);
     color: var(--text-subtle);
     transition: background 0.15s ease, color 0.15s ease;
   }
 
   .social-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--surface-social-hover);
     color: var(--text-primary);
   }
 
   /* -- Divider -- */
   .divider {
     border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-subtle);
     margin-block: 24px;
   }
 
