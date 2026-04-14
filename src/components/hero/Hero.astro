@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import type { Dict } from '../../i18n/en';
 import Button from '../ui/Button.astro';
+import bgImg from '../../assets/hero/bg.png';
 
 interface Props {
   dict: Dict;
@@ -27,34 +29,30 @@ const accentWords = dict.hero.accentWords ?? [];
     <Button href="#contact">{dict.hero.cta}</Button>
   </div>
 
-  <video
+  <Image
+    src={bgImg}
+    alt=""
     class="hero__mountain"
-    muted
-    playsinline
+    widths={[480, 768, 1200, 1728]}
+    sizes="(max-width: 768px) 90vw, 90vh"
+    format="webp"
+    quality={80}
+    loading="eager"
     aria-hidden="true"
-    preload="none"
-    id="heroVideo"
-  >
-    <source src="/hero/mountain.webm" type="video/webm" />
-    <source src="/hero/mountain-alpha.mp4" type="video/mp4" />
-    <source src="/hero/mountain.mp4" type="video/mp4" />
-  </video>
+  />
 </section>
-
-<script>
-  const video = document.getElementById('heroVideo') as HTMLVideoElement;
-  if (video) {
-    setTimeout(() => video.play(), 2000);
-  }
-</script>
 
 <style>
   .hero {
     position: relative;
-    margin-top: calc(-1 * var(--header-height));
-    padding-top: calc(var(--header-height) + var(--spacing-section));
-    padding-bottom: 0;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: calc(var(--header-height) + clamp(24px, 3vh, 48px));
+    padding-bottom: clamp(32px, 8vh, 120px);
+    overflow-x: clip;
+    overflow-y: visible;
   }
 
   .hero__inner {
@@ -86,16 +84,26 @@ const accentWords = dict.hero.accentWords ?? [];
 
   .hero__mountain {
     position: absolute;
-    bottom: 0;
+    bottom: -25vh;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%;
-    max-width: none;
-    height: auto;
+    height: 135vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: bottom center;
     z-index: 1;
     pointer-events: none;
     user-select: none;
-    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 55%, transparent 95%);
+    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 95%);
+  }
+
+  @media (max-width: 768px) {
+    .hero__mountain {
+      height: auto;
+      width: 90%;
+      bottom: -10vh;
+    }
   }
 </style>
