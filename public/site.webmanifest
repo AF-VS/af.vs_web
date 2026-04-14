@@ -1,0 +1,12 @@
+{
+  "name": "AF Venture Studio",
+  "short_name": "AFVS",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ],
+  "theme_color": "#060b14",
+  "background_color": "#060b14",
+  "display": "standalone",
+  "start_url": "/"
+}
