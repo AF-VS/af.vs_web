@@ -2,10 +2,10 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "strictNullChecks": true,
-    "allowJs": false,
+    "allowJs": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src/**/*", ".astro/types.d.ts"],
+  "include": ["src/**/*", ".astro/types.d.ts", "astro.config.mjs", "drizzle.config.ts"],
   "exclude": ["dist", "node_modules"]
 }

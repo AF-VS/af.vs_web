@@ -5,7 +5,7 @@ import Chip from './Chip.astro';
 interface Props {
   title: string;
   description: string;
-  tags: ReadonlyArray<string>;
+  tags: readonly string[];
   image: ImageMetadata;
   class?: string;
 }
@@ -35,19 +35,28 @@ const { title, description, tags, image, class: className } = Astro.props;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background: rgba(10, 22, 38, 0.55);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: var(--surface-card-glass);
+    /* Blur cost scales quadratically with radius. 10px keeps the glass
+       read intact over the dark background at ~6× cheaper per scroll frame. */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: none;
     border-radius: var(--radius-card);
     padding: var(--spacing-card);
+    /* Skip paint/layout work for cards outside the viewport.
+       Reserves intrinsic size so layout doesn't jump. */
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 360px;
+    /* Isolate paint: a card's expensive backdrop-filter + blend-mode
+       repaint no longer invalidates siblings. */
+    contain: layout paint style;
 
     /* Magic Bento glow driven by Services.astro mousemove controller */
     --glow-x: 50%;
     --glow-y: 50%;
     --glow-intensity: 0;
     --glow-radius: 320px;
-    --glow-color: 21, 142, 242; /* --primary-default */
+    --glow-color: var(--primary-default-rgb);
 
     transition: box-shadow 0.4s ease;
     box-shadow:
@@ -66,8 +75,8 @@ const { title, description, tags, image, class: className } = Astro.props;
     padding: 1px;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.03) 100%
+      var(--border-glass-top) 0%,
+      var(--border-glass-bottom) 100%
     );
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
@@ -90,8 +99,8 @@ const { title, description, tags, image, class: className } = Astro.props;
     padding: 2px;
     background: radial-gradient(
       var(--glow-radius) circle at var(--glow-x) var(--glow-y),
-      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.9)) 0%,
-      rgba(var(--glow-color), calc(var(--glow-intensity) * 0.5)) 30%,
+      rgba(var(--glow-color), 0.9) 0%,
+      rgba(var(--glow-color), 0.5) 30%,
       transparent 60%
     );
     -webkit-mask:
@@ -101,9 +110,12 @@ const { title, description, tags, image, class: className } = Astro.props;
     mask:
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
-    mask-composite: exclude;
     pointer-events: none;
     z-index: 3;
+    /* Gate the whole mask-composite layer on intensity so the compositor
+       skips it entirely when the glow is off (the common case during scroll). */
+    opacity: var(--glow-intensity);
+    mask-composite: exclude;
   }
 
   .card:hover .card__img :global(img) {

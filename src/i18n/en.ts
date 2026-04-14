@@ -4,12 +4,12 @@ export const en = {
   nav: {
     services: 'Services',
     cases: 'Cases',
-    bref: 'Bref',
+    brif: 'Brif',
   },
   hero: {
-    title: 'From idea to product, from product to growth',
+    title: 'From idea to product<br>From product to growth',
     cta: 'Get started',
-    accentWords: ['product', 'growth'],
+    accentWords: ['idea', 'product', 'growth'],
   },
   services: {
     build: {
@@ -40,11 +40,13 @@ export const en = {
         title: 'Memolink',
         description: 'Connecting users through an interactive social networking app',
         tags: ['web & mob', 'ui/ux design', 'growth support'],
+        image: 'case-1',
+        video: '/cases/memolink.mp4',
       },
     ],
   },
-  bref: {
-    title: 'Project Bref',
+  brif: {
+    title: 'Project Brif',
     description:
       'Share the basics of your project so we can review your goals, scope, and requirements before the first call',
     steps: {
@@ -91,7 +93,7 @@ export const en = {
     nav: [
       { label: 'Services', href: '#services' },
       { label: 'Cases', href: '#cases' },
-      { label: 'Bref', href: '#contact' },
+      { label: 'Brif', href: '#contact' },
     ],
     social: [
       { label: 'LinkedIn', href: 'https://linkedin.com' },

@@ -1,0 +1,881 @@
+---
+import type { Dict } from '../../i18n/en';
+
+import mountainImg from '../../assets/brif/mountain.webp';
+import mvpIcon from '../../assets/brif/icons/mvp.svg';
+import complexIcon from '../../assets/brif/icons/complex.svg';
+import enterpriseIcon from '../../assets/brif/icons/enterprise.svg';
+import auditIcon from '../../assets/brif/icons/audit.svg';
+import ideaIcon from '../../assets/brif/icons/idea.svg';
+import specIcon from '../../assets/brif/icons/spec.svg';
+import designIcon from '../../assets/brif/icons/design.svg';
+import websiteIcon from '../../assets/brif/icons/website.svg';
+import mobileIcon from '../../assets/brif/icons/mobile.svg';
+import webmobileIcon from '../../assets/brif/icons/webmobile.svg';
+import successIcon from '../../assets/brif/icons/success.svg';
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+
+const step1Icons = [mvpIcon, complexIcon, enterpriseIcon, auditIcon];
+const step2Icons = [ideaIcon, complexIcon, specIcon, designIcon];
+const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
+
+---
+
+<section id="contact" class="brif-section section-viewport">
+  <div class="brif-wizard" data-wizard data-label-next={dict.brif.next} data-label-send={dict.brif.send}>
+    <!-- Left Panel -->
+    <div
+      class="brif-left"
+      data-animate
+      data-animate-direction="right"
+      data-animate-distance="60px"
+      data-animate-delay="120"
+      data-animate-duration="1100"
+    >
+      <div class="brif-left-content">
+        <h2 class="brif-title">{dict.brif.title}</h2>
+        <p class="brif-description">{dict.brif.description}</p>
+      </div>
+      <img
+        src={mountainImg.src}
+        width={575}
+        height={575}
+        alt=""
+        class="brif-mountain"
+        loading="lazy"
+      />
+    </div>
+
+    <!-- Right Panel -->
+    <div
+      class="brif-right"
+      data-animate
+      data-animate-direction="left"
+      data-animate-distance="60px"
+      data-animate-delay="360"
+      data-animate-duration="1100"
+    >
+      <!-- Progress Bar -->
+      <div class="brif-progress">
+        <div class="brif-progress-track">
+          <div class="brif-progress-fill" data-progress-fill></div>
+        </div>
+        {[1, 2, 3, 4, 5].map((n) => (
+          <div
+            class={`brif-dot ${n === 1 ? 'active' : 'upcoming'}`}
+            data-dot={n}
+          >
+            <span class="brif-dot-number">{n}</span>
+          </div>
+        ))}
+      </div>
+
+      <!-- Antibot: honeypot + start time -->
+      <input
+        type="text"
+        name="website"
+        class="brif-honeypot"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
+
+      <!-- Steps wrapper — slides between steps -->
+      <div class="brif-steps" data-steps>
+      <!-- Step 1: Product Type -->
+      <div class="brif-step is-active" data-step="1">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.productType.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.productType.description}</p>
+        </div>
+        <div class="brif-options">
+          {dict.brif.steps.productType.options.map((opt, i) => (
+            <button type="button" class="brif-option" data-name="productType" data-value={opt}>
+              <span class="brif-option-left">
+                <img src={step1Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                <span class="brif-option-label">{opt}</span>
+              </span>
+              <span class="brif-radio"></span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Step 2: Readiness -->
+      <div class="brif-step" data-step="2">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.readiness.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.readiness.description}</p>
+        </div>
+        <div class="brif-options">
+          {dict.brif.steps.readiness.options.map((opt, i) => (
+            <button type="button" class="brif-option" data-name="readiness" data-value={opt}>
+              <span class="brif-option-left">
+                <img src={step2Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                <span class="brif-option-label">{opt}</span>
+              </span>
+              <span class="brif-radio"></span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Step 3: Platform -->
+      <div class="brif-step" data-step="3">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.platform.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.platform.description}</p>
+        </div>
+        <div class="brif-options">
+          {dict.brif.steps.platform.options.map((opt, i) =>
+            i === dict.brif.steps.platform.options.length - 1 ? (
+              <button type="button" class="brif-option brif-option--other" data-name="platform" data-value="Other" data-other>
+                <span class="brif-option-left">
+                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                  <input type="text" class="brif-other-input" placeholder={opt} data-other-input />
+                </span>
+                <span class="brif-radio"></span>
+              </button>
+            ) : (
+              <button type="button" class="brif-option" data-name="platform" data-value={opt}>
+                <span class="brif-option-left">
+                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                  <span class="brif-option-label">{opt}</span>
+                </span>
+                <span class="brif-radio"></span>
+              </button>
+            )
+          )}
+        </div>
+      </div>
+
+      <!-- Step 4: Industry (2-column grid, no icons) -->
+      <div class="brif-step" data-step="4">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.industry.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.industry.description}</p>
+        </div>
+        <div class="brif-options brif-options--grid">
+          {dict.brif.steps.industry.options.map((opt, i) =>
+            i === dict.brif.steps.industry.options.length - 1 ? (
+              <button type="button" class="brif-option brif-option--other" data-name="industry" data-value="Other" data-other>
+                <span class="brif-option-left">
+                  <input type="text" class="brif-other-input" placeholder={opt} data-other-input />
+                </span>
+                <span class="brif-radio"></span>
+              </button>
+            ) : (
+              <button type="button" class="brif-option" data-name="industry" data-value={opt}>
+                <span class="brif-option-left">
+                  <span class="brif-option-label">{opt}</span>
+                </span>
+                <span class="brif-radio"></span>
+              </button>
+            )
+          )}
+        </div>
+      </div>
+
+      <!-- Step 5: Contact Form -->
+      <div class="brif-step" data-step="5">
+        <div class="brif-step-header">
+          <h3 class="brif-step-title">{dict.brif.steps.contact.title}</h3>
+          <p class="brif-step-description">{dict.brif.steps.contact.description}</p>
+        </div>
+        <div class="brif-inputs">
+          <label class="brif-input-label">
+            <span class="sr-only">{dict.brif.steps.contact.name}</span>
+            <input
+              type="text"
+              class="brif-input"
+              name="name"
+              placeholder={dict.brif.steps.contact.name}
+              required
+            />
+          </label>
+          <label class="brif-input-label">
+            <span class="sr-only">{dict.brif.steps.contact.projectName}</span>
+            <input
+              type="text"
+              class="brif-input"
+              name="projectName"
+              placeholder={dict.brif.steps.contact.projectName}
+            />
+          </label>
+          <label class="brif-input-label">
+            <span class="sr-only">{dict.brif.steps.contact.email}</span>
+            <input
+              type="email"
+              class="brif-input"
+              name="email"
+              placeholder={dict.brif.steps.contact.email}
+              required
+            />
+          </label>
+          <label class="brif-input-label">
+            <span class="sr-only">{dict.brif.steps.contact.phone}</span>
+            <input
+              type="tel"
+              class="brif-input"
+              name="phone"
+              value="+998 "
+              data-phone
+            />
+          </label>
+        </div>
+        <p class="brif-error" data-brif-error aria-live="polite"></p>
+      </div>
+
+      <!-- Step 6: Success -->
+      <div class="brif-step" data-step="6">
+        <div class="brif-success">
+          <img src={successIcon.src} width={96} height={96} alt="" class="brif-success-icon" />
+          <div class="brif-success-text">
+            <h3 class="brif-success-title">{dict.brif.success.title}</h3>
+            <p class="brif-success-description">{dict.brif.success.description}</p>
+          </div>
+        </div>
+      </div>
+      </div>
+      <!-- /.brif-steps -->
+
+      <!-- Action Button -->
+      <button type="button" class="brif-btn" data-brif-btn>
+        <span data-btn-text>{dict.brif.next}</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initBrifWizard } from './wizard';
+  initBrifWizard();
+  document.addEventListener('astro:page-load', initBrifWizard);
+</script>
+
+<style>
+  /* ── Antibot honeypot ────────────────────────── */
+  .brif-honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── Section — full viewport ─────────────────── */
+  .brif-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-section);
+  }
+
+  /* ── Wizard Card — adaptive ──────────────────── */
+  .brif-wizard {
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: clamp(600px, 88vw, 1600px);
+    height: 100%;
+    max-height: clamp(520px, 78vh, 1200px);
+    min-height: clamp(420px, 55vh, 520px);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+  }
+
+  /* ── Left Panel — solid navy ─────────────────── */
+  .brif-left {
+    position: relative;
+    width: 45%;
+    flex-shrink: 0;
+    overflow: hidden;
+    background: var(--surface-card);
+  }
+
+  /* gradient border (glass edge on left panel) */
+  .brif-left::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-card) 0 0 var(--radius-card);
+    padding: 1px;
+    background: linear-gradient(
+      180deg,
+      var(--border-glass-top) 0%,
+      var(--border-glass-bottom) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .brif-left-content {
+    position: relative;
+    z-index: 1;
+    padding: 7% 8%;
+  }
+
+  .brif-title {
+    font-family: var(--font-body);
+    font-size: var(--font-size-h4);
+    font-weight: 600;
+    color: var(--text-primary);
+    letter-spacing: var(--letter-spacing-h4);
+    line-height: var(--line-height-h4);
+    margin: 0;
+  }
+
+  .brif-description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: var(--text-secondary);
+    line-height: var(--line-height-body);
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
+  }
+
+  .brif-mountain {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+
+  /* ── Right Panel — white for contrast ─────────── */
+  .brif-right {
+    position: relative;
+    flex: 1;
+    background: var(--surface-light);
+    border-radius: 0 var(--radius-card) var(--radius-card) 0;
+    padding: 7% 8%;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.5vh, 24px);
+  }
+
+  /* ── Progress Bar (percentage-based) ─────────── */
+  .brif-progress {
+    position: relative;
+    height: clamp(24px, 3.5vh, 40px);
+    width: 100%;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+
+  .brif-progress-track {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: clamp(3px, 0.4vh, 6px);
+    background: var(--surface-light-muted);
+    border-radius: clamp(1px, 0.2vh, 3px);
+    transform: translateY(-50%);
+  }
+
+  .brif-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: clamp(3px, 0.4vh, 6px);
+    background: var(--primary-default);
+    border-radius: clamp(1px, 0.2vh, 3px);
+    width: 20%;
+    transition: width 0.35s ease;
+  }
+
+  .brif-dot {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .brif-dot:nth-child(2) { left: 0; }
+  .brif-dot:nth-child(3) { left: 22.5%; }
+  .brif-dot:nth-child(4) { left: 45%; }
+  .brif-dot:nth-child(5) { left: 67.5%; }
+  .brif-dot:nth-child(6) { left: 90%; }
+
+  .brif-dot.active {
+    width: clamp(24px, 3.5vh, 40px);
+    height: clamp(24px, 3.5vh, 40px);
+    background: var(--primary-default);
+  }
+
+  .brif-dot.active .brif-dot-number {
+    display: block;
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 500;
+    color: var(--surface-light-card);
+  }
+
+  .brif-dot.completed {
+    width: clamp(12px, 1.5vh, 20px);
+    height: clamp(12px, 1.5vh, 20px);
+    background: var(--primary-default);
+    cursor: pointer;
+  }
+
+  .brif-dot.completed .brif-dot-number { display: none; }
+
+  .brif-dot.upcoming {
+    width: clamp(12px, 1.5vh, 20px);
+    height: clamp(12px, 1.5vh, 20px);
+    background: var(--neutral-400);
+    border: none;
+  }
+
+  .brif-dot.upcoming .brif-dot-number { display: none; }
+
+  .brif-dot-number { display: none; }
+
+  /* ── Steps Wrapper — slide stage ─────────────── */
+  /* CSS grid: all steps share grid-area "stack" so they overlay each other,
+     but inactive steps still contribute to the row's intrinsic height —
+     that keeps the wizard from collapsing while we slide between them. */
+  .brif-steps {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    margin-top: clamp(16px, 5%, 48px);
+    display: grid;
+    grid-template-areas: 'stack';
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* ── Steps ───────────────────────────────────── */
+  .brif-step {
+    grid-area: stack;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+
+  .brif-step.is-active,
+  .brif-step.is-entering-fwd,
+  .brif-step.is-entering-back,
+  .brif-step.is-leaving-fwd,
+  .brif-step.is-leaving-back {
+    visibility: visible;
+  }
+
+  .brif-step.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Reactbits-style slide:
+     - dir = previous - current; forward (Next) => new enters from right, old exits to left
+     - duration 0.4s, ease-out feels closest to framer's default */
+  @keyframes brif-step-enter-fwd {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+  @keyframes brif-step-enter-back {
+    from { transform: translateX(-100%); opacity: 0; }
+    to   { transform: translateX(0);     opacity: 1; }
+  }
+  @keyframes brif-step-leave-fwd {
+    from { transform: translateX(0);    opacity: 1; }
+    to   { transform: translateX(-50%); opacity: 0; }
+  }
+  @keyframes brif-step-leave-back {
+    from { transform: translateX(0);   opacity: 1; }
+    to   { transform: translateX(50%); opacity: 0; }
+  }
+
+  .brif-step.is-entering-fwd  { animation: brif-step-enter-fwd  0.4s ease both; }
+  .brif-step.is-entering-back { animation: brif-step-enter-back 0.4s ease both; }
+  .brif-step.is-leaving-fwd   { animation: brif-step-leave-fwd  0.4s ease both; opacity: 1; }
+  .brif-step.is-leaving-back  { animation: brif-step-leave-back 0.4s ease both; opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brif-step.is-entering-fwd,
+    .brif-step.is-entering-back,
+    .brif-step.is-leaving-fwd,
+    .brif-step.is-leaving-back {
+      animation: none;
+    }
+  }
+
+  .brif-step-header { margin-bottom: clamp(16px, 2.5vh, 36px); }
+
+  .brif-step-title {
+    font-family: var(--font-body);
+    font-size: var(--font-size-h4);
+    font-weight: 600;
+    color: var(--text-dark-primary);
+    letter-spacing: var(--letter-spacing-h4);
+    line-height: var(--line-height-h4);
+    margin: 0;
+  }
+
+  .brif-step-description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: var(--text-dark-secondary);
+    line-height: var(--line-height-body);
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
+  }
+
+  /* ── Options — iOS grouped (white) ─────────── */
+  .brif-options {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: var(--surface-light-card);
+    border-radius: clamp(12px, 1.5vw, 24px);
+    overflow: hidden;
+  }
+
+  .brif-options--grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brif-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: clamp(40px, 5vh, 48px);
+    height: clamp(48px, 7.5vh, 72px);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--text-dark-divider);
+    border-radius: 0;
+    padding: 0 clamp(12px, 1.5vw, 28px);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    font-family: var(--font-body);
+    outline: none;
+  }
+
+  .brif-option:last-child {
+    border-bottom: none;
+  }
+
+  .brif-option:hover {
+    background: color-mix(in srgb, var(--primary-default) 4%, transparent);
+  }
+
+  .brif-option.selected {
+    background: color-mix(in srgb, var(--primary-default) 8%, transparent);
+  }
+
+  /* grid dividers — right border on left column */
+  .brif-options--grid .brif-option:nth-child(odd) {
+    border-right: 1px solid var(--text-dark-divider);
+  }
+
+  /* grid — remove bottom border from last row */
+  .brif-options--grid .brif-option:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .brif-option-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-inline-gap);
+  }
+
+  .brif-option-icon {
+    width: clamp(24px, 2.5vw, 40px);
+    height: clamp(24px, 2.5vw, 40px);
+    flex-shrink: 0;
+  }
+
+  .brif-option-label {
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    color: var(--text-dark-primary);
+  }
+
+  .brif-option--other .brif-option-label {
+    color: var(--text-dark-tertiary);
+  }
+
+  /* ── "Other" inline text input ─────────────── */
+  .brif-other-input {
+    border: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    color: var(--text-dark-primary);
+    outline: none;
+    width: 100%;
+    padding: 0;
+  }
+
+  .brif-other-input::placeholder {
+    color: var(--text-dark-tertiary);
+    font-weight: 600;
+  }
+
+  /* ── Radio Circle ────────────────────────────── */
+  .brif-radio {
+    width: clamp(18px, 1.8vw, 28px);
+    height: clamp(18px, 1.8vw, 28px);
+    border-radius: 50%;
+    border: clamp(1.5px, 0.15vw, 3px) solid var(--neutral-400);
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .brif-option.selected .brif-radio {
+    border-color: var(--primary-default);
+    background: var(--primary-default);
+  }
+
+  .brif-option.selected .brif-radio::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: clamp(8px, 0.7vw, 14px);
+    height: clamp(8px, 0.7vw, 14px);
+    border-radius: 50%;
+    background: var(--surface-light-card);
+    transform: translate(-50%, -50%);
+  }
+
+  /* ── Contact Form Inputs — iOS grouped (white) ── */
+  .brif-inputs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    background: var(--surface-light-card);
+    border-radius: clamp(12px, 1.5vw, 24px);
+    overflow: hidden;
+  }
+
+  .brif-input {
+    min-height: clamp(40px, 5vh, 48px);
+    height: clamp(48px, 7.5vh, 72px);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--text-dark-divider);
+    border-radius: 0;
+    padding: 0 clamp(12px, 1.5vw, 28px);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 500;
+    color: var(--text-dark-primary);
+    outline: none;
+    transition: background 0.15s ease;
+  }
+
+  .brif-input-label:last-child .brif-input {
+    border-bottom: none;
+  }
+
+  .brif-input::placeholder {
+    color: var(--text-dark-tertiary);
+    font-weight: 500;
+  }
+
+  .brif-input:focus {
+    background: color-mix(in srgb, var(--primary-default) 4%, transparent);
+  }
+
+  /* ── Accessibility — screen reader only ──── */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .brif-input-label {
+    display: contents;
+  }
+
+  /* ── Error message ─────────────────────────── */
+  .brif-error {
+    color: var(--text-danger);
+    font-family: var(--font-body);
+    font-size: var(--font-size-caption);
+    line-height: var(--line-height-body);
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
+    min-height: 1.5em;
+  }
+
+  /* ── Success State ───────────────────────────── */
+  .brif-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    gap: clamp(20px, 3.5vh, 48px);
+    text-align: center;
+  }
+
+  .brif-success-icon {
+    width: clamp(64px, 9vh, 120px);
+    height: clamp(64px, 9vh, 120px);
+  }
+
+  .brif-success-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .brif-success-title {
+    font-family: var(--font-body);
+    font-size: var(--font-size-h4);
+    font-weight: 600;
+    color: var(--text-dark-primary);
+    letter-spacing: var(--letter-spacing-h4);
+    line-height: var(--line-height-h4);
+    margin: 0;
+  }
+
+  .brif-success-description {
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    color: var(--surface-card);
+    line-height: var(--line-height-body);
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
+    max-width: clamp(280px, 28vw, 460px);
+  }
+
+  /* ── Action Button ───────────────────────────── */
+  .brif-btn {
+    align-self: flex-end;
+    width: clamp(180px, 40%, 240px);
+    height: clamp(48px, 7vh, 56px);
+    background: var(--primary-default);
+    color: var(--surface-light-card);
+    border: none;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: auto;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .brif-btn:hover { opacity: 0.9; }
+  .brif-btn:active { transform: scale(0.98); }
+
+  .brif-btn--shifted {
+    align-self: flex-end;
+  }
+
+  .brif-btn--loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+  }
+
+  .brif-btn--shake { animation: shake 0.4s ease; }
+
+  /* ── Responsive: Tablet (768–1247px) ─────────── */
+  @media (max-width: 1247px) {
+    .brif-section { padding: var(--spacing-card); }
+    .brif-left { width: 40%; }
+  }
+
+  /* ── Responsive: Mobile (<768px) ─────────────── */
+  @media (max-width: 743px) {
+    .brif-section {
+      padding: var(--container-padding);
+    }
+
+    .brif-wizard { flex-direction: column; }
+
+    .brif-left {
+      width: 100%;
+      padding: clamp(20px, 5vw, 40px);
+    }
+
+    .brif-left-content { padding: 0; }
+    .brif-mountain { display: none; }
+
+    .brif-right {
+      border-radius: 0 0 var(--radius-card) var(--radius-card);
+      padding: var(--spacing-card);
+    }
+
+    .brif-steps { margin-top: clamp(16px, 3vh, 28px); }
+    .brif-options--grid { grid-template-columns: 1fr; }
+
+    .brif-options--grid .brif-option:nth-child(odd) {
+      border-right: none;
+    }
+
+    .brif-options--grid .brif-option:nth-last-child(-n+2) {
+      border-bottom: 1px solid var(--text-dark-divider);
+    }
+
+    .brif-options--grid .brif-option:last-child {
+      border-bottom: none;
+    }
+
+    .brif-btn {
+      align-self: stretch;
+      width: 100%;
+    }
+
+    .brif-btn--shifted {
+      align-self: stretch;
+    }
+
+    .brif-dot:nth-child(2) { left: 0; }
+    .brif-dot:nth-child(3) { left: 22.5%; }
+    .brif-dot:nth-child(4) { left: 45%; }
+    .brif-dot:nth-child(5) { left: 67.5%; }
+    .brif-dot:nth-child(6) { left: 90%; }
+  }
+</style>

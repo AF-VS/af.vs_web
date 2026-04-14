@@ -1,4 +1,4 @@
-export interface BrefPayload {
+export interface BrifPayload {
   productType: string;
   readinessStage: string;
   platform: string;
@@ -7,9 +7,11 @@ export interface BrefPayload {
   projectName: string;
   email: string;
   phone: string;
+  website: string;
+  startedAt: number;
 }
 
-export async function sendContact(payload: BrefPayload): Promise<void> {
+export async function sendContact(payload: BrifPayload): Promise<void> {
   const res = await fetch('/api/contact', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

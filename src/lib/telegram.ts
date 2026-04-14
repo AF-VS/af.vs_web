@@ -1,34 +1,12 @@
-interface TelegramResult {
-  ok: boolean;
-  description?: string;
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
-export async function sendTelegramMessage(text: string): Promise<void> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-
-  if (!token || !chatId) {
-    console.warn('[telegram] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set, skipping');
-    return;
-  }
-
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      parse_mode: 'HTML',
-      text,
-    }),
-  });
-
-  if (!res.ok) {
-    const body: TelegramResult = await res.json();
-    console.error('[telegram] sendMessage failed:', body.description);
-  }
-}
-
-export function formatSubmissionMessage(data: {
+export interface SubmissionPayload {
   productType: string;
   readinessStage: string;
   platform: string;
@@ -37,7 +15,9 @@ export function formatSubmissionMessage(data: {
   projectName: string;
   email: string;
   phone: string;
-}): string {
+}
+
+export function formatSubmissionMessage(data: SubmissionPayload): string {
   return [
     `<b>Новая заявка</b>`,
     ``,
@@ -53,10 +33,29 @@ export function formatSubmissionMessage(data: {
   ].join('\n');
 }
 
-function escapeHtml(str: string): string {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+export async function sendTelegramMessage(text: string): Promise<void> {
+  const token = import.meta.env.TELEGRAM_BOT_TOKEN;
+  const chatId = import.meta.env.TELEGRAM_CHAT_ID;
+
+  if (!token || !chatId) {
+    console.warn('[telegram] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set, skipping');
+    return;
+  }
+
+  let res: Response;
+  try {
+    res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, parse_mode: 'HTML', text }),
+    });
+  } catch (err) {
+    console.error('[telegram] sendMessage threw:', err);
+    return;
+  }
+
+  if (!res.ok) {
+    const body = (await res.json().catch(() => ({}))) as { description?: string };
+    console.error('[telegram] sendMessage failed:', body.description);
+  }
 }

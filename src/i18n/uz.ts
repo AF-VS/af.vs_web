@@ -4,12 +4,12 @@ export const uz: Dict = {
   nav: {
     services: 'Xizmatlar',
     cases: 'Loyihalar',
-    bref: 'Brif',
+    brif: 'Brif',
   },
   hero: {
-    title: "G'oyadan mahsulotga, mahsulotdan o'sishga",
+    title: "G'oyadan mahsulotga<br>Mahsulotdan o'sishga",
     cta: 'Boshlash',
-    accentWords: ['mahsulotga', "o'sishga"],
+    accentWords: ["G'oya", 'mahsulot', 'Mahsulot', "o'sish"],
   },
   services: {
     build: {
@@ -40,10 +40,12 @@ export const uz: Dict = {
         title: 'Memolink',
         description: "Foydalanuvchilarni interaktiv ijtimoiy tarmoq ilovasi orqali bog'lash",
         tags: ['web & mob', 'ui/ux dizayn', "o'sishni qo'llab-quvvatlash"],
+        image: 'case-1',
+        video: '/cases/memolink.mp4',
       },
     ],
   },
-  bref: {
+  brif: {
     title: 'Loyiha brifi',
     description:
       "Birinchi qo'ng'iroqdan oldin maqsadlaringiz, ko'lami va talablaringizni ko'rib chiqishimiz uchun loyihangiz haqida asosiy ma'lumotlarni ulashing",

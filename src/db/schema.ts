@@ -10,5 +10,8 @@ export const submissions = sqliteTable('submissions', {
   projectName: text('project_name'),
   email: text('email').notNull(),
   phone: text('phone'),
+  // kept as text for compatibility with existing Turso rows (ISO 8601)
   createdAt: text('created_at').notNull(),
 });
+
+export type Submission = typeof submissions.$inferInsert;

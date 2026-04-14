@@ -4,6 +4,8 @@ interface Props {
   type?: 'button' | 'submit';
   variant?: 'primary';
   glow?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
   class?: string;
 }
 
@@ -12,25 +14,36 @@ const {
   type = 'button',
   variant = 'primary',
   glow = false,
+  disabled = false,
+  loading = false,
   class: className = '',
 } = Astro.props;
-const Tag = href ? 'a' : 'button';
-const tagProps = href ? { href } : { type };
+
+const isInactive = disabled || loading;
+
+// If inactive and href is set, force a <button> so we can use the disabled attribute
+const Tag = href && !isInactive ? 'a' : 'button';
+const tagProps = href && !isInactive ? { href } : { type };
 ---
 
 <Tag
-  class:list={['btn', `btn--${variant}`, glow && 'btn--glow', className]}
-  data-glow-button={glow ? '' : undefined}
+  class:list={['btn', `btn--${variant}`, glow && !isInactive && 'btn--glow', loading && 'btn--loading', className]}
+  data-glow-button={glow && !isInactive ? '' : undefined}
+  aria-disabled={isInactive ? 'true' : undefined}
+  aria-busy={loading ? 'true' : undefined}
+  disabled={isInactive ? true : undefined}
   {...tagProps}
 >
   <span class="btn__label"><slot /></span>
-  {glow && <span class="btn__glow" aria-hidden="true" />}
+  {glow && !isInactive && <span class="btn__glow" aria-hidden="true" />}
+  {loading && <span class="btn__spinner" aria-hidden="true" />}
 </Tag>
 
 <style>
   /* @property --edge-proximity and --cursor-angle registered in tokens.css */
 
   .btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -57,11 +70,40 @@ const tagProps = href ? { href } : { type };
 
   .btn--primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(21, 142, 242, 0.25);
+    box-shadow: 0 8px 24px var(--glow-primary-soft);
   }
 
   .btn--primary:active {
     transform: translateY(0);
+  }
+
+  .btn[aria-disabled='true'],
+  .btn[disabled] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .btn--loading .btn__label {
+    visibility: hidden;
+  }
+
+  .btn__spinner {
+    /* Center via negative margin so `transform` stays free for the rotate animation. */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.25em;
+    height: 1.25em;
+    margin: -0.625em 0 0 -0.625em;
+    border: 2px solid rgba(var(--surface-bg-rgb), 0.2);
+    border-top-color: var(--surface-bg);
+    border-radius: 50%;
+    animation: btn-spin 0.7s linear infinite;
+  }
+
+  @keyframes btn-spin {
+    to { transform: rotate(360deg); }
   }
 
   .btn__label {
@@ -71,7 +113,7 @@ const tagProps = href ? { href } : { type };
 
   /* ── Border Glow (reactbits) ──────────────────── */
   .btn--glow {
-    --glow-rgb: 21, 142, 242; /* --primary-default */
+    --glow-rgb: var(--primary-default-rgb);
     --edge-proximity: 0;
     --cursor-angle: 0deg;
     --edge-sensitivity: 25;

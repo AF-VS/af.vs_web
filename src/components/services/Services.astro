@@ -138,7 +138,13 @@ const s = dict.services;
 
 <script>
   // Magic Bento — global spotlight + proximity border-glow for [data-glow-card]
-  (() => {
+  let cleanup: (() => void) | null = null;
+
+  function initBento() {
+    // Cleanup previous instance (for Astro page transitions)
+    cleanup?.();
+    cleanup = null;
+
     const section = document.querySelector<HTMLElement>('[data-bento-section]');
     if (!section) return;
 
@@ -152,7 +158,8 @@ const s = dict.services;
     const SPOTLIGHT_RADIUS = 320;
     const PROXIMITY = SPOTLIGHT_RADIUS * 0.5;
     const FADE_DISTANCE = SPOTLIGHT_RADIUS * 0.75;
-    const GLOW_COLOR = '21, 142, 242'; // --primary-default
+    const GLOW_COLOR = getComputedStyle(document.documentElement)
+      .getPropertyValue('--primary-default-rgb').trim() || '21, 142, 242';
 
     const spotlight = document.createElement('div');
     spotlight.className = 'bento-spotlight';
@@ -182,20 +189,29 @@ const s = dict.services;
     let mx = 0;
     let my = 0;
     let rafId = 0;
+    let mouseActive = false;
+    let sectionVisible = false;
+    let dirty = false;
 
     const resetAll = () => {
       spotlight.style.opacity = '0';
       for (const c of cards) c.style.setProperty('--glow-intensity', '0');
+      dirty = false;
     };
 
     const frame = () => {
       rafId = 0;
+      if (!mouseActive || !sectionVisible) {
+        if (dirty) resetAll();
+        return;
+      }
       const sr = section.getBoundingClientRect();
       const inside = mx >= sr.left && mx <= sr.right && my >= sr.top && my <= sr.bottom;
       if (!inside) {
-        resetAll();
+        if (dirty) resetAll();
         return;
       }
+      dirty = true;
 
       let minDistance = Infinity;
       for (const card of cards) {
@@ -204,10 +220,7 @@ const s = dict.services;
         const ry = ((my - r.top) / r.height) * 100;
         const cx = r.left + r.width / 2;
         const cy = r.top + r.height / 2;
-        const dist = Math.max(
-          0,
-          Math.hypot(mx - cx, my - cy) - Math.max(r.width, r.height) / 2,
-        );
+        const dist = Math.max(0, Math.hypot(mx - cx, my - cy) - Math.max(r.width, r.height) / 2);
         if (dist < minDistance) minDistance = dist;
 
         let intensity = 0;
@@ -232,20 +245,50 @@ const s = dict.services;
       spotlight.style.opacity = opacity.toFixed(3);
     };
 
+    const schedule = () => {
+      if (!rafId) rafId = requestAnimationFrame(frame);
+    };
+
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
-      if (!rafId) rafId = requestAnimationFrame(frame);
+      mouseActive = true;
+      schedule();
     };
 
     const onLeave = () => {
-      resetAll();
+      mouseActive = false;
+      if (dirty) resetAll();
     };
+
+    const onScroll = () => {
+      if (mouseActive && sectionVisible) schedule();
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) sectionVisible = entry.isIntersecting;
+        if (!sectionVisible && dirty) resetAll();
+      },
+      { rootMargin: '10% 0px' },
+    );
+    io.observe(section);
 
     document.addEventListener('mousemove', onMove, { passive: true });
     document.addEventListener('mouseleave', onLeave);
-    window.addEventListener('scroll', () => {
-      if (!rafId) rafId = requestAnimationFrame(frame);
-    }, { passive: true });
-  })();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    cleanup = () => {
+      io.disconnect();
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseleave', onLeave);
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+      spotlight.remove();
+    };
+  }
+
+  initBento();
+  document.addEventListener('astro:page-load', initBento);
+  document.addEventListener('astro:before-swap', () => cleanup?.());
 </script>

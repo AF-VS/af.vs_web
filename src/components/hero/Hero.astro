@@ -2,32 +2,28 @@
 import { Image } from 'astro:assets';
 import type { Dict } from '../../i18n/en';
 import Button from '../ui/Button.astro';
-import bgImg from '../../assets/hero/bg.png';
+import bgImg from '../../assets/hero/bg.webp';
+import { tokenizeTitle } from '../../lib/highlightAccents';
 
 interface Props {
   dict: Dict;
 }
 
 const { dict } = Astro.props;
-
-const accentWords = dict.hero.accentWords ?? [];
+const tokens = tokenizeTitle(dict.hero.title, dict.hero.accentWords ?? []);
 ---
 
 <section class="hero section-viewport">
   <div class="container hero__inner">
-    <h1
-      class="hero__title"
-      data-animate
-      data-animate-duration="1100"
-      set:html={
-        accentWords.length > 0
-          ? accentWords.reduce<string>(
-              (html, word) => html.replace(word, `<span class="accent">${word}</span>`),
-              dict.hero.title
-            )
-          : dict.hero.title
-      }
-    />
+    <h1 class="hero__title" data-animate data-animate-duration="1100">
+      {tokens.map((t) => (
+        t.text === '\n'
+          ? <br />
+          : t.accent
+            ? <span class="accent">{t.text}</span>
+            : <Fragment>{t.text}</Fragment>
+      ))}
+    </h1>
   </div>
 
   <div class="hero__cta" data-animate data-animate-delay="160" data-animate-duration="900">
@@ -87,7 +83,7 @@ const accentWords = dict.hero.accentWords ?? [];
     z-index: 2;
   }
 
-  .accent { color: var(--primary-accent); }
+  .hero__title :global(.accent) { color: var(--primary-accent); }
 
   .hero__mountain {
     position: absolute;

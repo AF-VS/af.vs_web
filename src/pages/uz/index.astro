@@ -1,21 +1,8 @@
 ---
-import Layout from '../../components/layout/Layout.astro';
-import Header from '../../components/chrome/Header.astro';
-import Hero from '../../components/hero/Hero.astro';
-import Services from '../../components/services/Services.astro';
-import Cases from '../../components/cases/Cases.astro';
-import BrefForm from '../../components/form/BrefForm.astro';
-import Footer from '../../components/chrome/Footer.astro';
+import Landing from '../../components/pages/Landing.astro';
 import { uz } from '../../i18n/uz';
+
+export const prerender = true;
 ---
 
-<Layout title="AF Venture Studio" description={uz.hero.title} lang="uz">
-  <Header dict={uz} locale="uz" />
-  <main>
-    <Hero dict={uz} />
-    <Services dict={uz} />
-    <Cases dict={uz} />
-    <BrefForm dict={uz} />
-  </main>
-  <Footer dict={uz} locale="uz" />
-</Layout>
+<Landing dict={uz} locale="uz" />
