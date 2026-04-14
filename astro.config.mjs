@@ -5,13 +5,18 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://afvs.studio',
   adapter: vercel(),
-  output: 'static',
-  integrations: [sitemap()],
+  output: 'server',
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'en',
+        locales: { en: 'en', ru: 'ru', uz: 'uz' },
+      },
+    }),
+  ],
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'ru', 'uz'],
-    routing: {
-      prefixDefaultLocale: false,
-    },
+    routing: { prefixDefaultLocale: false },
   },
 });
