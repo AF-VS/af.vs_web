@@ -81,6 +81,48 @@
   /* ── CTA Button ────────────────────────────── */
   --cta-width:  clamp(200px, 17vw, 320px);
   --cta-height: clamp(44px, 3.8vw, 68px);
+
+  /* ── RGB triplets (для rgba() с α из кода) ── */
+  --surface-bg-rgb:    6, 11, 20;
+  --surface-card-rgb:  10, 22, 38;
+  --primary-default-rgb: 21, 142, 242;
+  --primary-accent-rgb:  145, 198, 242;
+  --white-rgb: 255, 255, 255;
+
+  /* ── Glass surfaces ───────────────────────── */
+  --surface-card-glass:    rgba(var(--surface-card-rgb), 0.55);
+  --surface-header-glass:  rgba(var(--surface-bg-rgb), 0.6);
+  --surface-overlay-glass: rgba(var(--surface-bg-rgb), 0.95);
+
+  /* ── Glass borders (top-lit gradient) ────── */
+  --border-glass-top:    rgba(var(--white-rgb), 0.14);
+  --border-glass-bottom: rgba(var(--white-rgb), 0.03);
+  --border-glass-hover-top:    rgba(var(--white-rgb), 0.28);
+  --border-glass-hover-bottom: rgba(var(--white-rgb), 0.06);
+  --border-subtle: rgba(var(--white-rgb), 0.1);
+  --border-grid:   rgba(var(--white-rgb), 0.04);
+
+  /* ── Interactive surfaces ─────────────────── */
+  --surface-chip:       rgba(var(--white-rgb), 0.04);
+  --surface-chip-hover: rgba(var(--white-rgb), 0.08);
+  --surface-social:       rgba(var(--white-rgb), 0.1);
+  --surface-social-hover: rgba(var(--white-rgb), 0.2);
+  --surface-lang-hover:   rgba(var(--white-rgb), 0.05);
+  --border-chip:       rgba(var(--white-rgb), 0.15);
+  --border-chip-hover: rgba(var(--white-rgb), 0.3);
+
+  /* ── Scrollbar ────────────────────────────── */
+  --scrollbar-thumb:       rgba(var(--primary-accent-rgb), 0.3);
+  --scrollbar-thumb-hover: rgba(var(--primary-accent-rgb), 0.55);
+
+  /* ── Semantic ─────────────────────────────── */
+  --text-danger: #d32f2f;
+
+  /* ── Shadows ──────────────────────────────── */
+  --shadow-header: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --glow-primary-soft:  rgba(var(--primary-default-rgb), 0.25);
+  --glow-primary-mid:   rgba(var(--primary-default-rgb), 0.15);
+  --glow-primary-faint: rgba(var(--primary-default-rgb), 0.08);
 }
 
 /* ── Animatable custom props (used by Button border-glow intro) ── */
