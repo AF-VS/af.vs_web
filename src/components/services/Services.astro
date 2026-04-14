@@ -152,7 +152,8 @@ const s = dict.services;
     const SPOTLIGHT_RADIUS = 320;
     const PROXIMITY = SPOTLIGHT_RADIUS * 0.5;
     const FADE_DISTANCE = SPOTLIGHT_RADIUS * 0.75;
-    const GLOW_COLOR = '21, 142, 242'; // --primary-default
+    const GLOW_COLOR = getComputedStyle(document.documentElement)
+      .getPropertyValue('--primary-default-rgb').trim() || '21, 142, 242';
 
     const spotlight = document.createElement('div');
     spotlight.className = 'bento-spotlight';
