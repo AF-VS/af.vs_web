@@ -138,7 +138,13 @@ const s = dict.services;
 
 <script>
   // Magic Bento — global spotlight + proximity border-glow for [data-glow-card]
-  (() => {
+  let cleanup: (() => void) | null = null;
+
+  function initBento() {
+    // Cleanup previous instance (for Astro page transitions)
+    cleanup?.();
+    cleanup = null;
+
     const section = document.querySelector<HTMLElement>('[data-bento-section]');
     if (!section) return;
 
@@ -214,10 +220,7 @@ const s = dict.services;
         const ry = ((my - r.top) / r.height) * 100;
         const cx = r.left + r.width / 2;
         const cy = r.top + r.height / 2;
-        const dist = Math.max(
-          0,
-          Math.hypot(mx - cx, my - cy) - Math.max(r.width, r.height) / 2,
-        );
+        const dist = Math.max(0, Math.hypot(mx - cx, my - cy) - Math.max(r.width, r.height) / 2);
         if (dist < minDistance) minDistance = dist;
 
         let intensity = 0;
@@ -258,12 +261,13 @@ const s = dict.services;
       if (dirty) resetAll();
     };
 
-    // Only observe scroll while section is visible.
+    const onScroll = () => {
+      if (mouseActive && sectionVisible) schedule();
+    };
+
     const io = new IntersectionObserver(
       (entries) => {
-        for (const entry of entries) {
-          sectionVisible = entry.isIntersecting;
-        }
+        for (const entry of entries) sectionVisible = entry.isIntersecting;
         if (!sectionVisible && dirty) resetAll();
       },
       { rootMargin: '10% 0px' },
@@ -272,10 +276,19 @@ const s = dict.services;
 
     document.addEventListener('mousemove', onMove, { passive: true });
     document.addEventListener('mouseleave', onLeave);
-    // Gate scroll updates by mouse activity AND section visibility.
-    // Without this the callback forces 5× layout reflow per scroll frame.
-    window.addEventListener('scroll', () => {
-      if (mouseActive && sectionVisible) schedule();
-    }, { passive: true });
-  })();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    cleanup = () => {
+      io.disconnect();
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseleave', onLeave);
+      window.removeEventListener('scroll', onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+      spotlight.remove();
+    };
+  }
+
+  initBento();
+  document.addEventListener('astro:page-load', initBento);
+  document.addEventListener('astro:before-swap', () => cleanup?.());
 </script>
