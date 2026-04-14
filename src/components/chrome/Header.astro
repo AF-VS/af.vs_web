@@ -133,6 +133,8 @@ const otherLocales = locales.filter((l) => l !== locale);
     burger.setAttribute('aria-expanded', 'true');
     menu.classList.add('mobile-menu--open');
     menu.setAttribute('aria-hidden', 'false');
+    // Lock both html and body: iOS Safari scrolls the root, not body.
+    document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
 
     // inert everything except header
@@ -151,6 +153,7 @@ const otherLocales = locales.filter((l) => l !== locale);
     burger.setAttribute('aria-expanded', 'false');
     menu.classList.remove('mobile-menu--open');
     menu.setAttribute('aria-hidden', 'true');
+    document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
 
     document.querySelectorAll<HTMLElement>('body > *:not(header)').forEach((el) => {
