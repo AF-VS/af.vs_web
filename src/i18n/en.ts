@@ -40,6 +40,8 @@ export const en = {
         title: 'Memolink',
         description: 'Connecting users through an interactive social networking app',
         tags: ['web & mob', 'ui/ux design', 'growth support'],
+        image: 'case-1',
+        video: '/cases/memolink.mp4',
       },
     ],
   },

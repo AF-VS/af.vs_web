@@ -9,20 +9,24 @@ interface Props {
 }
 
 const { dict } = Astro.props;
-const images = [case1];
-const videos: (string | undefined)[] = [
-  '/cases/memolink.mp4',
-];
+
+const imageMap: Record<string, ImageMetadata> = {
+  'case-1': case1,
+};
 ---
 
 <CasesCarousel title={dict.cases.title}>
-  {dict.cases.items.map((item, i) => (
-    <CaseCard
-      title={item.title}
-      description={item.description}
-      tags={item.tags}
-      image={images[i]}
-      video={videos[i]}
-    />
-  ))}
+  {dict.cases.items.map((item) => {
+    const img = imageMap[item.image];
+    if (!img) return null;
+    return (
+      <CaseCard
+        title={item.title}
+        description={item.description}
+        tags={item.tags}
+        image={img}
+        video={item.video}
+      />
+    );
+  })}
 </CasesCarousel>

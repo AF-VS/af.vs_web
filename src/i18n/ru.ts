@@ -40,6 +40,8 @@ export const ru: Dict = {
         title: 'Memolink',
         description: 'Социальная платформа для интерактивного общения пользователей',
         tags: ['web & mob', 'ui/ux дизайн', 'поддержка роста'],
+        image: 'case-1',
+        video: '/cases/memolink.mp4',
       },
     ],
   },
