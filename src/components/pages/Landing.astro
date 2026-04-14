@@ -1,0 +1,29 @@
+---
+import Layout from '../layout/Layout.astro';
+import Header from '../chrome/Header.astro';
+import Hero from '../hero/Hero.astro';
+import Services from '../services/Services.astro';
+import Cases from '../cases/Cases.astro';
+import BrifForm from '../form/BrifForm.astro';
+import Footer from '../chrome/Footer.astro';
+import type { Dict } from '../../i18n/en';
+import type { Locale } from '../../lib/paths';
+
+interface Props {
+  dict: Dict;
+  locale: Locale;
+}
+
+const { dict, locale } = Astro.props;
+---
+
+<Layout title="AF Venture Studio" description={dict.hero.title} lang={locale}>
+  <Header dict={dict} locale={locale} />
+  <main>
+    <Hero dict={dict} />
+    <Services dict={dict} />
+    <Cases dict={dict} />
+    <BrifForm dict={dict} />
+  </main>
+  <Footer dict={dict} locale={locale} />
+</Layout>
