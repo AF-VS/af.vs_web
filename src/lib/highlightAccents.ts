@@ -3,11 +3,18 @@ export type AccentToken = { text: string; accent: boolean };
 // Разбивает title на токены, выделяя вхождения accentWords.
 // Безопасно: никакого HTML не производит, возвращает структуру для рендера.
 // Также распознаёт литеральный маркер "<br>" как отдельный токен переноса строки.
+// NOTE: matching is case-sensitive — accentWords must match the casing used in title.
 export function tokenizeTitle(title: string, accentWords: readonly string[]): AccentToken[] {
-  if (accentWords.length === 0) return splitByBr(title).map((t) => ({ text: t, accent: false }));
+  // Filter empty strings (would cause infinite zero-width matches in the regex)
+  // and sort longest-first so overlapping prefixes like ['idea','ideal'] match correctly.
+  const nonEmpty = accentWords
+    .filter((w) => w.length > 0)
+    .slice()
+    .sort((a, b) => b.length - a.length);
+  if (nonEmpty.length === 0) return splitByBr(title).map((t) => ({ text: t, accent: false }));
 
   // Build regex: escape each word, join with |, case-sensitive by default.
-  const escaped = accentWords.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const escaped = nonEmpty.map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   const re = new RegExp(`(${escaped.join('|')})`, 'g');
 
   const tokens: AccentToken[] = [];
