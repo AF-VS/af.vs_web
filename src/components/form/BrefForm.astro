@@ -29,7 +29,14 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 <section id="contact" class="bref-section section-viewport">
   <div class="bref-wizard" data-wizard data-label-next={dict.bref.next} data-label-send={dict.bref.send}>
     <!-- Left Panel -->
-    <div class="bref-left">
+    <div
+      class="bref-left"
+      data-animate
+      data-animate-direction="right"
+      data-animate-distance="60px"
+      data-animate-delay="120"
+      data-animate-duration="1100"
+    >
       <div class="bref-left-content">
         <h2 class="bref-title">{dict.bref.title}</h2>
         <p class="bref-description">{dict.bref.description}</p>
@@ -45,7 +52,14 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     </div>
 
     <!-- Right Panel -->
-    <div class="bref-right">
+    <div
+      class="bref-right"
+      data-animate
+      data-animate-direction="left"
+      data-animate-distance="60px"
+      data-animate-delay="360"
+      data-animate-duration="1100"
+    >
       <!-- Progress Bar -->
       <div class="bref-progress">
         <div class="bref-progress-track">

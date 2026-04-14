@@ -15,18 +15,23 @@ const accentWords = dict.hero.accentWords ?? [];
 
 <section class="hero section-viewport">
   <div class="container hero__inner">
-    <h1 class="hero__title" set:html={
-      accentWords.length > 0
-        ? accentWords.reduce<string>(
-            (html, word) => html.replace(word, `<span class="accent">${word}</span>`),
-            dict.hero.title
-          )
-        : dict.hero.title
-    } />
+    <h1
+      class="hero__title"
+      data-animate
+      data-animate-duration="1100"
+      set:html={
+        accentWords.length > 0
+          ? accentWords.reduce<string>(
+              (html, word) => html.replace(word, `<span class="accent">${word}</span>`),
+              dict.hero.title
+            )
+          : dict.hero.title
+      }
+    />
   </div>
 
-  <div class="hero__cta">
-    <Button href="#contact">{dict.hero.cta}</Button>
+  <div class="hero__cta" data-animate data-animate-delay="160" data-animate-duration="900">
+    <Button href="#contact" glow>{dict.hero.cta}</Button>
   </div>
 
   <Image
@@ -74,9 +79,11 @@ const accentWords = dict.hero.accentWords ?? [];
 
   .hero__cta {
     position: absolute;
-    bottom: clamp(32px, 4vh, 64px);
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: clamp(72px, 9vh, 140px);
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
     z-index: 2;
   }
 

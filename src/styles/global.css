@@ -71,12 +71,8 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Section viewport ────────────────────────── */
 .section-viewport {
   min-height: 100dvh;
-}
-
-@media (max-width: 743px) {
-  .section-viewport {
-    min-height: auto;
-  }
+  width: 100%;
+  padding-block: var(--spacing-section);
 }
 
 /* ── Focus-visible ───────────────────────────── */
@@ -84,4 +80,19 @@ h1, h2, h3, h4, h5, h6 {
   outline: 2px solid var(--primary-accent);
   outline-offset: 4px;
   border-radius: 4px;
+}
+
+/* ── Reveal-on-scroll ────────────────────────── */
+/* Initial hidden state. Reveal itself is driven via Web Animations API
+   (see Layout.astro) so that component-scoped `transition` rules (e.g.
+   `.card { transition: box-shadow ... }`) cannot override the reveal,
+   and final state is committed inline after animation ends. */
+[data-animate]:not(.is-revealed) {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] {
+    opacity: 1;
+  }
 }

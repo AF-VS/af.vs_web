@@ -43,5 +43,102 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://afvs.stu
   <body>
     <GlowBackground />
     <slot />
+
+    <script>
+      // Reveal-on-scroll via Web Animations API.
+      // Config via data-animate-direction (up|down|left|right), -distance, -delay, -duration.
+      // Auto-stagger: ancestor with [data-animate-stagger="<ms>"] spaces children's delays.
+      // Uses WAAPI (not CSS transitions/animations) so component-scoped CSS can't
+      // override the reveal — and commitStyles() guarantees the final visible state.
+      (() => {
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const targets = Array.from(
+          document.querySelectorAll<HTMLElement>('[data-animate]'),
+        );
+        if (!targets.length) return;
+
+        if (reduce) {
+          targets.forEach((el) => el.classList.add('is-revealed'));
+          return;
+        }
+
+        // Apply stagger delays (stagger parent sets delay for its data-animate descendants).
+        document.querySelectorAll<HTMLElement>('[data-animate-stagger]').forEach((parent) => {
+          const step = Number(parent.dataset.animateStagger) || 0;
+          if (!step) return;
+          const base = Number(parent.dataset.animateStaggerBase) || 0;
+          const kids = parent.querySelectorAll<HTMLElement>('[data-animate]');
+          kids.forEach((kid, i) => {
+            if (kid.dataset.animateDelay === undefined) {
+              kid.dataset.animateDelay = String(base + i * step);
+            }
+          });
+        });
+
+        // Initial-viewport cascade: space out DOM-ordered reveals of elements
+        // already in view on first paint so they don't all fire simultaneously.
+        const INITIAL_STEP = 140;
+        let initialIdx = 0;
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        targets.forEach((el) => {
+          if (el.dataset.animateDelay !== undefined) return;
+          const r = el.getBoundingClientRect();
+          const visible = r.top < vh && r.bottom > 0 && r.left < vw && r.right > 0;
+          if (!visible) return;
+          el.dataset.animateDelay = String(initialIdx * INITIAL_STEP);
+          initialIdx += 1;
+        });
+
+        const reveal = (el: HTMLElement) => {
+          if (el.dataset.animated === '1') return;
+          el.dataset.animated = '1';
+
+          const dir = el.dataset.animateDirection ?? 'up';
+          const dist = el.dataset.animateDistance ?? '40px';
+          const duration = Number(el.dataset.animateDuration) || 1000;
+          const delay = Number(el.dataset.animateDelay) || 0;
+
+          const tx = dir === 'left' ? dist : dir === 'right' ? `-${dist}` : '0';
+          const ty = dir === 'up' ? dist : dir === 'down' ? `-${dist}` : '0';
+
+          const anim = el.animate(
+            [
+              { opacity: 0, transform: `translate3d(${tx}, ${ty}, 0)` },
+              { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+            ],
+            {
+              duration,
+              delay,
+              easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+              fill: 'both',
+            },
+          );
+
+          anim.addEventListener('finish', () => {
+            // Bake final state into inline styles, then release the animation
+            // so the CSS class takes over (prevents flash if animation is GC'd).
+            el.classList.add('is-revealed');
+            el.style.opacity = '1';
+            el.style.transform = 'none';
+            anim.cancel();
+          });
+        };
+
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                reveal(entry.target as HTMLElement);
+                io.unobserve(entry.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.12 },
+        );
+
+        targets.forEach((el) => io.observe(el));
+      })();
+    </script>
   </body>
 </html>

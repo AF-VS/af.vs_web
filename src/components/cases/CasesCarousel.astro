@@ -8,8 +8,8 @@ const { title } = Astro.props;
 
 <section id="cases" class="cases section-viewport">
   <div class="cases__header">
-    <h2 class="cases__heading">{title}</h2>
-    <div class="cases__nav">
+    <h2 class="cases__heading" data-animate>{title}</h2>
+    <div class="cases__nav" data-animate data-animate-delay="120">
       <button type="button" class="cases__arrow" data-dir="prev" aria-label="Previous case" disabled>
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -23,7 +23,7 @@ const { title } = Astro.props;
     </div>
   </div>
 
-  <div class="cases__track" data-track>
+  <div class="cases__track" data-track data-animate-stagger="180">
     <slot />
   </div>
 </section>
@@ -34,6 +34,7 @@ const { title } = Astro.props;
     flex-direction: column;
     justify-content: center;
     overflow: clip;
+    box-sizing: border-box;
   }
 
   .cases__header {
