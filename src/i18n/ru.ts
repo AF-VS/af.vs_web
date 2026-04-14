@@ -13,22 +13,22 @@ export const ru: Dict = {
   },
   services: {
     build: {
-      title: 'Build',
+      title: 'Разработка',
       description: 'От идеи до готового к запуску продукта',
       tags: ['product discovery', 'ui/ux дизайн', 'разработка MVP', 'полный цикл'],
     },
     ai: {
-      title: 'AI',
+      title: 'ИИ',
       description: 'Практичный AI для реальных задач продукта',
       tags: ['AI-функции', 'интеграции'],
     },
     advisory: {
-      title: 'Advisory',
+      title: 'Менторство',
       description: 'Стратегическая поддержка продуктовых решений',
       tags: ['продуктовая стратегия', 'настройка процессов'],
     },
     growth: {
-      title: 'Growth',
+      title: 'Рост',
       description: 'От запуска к долгосрочному росту продукта',
       tags: ['масштабирование', 'улучшение', 'поддержка', 'итерации'],
     },
