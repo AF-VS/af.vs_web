@@ -7,9 +7,9 @@ export const en = {
     brif: 'Brif',
   },
   hero: {
-    title: 'From idea to product, from product to growth',
+    title: 'From idea to product<br>From product to growth',
     cta: 'Get started',
-    accentWords: ['product', 'growth'],
+    accentWords: ['idea', 'product', 'growth'],
   },
   services: {
     build: {

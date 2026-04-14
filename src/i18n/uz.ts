@@ -7,9 +7,9 @@ export const uz: Dict = {
     brif: 'Brif',
   },
   hero: {
-    title: "G'oyadan mahsulotga, mahsulotdan o'sishga",
+    title: "G'oyadan mahsulotga<br>Mahsulotdan o'sishga",
     cta: 'Boshlash',
-    accentWords: ['mahsulotga', "o'sishga"],
+    accentWords: ["G'oya", 'mahsulot', 'Mahsulot', "o'sish"],
   },
   services: {
     build: {

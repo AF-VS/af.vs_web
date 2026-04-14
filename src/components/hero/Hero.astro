@@ -22,7 +22,7 @@ const accentWords = dict.hero.accentWords ?? [];
       set:html={
         accentWords.length > 0
           ? accentWords.reduce<string>(
-              (html, word) => html.replace(word, `<span class="accent">${word}</span>`),
+              (html, word) => html.split(word).join(`<span class="accent">${word}</span>`),
               dict.hero.title
             )
           : dict.hero.title
@@ -87,7 +87,7 @@ const accentWords = dict.hero.accentWords ?? [];
     z-index: 2;
   }
 
-  .accent { color: var(--primary-accent); }
+  .hero__title :global(.accent) { color: var(--primary-accent); }
 
   .hero__mountain {
     position: absolute;
