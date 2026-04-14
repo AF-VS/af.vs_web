@@ -21,6 +21,9 @@ import Starfield from './Starfield.astro';
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
+    /* Isolate paint/layout so scrolling content above doesn't invalidate
+       the expensive blurred-orb layer. */
+    contain: layout paint;
   }
 
   .grid {
@@ -48,6 +51,10 @@ import Starfield from './Starfield.astro';
     background: radial-gradient(circle, var(--primary-default) 0%, transparent 70%);
     opacity: 0.35;
     filter: blur(clamp(60px, 8vw, 160px));
+    /* Promote each orb to its own compositor layer so the expensive
+       blur filter is rasterized once and composited cheaply during scroll. */
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .orb-1 { top: 5%;  left: 10%;  }

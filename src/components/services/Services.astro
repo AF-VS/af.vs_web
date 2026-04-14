@@ -182,20 +182,29 @@ const s = dict.services;
     let mx = 0;
     let my = 0;
     let rafId = 0;
+    let mouseActive = false;
+    let sectionVisible = false;
+    let dirty = false;
 
     const resetAll = () => {
       spotlight.style.opacity = '0';
       for (const c of cards) c.style.setProperty('--glow-intensity', '0');
+      dirty = false;
     };
 
     const frame = () => {
       rafId = 0;
+      if (!mouseActive || !sectionVisible) {
+        if (dirty) resetAll();
+        return;
+      }
       const sr = section.getBoundingClientRect();
       const inside = mx >= sr.left && mx <= sr.right && my >= sr.top && my <= sr.bottom;
       if (!inside) {
-        resetAll();
+        if (dirty) resetAll();
         return;
       }
+      dirty = true;
 
       let minDistance = Infinity;
       for (const card of cards) {
@@ -232,20 +241,40 @@ const s = dict.services;
       spotlight.style.opacity = opacity.toFixed(3);
     };
 
+    const schedule = () => {
+      if (!rafId) rafId = requestAnimationFrame(frame);
+    };
+
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
-      if (!rafId) rafId = requestAnimationFrame(frame);
+      mouseActive = true;
+      schedule();
     };
 
     const onLeave = () => {
-      resetAll();
+      mouseActive = false;
+      if (dirty) resetAll();
     };
+
+    // Only observe scroll while section is visible.
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          sectionVisible = entry.isIntersecting;
+        }
+        if (!sectionVisible && dirty) resetAll();
+      },
+      { rootMargin: '10% 0px' },
+    );
+    io.observe(section);
 
     document.addEventListener('mousemove', onMove, { passive: true });
     document.addEventListener('mouseleave', onLeave);
+    // Gate scroll updates by mouse activity AND section visibility.
+    // Without this the callback forces 5× layout reflow per scroll frame.
     window.addEventListener('scroll', () => {
-      if (!rafId) rafId = requestAnimationFrame(frame);
+      if (mouseActive && sectionVisible) schedule();
     }, { passive: true });
   })();
 </script>

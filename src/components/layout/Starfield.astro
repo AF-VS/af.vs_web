@@ -88,19 +88,34 @@
 
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      // Alpha-bucketing: group stars by quantized alpha so we can batch
+      // all stars in a bucket into one beginPath/fill — cuts draw cost
+      // from N fills to BUCKETS fills (~8× fewer paint ops).
+      const ALPHA_BUCKETS = 8;
+      const buckets: Path2D[] = [];
+
       const drawFrame = (t: number, scrollY: number) => {
         ctx.clearRect(0, 0, cssWidth, cssHeight);
         const range = cssHeight * PARALLAX_RANGE;
+        const halfExcess = (range - cssHeight) / 2;
+        const parallaxOffset = scrollY * PARALLAX_FACTOR;
+
+        for (let i = 0; i < ALPHA_BUCKETS; i++) buckets[i] = new Path2D();
+
         for (const star of stars) {
           const twinkle = 0.6 + 0.4 * Math.sin(t * star.twinkleSpeed * Math.PI * 2 + star.twinklePhase);
           const alpha = star.baseAlpha * twinkle;
-          let y = star.yVirtual - scrollY * PARALLAX_FACTOR;
-          y = ((y % range) + range) % range;
-          y -= (range - cssHeight) / 2;
-          ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-          ctx.beginPath();
-          ctx.arc(star.x, y, star.r, 0, Math.PI * 2);
-          ctx.fill();
+          const bucket = Math.min(ALPHA_BUCKETS - 1, (alpha * ALPHA_BUCKETS) | 0);
+          let y = star.yVirtual - parallaxOffset;
+          y = ((y % range) + range) % range - halfExcess;
+          buckets[bucket].moveTo(star.x + star.r, y);
+          buckets[bucket].arc(star.x, y, star.r, 0, Math.PI * 2);
+        }
+
+        for (let i = 0; i < ALPHA_BUCKETS; i++) {
+          const a = (i + 0.5) / ALPHA_BUCKETS;
+          ctx.fillStyle = `rgba(255,255,255,${a.toFixed(3)})`;
+          ctx.fill(buckets[i]);
         }
       };
 
@@ -122,11 +137,17 @@
         let rafId = 0;
         let running = true;
         const startTime = performance.now();
+        // Cap twinkle to ~30fps — twinkle is subtle, not worth 60fps cost.
+        const FRAME_INTERVAL_MS = 1000 / 30;
+        let lastFrameAt = 0;
 
         const loop = (now: number) => {
           if (!running) return;
-          const tSec = (now - startTime) / 1000;
-          drawFrame(tSec, window.scrollY || window.pageYOffset || 0);
+          if (now - lastFrameAt >= FRAME_INTERVAL_MS) {
+            lastFrameAt = now;
+            const tSec = (now - startTime) / 1000;
+            drawFrame(tSec, window.scrollY || window.pageYOffset || 0);
+          }
           rafId = requestAnimationFrame(loop);
         };
         rafId = requestAnimationFrame(loop);
