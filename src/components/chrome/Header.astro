@@ -71,7 +71,17 @@ const otherLocales = locales.filter((l) => l !== locale);
   </nav>
 
   <!-- Mobile overlay menu -->
-  <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
+  <div
+    class="mobile-menu"
+    id="mobile-menu"
+    data-mobile-menu
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="mobile-menu-title"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    <h2 id="mobile-menu-title" class="sr-only">Navigation</h2>
     <div class="mobile-menu__content">
       <div class="mobile-menu__links">
         <a href="#services" data-mobile-link>{dict.nav.services}</a>
@@ -99,20 +109,39 @@ const otherLocales = locales.filter((l) => l !== locale);
   const header = document.querySelector('[data-header]') as HTMLElement;
   const burger = document.querySelector('[data-burger]') as HTMLButtonElement;
   const menu = document.querySelector('[data-mobile-menu]') as HTMLElement;
-  const mobileLinks = document.querySelectorAll('[data-mobile-link]');
+  const mobileLinks = document.querySelectorAll<HTMLAnchorElement>('[data-mobile-link]');
 
   let open = false;
+  let lastFocused: HTMLElement | null = null;
 
   function onScroll() {
     header.classList.toggle('header--scrolled', window.scrollY > 10);
   }
 
-  function toggleMenu() {
-    open = !open;
-    header.classList.toggle('header--open', open);
-    burger.setAttribute('aria-expanded', String(open));
-    menu.classList.toggle('mobile-menu--open', open);
-    document.body.style.overflow = open ? 'hidden' : '';
+  function getFocusable(container: HTMLElement): HTMLElement[] {
+    return Array.from(
+      container.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    );
+  }
+
+  function openMenu() {
+    open = true;
+    lastFocused = document.activeElement as HTMLElement;
+    header.classList.add('header--open');
+    burger.setAttribute('aria-expanded', 'true');
+    menu.classList.add('mobile-menu--open');
+    menu.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    // inert everything except header
+    document.querySelectorAll<HTMLElement>('body > *:not(header)').forEach((el) => {
+      el.setAttribute('inert', '');
+    });
+
+    const first = getFocusable(menu)[0];
+    first?.focus();
   }
 
   function closeMenu() {
@@ -121,7 +150,42 @@ const otherLocales = locales.filter((l) => l !== locale);
     header.classList.remove('header--open');
     burger.setAttribute('aria-expanded', 'false');
     menu.classList.remove('mobile-menu--open');
+    menu.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+
+    document.querySelectorAll<HTMLElement>('body > *:not(header)').forEach((el) => {
+      el.removeAttribute('inert');
+    });
+
+    lastFocused?.focus();
+    lastFocused = null;
+  }
+
+  function toggleMenu() {
+    if (open) closeMenu(); else openMenu();
+  }
+
+  function onKey(e: KeyboardEvent) {
+    if (!open) return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeMenu();
+      return;
+    }
+    if (e.key === 'Tab') {
+      // Focus trap
+      const focusables = getFocusable(menu);
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -129,8 +193,9 @@ const otherLocales = locales.filter((l) => l !== locale);
 
   burger.addEventListener('click', toggleMenu);
   mobileLinks.forEach((link) => link.addEventListener('click', closeMenu));
+  document.addEventListener('keydown', onKey);
 
-  // Language dropdown
+  // Lang dropdown (unchanged)
   const langDropdown = document.querySelector('[data-lang-dropdown]');
   if (langDropdown) {
     const trigger = langDropdown.querySelector('.lang-trigger') as HTMLButtonElement;
