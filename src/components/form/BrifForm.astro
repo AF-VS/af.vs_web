@@ -256,6 +256,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   import { sendContact } from '../../lib/contact';
 
   function initBrifWizard() {
+    // Time-trap anchor — measures time from wizard-visible to submit.
+    // Resets on astro:page-load (SPA nav); fine for this single-page lander.
     const startedAt = Date.now();
 
     const wizard = document.querySelector<HTMLDivElement>('[data-wizard]');

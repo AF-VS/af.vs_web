@@ -74,7 +74,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
   }
 
-  // Antibot: time-trap — слишком быстрая отправка
+  // Antibot: time-trap — слишком быстрая отправка.
+  // Best-effort: startedAt is client-supplied; real abuse defence is checkRateLimit above.
   const elapsed = Date.now() - data.startedAt;
   if (elapsed < MIN_FILL_TIME_MS) {
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
