@@ -35,12 +35,12 @@
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
 
   /* ── Font sizes ────────────────────────────── */
-  --font-size-h1:      62px;
-  --font-size-h2:      48px;
-  --font-size-h4:      32px;
-  --font-size-h5:      26px;
-  --font-size-body:    16px;
-  --font-size-caption: 14px;
+  --font-size-h1:      clamp(36px, 4.2vw, 86px);
+  --font-size-h2:      clamp(28px, 3.2vw, 66px);
+  --font-size-h4:      clamp(22px, 2.2vw, 44px);
+  --font-size-h5:      clamp(18px, 1.8vw, 36px);
+  --font-size-body:    clamp(14px, 1.1vw, 20px);
+  --font-size-caption: clamp(12px, 0.95vw, 18px);
 
   /* ── Line heights ──────────────────────────── */
   --line-height-h1:      1;
@@ -57,24 +57,41 @@
   --letter-spacing-h5: -1px;
 
   /* ── Radii ─────────────────────────────────── */
-  --radius-card: 32px;
+  --radius-card: clamp(16px, 2.2vw, 40px);
   --radius-pill: 999px;
 
   /* ── Card ──────────────────────────────────── */
   --card-padding: 24px;
   --card-border-width: 2px;
 
-  /* ── Container (mobile → desktop) ──────────── */
-  --container-max-desktop: 1200px;
-  --container-max-laptop:  936px;
-  --container-padding-desktop: 120px;
-  --container-padding-laptop:  24px;
-  --container-padding-mobile:  16px;
+  /* ── Container ─────────────────────────────── */
+  --container-padding: clamp(16px, 5vw, 200px);
+
+  /* ── Spacing ───────────────────────────────── */
+  --spacing-section: clamp(24px, 3.2vw, 64px);
+  --spacing-card:    clamp(16px, 2.2vw, 40px);
+  --spacing-grid:       clamp(16px, 2.5vw, 48px);
+  --spacing-text-gap:   clamp(4px, 0.4vw, 8px);
+  --spacing-tags-gap:   clamp(6px, 0.6vw, 12px) clamp(12px, 1.2vw, 24px);
+  --spacing-inline-gap: clamp(6px, 0.55vw, 10px);
 
   /* ── Header ────────────────────────────────── */
-  --header-height: 96px;
+  --header-height: clamp(64px, 6.5vw, 120px);
 
   /* ── CTA Button ────────────────────────────── */
-  --cta-width:  256px;
-  --cta-height: 56px;
+  --cta-width:  clamp(200px, 17vw, 320px);
+  --cta-height: clamp(44px, 3.8vw, 68px);
+}
+
+/* ── Animatable custom props (used by Button border-glow intro) ── */
+@property --edge-proximity {
+  syntax: '<number>';
+  initial-value: 0;
+  inherits: true;
+}
+
+@property --cursor-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: true;
 }

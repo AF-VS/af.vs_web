@@ -26,10 +26,17 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
 ---
 
-<section id="contact" class="bref-section">
+<section id="contact" class="bref-section section-viewport">
   <div class="bref-wizard" data-wizard data-label-next={dict.bref.next} data-label-send={dict.bref.send}>
     <!-- Left Panel -->
-    <div class="bref-left">
+    <div
+      class="bref-left"
+      data-animate
+      data-animate-direction="right"
+      data-animate-distance="60px"
+      data-animate-delay="120"
+      data-animate-duration="1100"
+    >
       <div class="bref-left-content">
         <h2 class="bref-title">{dict.bref.title}</h2>
         <p class="bref-description">{dict.bref.description}</p>
@@ -45,7 +52,14 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     </div>
 
     <!-- Right Panel -->
-    <div class="bref-right">
+    <div
+      class="bref-right"
+      data-animate
+      data-animate-direction="left"
+      data-animate-distance="60px"
+      data-animate-delay="360"
+      data-animate-duration="1100"
+    >
       <!-- Progress Bar -->
       <div class="bref-progress">
         <div class="bref-progress-track">
@@ -61,8 +75,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
         ))}
       </div>
 
+      <!-- Steps wrapper — slides between steps -->
+      <div class="bref-steps" data-steps>
       <!-- Step 1: Product Type -->
-      <div class="bref-step active" data-step="1">
+      <div class="bref-step is-active" data-step="1">
         <div class="bref-step-header">
           <h3 class="bref-step-title">{dict.bref.steps.productType.title}</h3>
           <p class="bref-step-description">{dict.bref.steps.productType.description}</p>
@@ -215,6 +231,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
           </div>
         </div>
       </div>
+      </div>
+      <!-- /.bref-steps -->
 
       <!-- Action Button -->
       <button type="button" class="bref-btn" data-bref-btn>
@@ -232,6 +250,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     if (!wizard) return;
 
     let currentStep = 1;
+    let previousStep = 1;
     const totalSteps = 6;
     const selections: Record<string, string> = {};
 
@@ -242,13 +261,60 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     const steps = wizard.querySelectorAll<HTMLDivElement>('[data-step]');
 
     const fillPercents = [20, 42.7, 66.6, 87.3, 100];
+    const ANIM_CLASSES = [
+      'is-entering-fwd',
+      'is-entering-back',
+      'is-leaving-fwd',
+      'is-leaving-back',
+    ];
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function updateUI() {
-      // Update steps visibility
+      // Direction: +1 forward, -1 back, 0 = no change (initial paint)
+      const dir =
+        currentStep > previousStep ? 1 : currentStep < previousStep ? -1 : 0;
+
+      // Update steps visibility with direction-aware slide animation
       steps.forEach((s) => {
         const stepNum = parseInt(s.dataset.step || '0', 10);
-        s.classList.toggle('active', stepNum === currentStep);
+        ANIM_CLASSES.forEach((c) => s.classList.remove(c));
+
+        if (stepNum === currentStep) {
+          s.classList.add('is-active');
+          if (dir !== 0 && !prefersReducedMotion) {
+            s.classList.add(dir > 0 ? 'is-entering-fwd' : 'is-entering-back');
+          }
+        } else if (
+          stepNum === previousStep &&
+          previousStep !== currentStep &&
+          !prefersReducedMotion
+        ) {
+          s.classList.remove('is-active');
+          s.classList.add(dir > 0 ? 'is-leaving-fwd' : 'is-leaving-back');
+        } else {
+          s.classList.remove('is-active');
+        }
       });
+
+      // Strip animation modifiers once the entering step finishes
+      if (dir !== 0 && !prefersReducedMotion) {
+        const entering = wizard!.querySelector<HTMLDivElement>(
+          '.bref-step.is-entering-fwd, .bref-step.is-entering-back'
+        );
+        if (entering) {
+          entering.addEventListener(
+            'animationend',
+            () => {
+              steps.forEach((s) => {
+                ANIM_CLASSES.forEach((c) => s.classList.remove(c));
+              });
+            },
+            { once: true }
+          );
+        }
+      }
+
+      previousStep = currentStep;
 
       // Update progress fill
       const progressEl = wizard!.querySelector<HTMLDivElement>('.bref-progress');
@@ -467,11 +533,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 <style>
   /* ── Section — full viewport ─────────────────── */
   .bref-section {
-    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 48px;
+    padding: var(--spacing-section);
   }
 
   /* ── Wizard Card — adaptive ──────────────────── */
@@ -479,10 +544,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     position: relative;
     display: flex;
     width: 100%;
-    max-width: 1200px;
+    max-width: clamp(600px, 88vw, 1600px);
     height: 100%;
-    max-height: 720px;
-    min-height: 520px;
+    max-height: clamp(520px, 78vh, 1200px);
+    min-height: clamp(420px, 55vh, 520px);
     border-radius: var(--radius-card);
     overflow: hidden;
   }
@@ -530,10 +595,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   .bref-title {
     font-family: var(--font-body);
-    font-size: clamp(24px, 2.2vw, var(--font-size-h4));
+    font-size: var(--font-size-h4);
     font-weight: 600;
     color: var(--text-primary);
-    letter-spacing: -0.32px;
+    letter-spacing: var(--letter-spacing-h4);
     line-height: var(--line-height-h4);
     margin: 0;
   }
@@ -543,7 +608,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-size: var(--font-size-body);
     color: var(--text-secondary);
     line-height: var(--line-height-body);
-    margin: 8px 0 0;
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
   }
 
   .bref-mountain {
@@ -567,12 +632,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     padding: 7% 8%;
     display: flex;
     flex-direction: column;
+    gap: clamp(12px, 1.5vh, 24px);
   }
 
   /* ── Progress Bar (percentage-based) ─────────── */
   .bref-progress {
     position: relative;
-    height: 32px;
+    height: clamp(24px, 3.5vh, 40px);
     width: 100%;
     margin: 0 auto;
     flex-shrink: 0;
@@ -583,9 +649,9 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     top: 50%;
     left: 0;
     width: 100%;
-    height: 4px;
+    height: clamp(3px, 0.4vh, 6px);
     background: var(--surface-light-muted);
-    border-radius: 2px;
+    border-radius: clamp(1px, 0.2vh, 3px);
     transform: translateY(-50%);
   }
 
@@ -593,9 +659,9 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     position: absolute;
     top: 0;
     left: 0;
-    height: 4px;
+    height: clamp(3px, 0.4vh, 6px);
     background: var(--primary-default);
-    border-radius: 2px;
+    border-radius: clamp(1px, 0.2vh, 3px);
     width: 20%;
     transition: width 0.35s ease;
   }
@@ -618,8 +684,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-dot:nth-child(6) { left: 90%; }
 
   .bref-dot.active {
-    width: 32px;
-    height: 32px;
+    width: clamp(24px, 3.5vh, 40px);
+    height: clamp(24px, 3.5vh, 40px);
     background: var(--primary-default);
   }
 
@@ -632,8 +698,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   .bref-dot.completed {
-    width: 16px;
-    height: 16px;
+    width: clamp(12px, 1.5vh, 20px);
+    height: clamp(12px, 1.5vh, 20px);
     background: var(--primary-default);
     cursor: pointer;
   }
@@ -641,8 +707,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-dot.completed .bref-dot-number { display: none; }
 
   .bref-dot.upcoming {
-    width: 16px;
-    height: 16px;
+    width: clamp(12px, 1.5vh, 20px);
+    height: clamp(12px, 1.5vh, 20px);
     background: var(--neutral-400);
     border: none;
   }
@@ -651,24 +717,88 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   .bref-dot-number { display: none; }
 
-  /* ── Steps ───────────────────────────────────── */
-  .bref-step {
-    display: none;
-    flex-direction: column;
+  /* ── Steps Wrapper — slide stage ─────────────── */
+  /* CSS grid: all steps share grid-area "stack" so they overlay each other,
+     but inactive steps still contribute to the row's intrinsic height —
+     that keeps the wizard from collapsing while we slide between them. */
+  .bref-steps {
+    position: relative;
     flex: 1;
+    min-height: 0;
+    overflow: hidden;
     margin-top: clamp(16px, 5%, 48px);
+    display: grid;
+    grid-template-areas: 'stack';
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .bref-step.active { display: flex; }
+  /* ── Steps ───────────────────────────────────── */
+  .bref-step {
+    grid-area: stack;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
 
-  .bref-step-header { margin-bottom: 24px; }
+  .bref-step.is-active,
+  .bref-step.is-entering-fwd,
+  .bref-step.is-entering-back,
+  .bref-step.is-leaving-fwd,
+  .bref-step.is-leaving-back {
+    visibility: visible;
+  }
+
+  .bref-step.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Reactbits-style slide:
+     - dir = previous - current; forward (Next) => new enters from right, old exits to left
+     - duration 0.4s, ease-out feels closest to framer's default */
+  @keyframes bref-step-enter-fwd {
+    from { transform: translateX(100%); opacity: 0; }
+    to   { transform: translateX(0);    opacity: 1; }
+  }
+  @keyframes bref-step-enter-back {
+    from { transform: translateX(-100%); opacity: 0; }
+    to   { transform: translateX(0);     opacity: 1; }
+  }
+  @keyframes bref-step-leave-fwd {
+    from { transform: translateX(0);    opacity: 1; }
+    to   { transform: translateX(-50%); opacity: 0; }
+  }
+  @keyframes bref-step-leave-back {
+    from { transform: translateX(0);   opacity: 1; }
+    to   { transform: translateX(50%); opacity: 0; }
+  }
+
+  .bref-step.is-entering-fwd  { animation: bref-step-enter-fwd  0.4s ease both; }
+  .bref-step.is-entering-back { animation: bref-step-enter-back 0.4s ease both; }
+  .bref-step.is-leaving-fwd   { animation: bref-step-leave-fwd  0.4s ease both; opacity: 1; }
+  .bref-step.is-leaving-back  { animation: bref-step-leave-back 0.4s ease both; opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bref-step.is-entering-fwd,
+    .bref-step.is-entering-back,
+    .bref-step.is-leaving-fwd,
+    .bref-step.is-leaving-back {
+      animation: none;
+    }
+  }
+
+  .bref-step-header { margin-bottom: clamp(16px, 2.5vh, 36px); }
 
   .bref-step-title {
     font-family: var(--font-body);
     font-size: var(--font-size-h4);
     font-weight: 600;
     color: var(--text-dark-primary);
-    letter-spacing: -0.32px;
+    letter-spacing: var(--letter-spacing-h4);
     line-height: var(--line-height-h4);
     margin: 0;
   }
@@ -678,7 +808,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-size: var(--font-size-body);
     color: var(--text-dark-secondary);
     line-height: var(--line-height-body);
-    margin: 8px 0 0;
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
   }
 
   /* ── Options — iOS grouped (white) ─────────── */
@@ -689,7 +819,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     max-width: 100%;
     margin: 0 auto;
     background: var(--surface-light-card);
-    border-radius: 20px;
+    border-radius: clamp(12px, 1.5vw, 24px);
     overflow: hidden;
   }
 
@@ -702,13 +832,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 48px;
-    height: clamp(48px, 7vh, 56px);
+    min-height: clamp(40px, 5vh, 48px);
+    height: clamp(48px, 7.5vh, 72px);
     background: transparent;
     border: none;
     border-bottom: 1px solid var(--text-dark-divider);
     border-radius: 0;
-    padding: 0 20px;
+    padding: 0 clamp(12px, 1.5vw, 28px);
     cursor: pointer;
     transition: background 0.15s ease;
     font-family: var(--font-body);
@@ -740,12 +870,12 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-option-left {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--spacing-inline-gap);
   }
 
   .bref-option-icon {
-    width: 32px;
-    height: 32px;
+    width: clamp(24px, 2.5vw, 40px);
+    height: clamp(24px, 2.5vw, 40px);
     flex-shrink: 0;
   }
 
@@ -779,10 +909,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   /* ── Radio Circle ────────────────────────────── */
   .bref-radio {
-    width: 24px;
-    height: 24px;
+    width: clamp(18px, 1.8vw, 28px);
+    height: clamp(18px, 1.8vw, 28px);
     border-radius: 50%;
-    border: 2px solid var(--neutral-400);
+    border: clamp(1.5px, 0.15vw, 3px) solid var(--neutral-400);
     flex-shrink: 0;
     position: relative;
     transition: border-color 0.2s ease, background 0.2s ease;
@@ -798,8 +928,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 10px;
-    height: 10px;
+    width: clamp(8px, 0.7vw, 14px);
+    height: clamp(8px, 0.7vw, 14px);
     border-radius: 50%;
     background: var(--surface-light-card);
     transform: translate(-50%, -50%);
@@ -813,18 +943,18 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     max-width: 100%;
     margin: 0 auto;
     background: var(--surface-light-card);
-    border-radius: 20px;
+    border-radius: clamp(12px, 1.5vw, 24px);
     overflow: hidden;
   }
 
   .bref-input {
-    min-height: 48px;
-    height: clamp(48px, 7vh, 56px);
+    min-height: clamp(40px, 5vh, 48px);
+    height: clamp(48px, 7.5vh, 72px);
     background: transparent;
     border: none;
     border-bottom: 1px solid var(--text-dark-divider);
     border-radius: 0;
-    padding: 0 20px;
+    padding: 0 clamp(12px, 1.5vw, 28px);
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     font-weight: 500;
@@ -833,7 +963,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     transition: background 0.15s ease;
   }
 
-  .bref-input:last-child {
+  .bref-input-label:last-child .bref-input {
     border-bottom: none;
   }
 
@@ -869,7 +999,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-family: var(--font-body);
     font-size: var(--font-size-caption);
     line-height: var(--line-height-body);
-    margin: 8px 0 0;
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
     min-height: 1.5em;
   }
 
@@ -880,13 +1010,13 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     align-items: center;
     justify-content: center;
     flex: 1;
-    gap: 32px;
+    gap: clamp(20px, 3.5vh, 48px);
     text-align: center;
   }
 
   .bref-success-icon {
-    width: 96px;
-    height: 96px;
+    width: clamp(64px, 9vh, 120px);
+    height: clamp(64px, 9vh, 120px);
   }
 
   .bref-success-text {
@@ -897,11 +1027,11 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   .bref-success-title {
     font-family: var(--font-body);
-    font-size: 28px;
+    font-size: var(--font-size-h4);
     font-weight: 600;
     color: var(--text-dark-primary);
-    letter-spacing: -0.14px;
-    line-height: 1.4;
+    letter-spacing: var(--letter-spacing-h4);
+    line-height: var(--line-height-h4);
     margin: 0;
   }
 
@@ -910,8 +1040,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-size: var(--font-size-body);
     color: var(--surface-card);
     line-height: var(--line-height-body);
-    margin: 8px 0 0;
-    max-width: 366px;
+    margin: clamp(6px, 0.8vh, 12px) 0 0;
+    max-width: clamp(280px, 28vw, 460px);
   }
 
   /* ── Action Button ───────────────────────────── */
@@ -936,8 +1066,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .bref-btn:active { transform: scale(0.98); }
 
   .bref-btn--shifted {
-    align-self: center;
-    margin-left: 48px;
+    align-self: flex-end;
   }
 
   .bref-btn--loading {
@@ -957,23 +1086,21 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   /* ── Responsive: Tablet (768–1247px) ─────────── */
   @media (max-width: 1247px) {
-    .bref-section { padding: 32px 24px; }
+    .bref-section { padding: var(--spacing-card); }
     .bref-left { width: 40%; }
   }
 
   /* ── Responsive: Mobile (<768px) ─────────────── */
-  @media (max-width: 767px) {
+  @media (max-width: 743px) {
     .bref-section {
-      height: auto;
-      min-height: 100vh;
-      padding: 24px 16px;
+      padding: var(--container-padding);
     }
 
     .bref-wizard { flex-direction: column; }
 
     .bref-left {
       width: 100%;
-      padding: 32px;
+      padding: clamp(20px, 5vw, 40px);
     }
 
     .bref-left-content { padding: 0; }
@@ -981,10 +1108,10 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
     .bref-right {
       border-radius: 0 0 var(--radius-card) var(--radius-card);
-      padding: 24px;
+      padding: var(--spacing-card);
     }
 
-    .bref-step { margin-top: 24px; }
+    .bref-steps { margin-top: clamp(16px, 3vh, 28px); }
     .bref-options--grid { grid-template-columns: 1fr; }
 
     .bref-options--grid .bref-option:nth-child(odd) {
@@ -999,8 +1126,6 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       border-bottom: none;
     }
 
-    .bref-step-title { font-size: 24px; }
-
     .bref-btn {
       align-self: stretch;
       width: 100%;
@@ -1008,7 +1133,6 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
     .bref-btn--shifted {
       align-self: stretch;
-      margin-left: 0;
     }
 
     .bref-dot:nth-child(2) { left: 0; }

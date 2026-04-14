@@ -12,7 +12,7 @@ interface Props {
 const { title, description, tags, image, video } = Astro.props;
 ---
 
-<article class="case">
+<article class="case" data-animate>
   <div class="case__photo">
     <Image
       src={image}
@@ -48,7 +48,7 @@ const { title, description, tags, image, video } = Astro.props;
 <style>
   .case {
     flex: 0 0 auto;
-    width: min(85vw, 560px);
+    width: min(85vw, clamp(400px, 38vw, 720px));
     border-radius: var(--radius-card);
     overflow: hidden;
     background: rgba(10, 22, 38, 0.55);
@@ -57,8 +57,8 @@ const { title, description, tags, image, video } = Astro.props;
     border: none;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: var(--card-padding);
+    gap: var(--spacing-card);
+    padding: var(--spacing-card);
     scroll-snap-align: start;
     position: relative;
     transition: box-shadow 0.4s ease;
@@ -105,9 +105,9 @@ const { title, description, tags, image, video } = Astro.props;
 
   .case__photo {
     position: relative;
-    height: 380px;
+    height: clamp(240px, 26vw, 480px);
     overflow: hidden;
-    border-radius: 22px;
+    border-radius: var(--radius-card);
   }
 
   .case__image {
@@ -152,7 +152,7 @@ const { title, description, tags, image, video } = Astro.props;
 
   .case__meta {
     display: flex;
-    gap: 32px;
+    gap: var(--spacing-card);
     align-items: center;
   }
 

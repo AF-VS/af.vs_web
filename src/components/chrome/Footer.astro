@@ -84,8 +84,8 @@ const { dict, locale } = Astro.props;
   .footer {
     width: 100vw;
     margin-left: calc(50% - 50vw);
-    padding-block: 48px;
-    margin-top: 96px;
+    padding-block: var(--spacing-section);
+    margin-top: calc(var(--spacing-section) * 1.5);
     background: var(--surface-card);
   }
 
@@ -103,7 +103,7 @@ const { dict, locale } = Astro.props;
     gap: 16px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 744px) {
     .top {
       flex-direction: row;
       align-items: center;
@@ -113,7 +113,7 @@ const { dict, locale } = Astro.props;
 
   .brand {
     font-family: var(--font-display);
-    font-size: 20px;
+    font-size: var(--font-size-body);
     font-weight: 700;
     letter-spacing: 1.4px;
     text-transform: uppercase;
@@ -130,8 +130,8 @@ const { dict, locale } = Astro.props;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: clamp(36px, 3vw, 52px);
+    height: clamp(36px, 3vw, 52px);
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     color: var(--text-subtle);
@@ -159,7 +159,7 @@ const { dict, locale } = Astro.props;
     gap: 16px;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 744px) {
     .bottom {
       flex-direction: row;
       align-items: center;

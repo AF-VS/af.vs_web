@@ -1,0 +1,53 @@
+---
+/**
+ * Wraps content in a reveal-on-scroll container.
+ *
+ * The actual reveal logic lives globally in `Layout.astro` (IntersectionObserver)
+ * and `global.css` (`[data-animate]` rules). This component is just sugar around
+ * those data attributes so consumers get typed props and sensible defaults.
+ *
+ * For inline usage (e.g. to avoid an extra wrapper element) you can apply the
+ * same `data-animate` / `data-animate-*` attributes directly on any element.
+ */
+
+type Direction = 'up' | 'down' | 'left' | 'right';
+
+interface Props {
+  /** HTML tag used for the wrapper. Defaults to `div`. */
+  as?: keyof HTMLElementTagNameMap;
+  /** Slide direction on reveal. Defaults to `up`. */
+  direction?: Direction;
+  /** Slide distance, in px or any CSS length. Defaults to `40px`. */
+  distance?: string;
+  /** Delay before animation starts, in ms. */
+  delay?: number;
+  /** Animation duration, in ms. */
+  duration?: number;
+  /** Stagger delay (ms) applied to descendant `[data-animate]` children. */
+  stagger?: number;
+  /** Forward additional CSS classes to the wrapper. */
+  class?: string;
+}
+
+const {
+  as: Tag = 'div',
+  direction = 'up',
+  distance = '40px',
+  delay,
+  duration,
+  stagger,
+  class: className,
+} = Astro.props as Props;
+---
+
+<Tag
+  class={className}
+  data-animate
+  data-animate-direction={direction}
+  data-animate-distance={distance}
+  data-animate-delay={delay !== undefined ? String(delay) : undefined}
+  data-animate-duration={duration !== undefined ? String(duration) : undefined}
+  data-animate-stagger={stagger !== undefined ? String(stagger) : undefined}
+>
+  <slot />
+</Tag>

@@ -15,8 +15,8 @@ const { dict } = Astro.props;
 const s = dict.services;
 ---
 
-<section id="services" class="services">
-  <div class="grid">
+<section id="services" class="services section-viewport" data-bento-section>
+  <div class="grid" data-bento-grid data-animate-stagger="250" data-animate-stagger-base="100">
     <ServiceCard
       class="card--build"
       title={s.build.title}
@@ -53,57 +53,55 @@ const s = dict.services;
 
 <style>
   .services {
-    height: 100dvh;
-    padding: 48px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     box-sizing: border-box;
   }
 
-  /* ── Grid ─────────────────────────────────────── */
   .grid {
     display: grid;
-    gap: 24px;
+    gap: var(--spacing-grid);
     grid-template-columns: 1fr;
-    height: 100%;
-    padding-inline: var(--container-padding-mobile);
+    flex: 1;
+    padding-inline: var(--container-padding);
   }
 
-  /* ── Card image positioning ───────────────────── */
+  /* ── Card image positioning (% values adapt to card size) ── */
   .grid :global(.card--build) {
-    --img-right: -5%;
+    --img-right: 0;
     --img-top: 50%;
-    --img-width: 55%;
+    --img-width: 64%;
+    --img-height: 84%;
     --img-translate: 0 -50%;
     --img-mask: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 25%, black 55%);
   }
 
   .grid :global(.card--ai) {
-    --img-left: 50%;
-    --img-top: 40%;
-    --img-width: 75%;
+    --img-left: 64%;
+    --img-top: 27%;
+    --img-width: 77%;
     --img-translate: -50% -50%;
     --img-rotate: -170.43deg;
   }
 
   .grid :global(.card--advisory) {
-    --img-left: 50%;
-    --img-top: 40%;
-    --img-width: 80%;
+    --img-left: 57%;
+    --img-top: 19%;
+    --img-width: 95%;
     --img-translate: -50% -50%;
   }
 
   .grid :global(.card--growth) {
     --img-left: 50%;
-    --img-top: 42%;
-    --img-width: 85%;
+    --img-top: 44%;
+    --img-width: 100%;
     --img-translate: -50% -50%;
   }
 
-  /* ── Tablet (2 columns) ──────────────────────── */
-  @media (min-width: 768px) {
+  @media (min-width: 744px) {
     .grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 32px;
-      padding-inline: var(--container-padding-laptop);
     }
 
     .grid :global(.card--build) {
@@ -111,13 +109,10 @@ const s = dict.services;
     }
   }
 
-  /* ── Desktop (asymmetric 3 columns) ──────────── */
   @media (min-width: 1248px) {
     .grid {
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: 1fr 1fr;
-      gap: 48px;
-      padding-inline: var(--container-padding-desktop);
+      grid-template-rows: repeat(2, minmax(clamp(220px, 20vw, 36vh), 1fr));
     }
 
     .grid :global(.card--build) {
@@ -140,3 +135,117 @@ const s = dict.services;
     }
   }
 </style>
+
+<script>
+  // Magic Bento — global spotlight + proximity border-glow for [data-glow-card]
+  (() => {
+    const section = document.querySelector<HTMLElement>('[data-bento-section]');
+    if (!section) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    if (reduceMotion || !hasHover) return;
+
+    const cards = Array.from(section.querySelectorAll<HTMLElement>('[data-glow-card]'));
+    if (!cards.length) return;
+
+    const SPOTLIGHT_RADIUS = 320;
+    const PROXIMITY = SPOTLIGHT_RADIUS * 0.5;
+    const FADE_DISTANCE = SPOTLIGHT_RADIUS * 0.75;
+    const GLOW_COLOR = '21, 142, 242'; // --primary-default
+
+    const spotlight = document.createElement('div');
+    spotlight.className = 'bento-spotlight';
+    spotlight.style.cssText = `
+      position: fixed;
+      width: 800px;
+      height: 800px;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle,
+        rgba(${GLOW_COLOR}, 0.14) 0%,
+        rgba(${GLOW_COLOR}, 0.08) 15%,
+        rgba(${GLOW_COLOR}, 0.04) 25%,
+        rgba(${GLOW_COLOR}, 0.02) 40%,
+        transparent 70%);
+      z-index: 1;
+      opacity: 0;
+      left: 0;
+      top: 0;
+      transform: translate3d(-50%, -50%, 0);
+      mix-blend-mode: screen;
+      will-change: transform, opacity;
+      transition: opacity 0.35s ease;
+    `;
+    document.body.appendChild(spotlight);
+
+    let mx = 0;
+    let my = 0;
+    let rafId = 0;
+
+    const resetAll = () => {
+      spotlight.style.opacity = '0';
+      for (const c of cards) c.style.setProperty('--glow-intensity', '0');
+    };
+
+    const frame = () => {
+      rafId = 0;
+      const sr = section.getBoundingClientRect();
+      const inside = mx >= sr.left && mx <= sr.right && my >= sr.top && my <= sr.bottom;
+      if (!inside) {
+        resetAll();
+        return;
+      }
+
+      let minDistance = Infinity;
+      for (const card of cards) {
+        const r = card.getBoundingClientRect();
+        const rx = ((mx - r.left) / r.width) * 100;
+        const ry = ((my - r.top) / r.height) * 100;
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dist = Math.max(
+          0,
+          Math.hypot(mx - cx, my - cy) - Math.max(r.width, r.height) / 2,
+        );
+        if (dist < minDistance) minDistance = dist;
+
+        let intensity = 0;
+        if (dist <= PROXIMITY) intensity = 1;
+        else if (dist <= FADE_DISTANCE) {
+          intensity = (FADE_DISTANCE - dist) / (FADE_DISTANCE - PROXIMITY);
+        }
+
+        card.style.setProperty('--glow-x', `${rx}%`);
+        card.style.setProperty('--glow-y', `${ry}%`);
+        card.style.setProperty('--glow-intensity', intensity.toFixed(3));
+        card.style.setProperty('--glow-radius', `${SPOTLIGHT_RADIUS}px`);
+      }
+
+      spotlight.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+      const opacity =
+        minDistance <= PROXIMITY
+          ? 0.85
+          : minDistance <= FADE_DISTANCE
+            ? ((FADE_DISTANCE - minDistance) / (FADE_DISTANCE - PROXIMITY)) * 0.85
+            : 0;
+      spotlight.style.opacity = opacity.toFixed(3);
+    };
+
+    const onMove = (e: MouseEvent) => {
+      mx = e.clientX;
+      my = e.clientY;
+      if (!rafId) rafId = requestAnimationFrame(frame);
+    };
+
+    const onLeave = () => {
+      resetAll();
+    };
+
+    document.addEventListener('mousemove', onMove, { passive: true });
+    document.addEventListener('mouseleave', onLeave);
+    window.addEventListener('scroll', () => {
+      if (!rafId) rafId = requestAnimationFrame(frame);
+    }, { passive: true });
+  })();
+</script>
