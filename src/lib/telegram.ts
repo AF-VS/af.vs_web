@@ -42,11 +42,17 @@ export async function sendTelegramMessage(text: string): Promise<void> {
     return;
   }
 
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: chatId, parse_mode: 'HTML', text }),
-  });
+  let res: Response;
+  try {
+    res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: chatId, parse_mode: 'HTML', text }),
+    });
+  } catch (err) {
+    console.error('[telegram] sendMessage threw:', err);
+    return;
+  }
 
   if (!res.ok) {
     const body = (await res.json().catch(() => ({}))) as { description?: string };

@@ -1,9 +1,5 @@
 import { z } from 'zod';
 
-export const PRODUCT_TYPES = ['MVP', 'Complex solution', 'Enterprise software', 'Audit & Refactoring',
-  'Сложное решение', 'Корпоративное ПО', 'Аудит и рефакторинг',
-  'Murakkab yechim', 'Korporativ dastur', 'Audit va refaktoring'] as const;
-
 export const contactSchema = z.object({
   productType: z.string().min(1).max(80),
   readinessStage: z.string().min(1).max(80),

@@ -4,6 +4,7 @@ import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 
 let limiter: Ratelimit | null = null;
+let warnedDisabled = false;
 
 function getLimiter(): Ratelimit | null {
   if (limiter) return limiter;
@@ -21,12 +22,29 @@ function getLimiter(): Ratelimit | null {
   return limiter;
 }
 
+/**
+ * Check rate limit for a given IP address.
+ *
+ * Fail-open policy: if Upstash env vars are missing, or if the Upstash call
+ * fails due to a transient outage, the function returns `{ success: true }` so
+ * real users are never 500-ed. A warning is logged once per process when env
+ * vars are absent; errors on transient failures are logged on every occurrence
+ * so ops can notice an outage.
+ */
 export async function checkRateLimit(ip: string): Promise<{ success: boolean; retryAfter?: number }> {
   const rl = getLimiter();
   if (!rl) {
-    console.warn('[rate-limit] Upstash not configured, fail-open');
+    if (!warnedDisabled) {
+      console.warn('[rate-limit] DISABLED — UPSTASH_REDIS_REST_URL/TOKEN missing, all requests will pass through');
+      warnedDisabled = true;
+    }
     return { success: true };
   }
-  const { success, reset } = await rl.limit(ip);
-  return { success, retryAfter: success ? undefined : Math.ceil((reset - Date.now()) / 1000) };
+  try {
+    const { success, reset } = await rl.limit(ip);
+    return { success, retryAfter: success ? undefined : Math.ceil((reset - Date.now()) / 1000) };
+  } catch (err) {
+    console.error('[rate-limit] Upstash call failed, fail-open:', err);
+    return { success: true };
+  }
 }
