@@ -7,6 +7,8 @@ export interface BrifPayload {
   projectName: string;
   email: string;
   phone: string;
+  website: string;
+  startedAt: number;
 }
 
 export async function sendContact(payload: BrifPayload): Promise<void> {

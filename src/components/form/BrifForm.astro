@@ -75,6 +75,16 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
         ))}
       </div>
 
+      <!-- Antibot: honeypot + start time -->
+      <input
+        type="text"
+        name="website"
+        class="brif-honeypot"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
+
       <!-- Steps wrapper — slides between steps -->
       <div class="brif-steps" data-steps>
       <!-- Step 1: Product Type -->
@@ -246,6 +256,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   import { sendContact } from '../../lib/contact';
 
   function initBrifWizard() {
+    const startedAt = Date.now();
+
     const wizard = document.querySelector<HTMLDivElement>('[data-wizard]');
     if (!wizard) return;
 
@@ -426,6 +438,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
           const emailVal = wizard.querySelector<HTMLInputElement>('input[name="email"]')?.value.trim() || '';
           const phoneVal = wizard.querySelector<HTMLInputElement>('input[name="phone"]')?.value.trim() || '';
 
+          const honeypot = wizard.querySelector<HTMLInputElement>('input[name="website"]')?.value || '';
+
           btn?.classList.add('brif-btn--loading');
 
           sendContact({
@@ -437,6 +451,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
             projectName: projectVal,
             email: emailVal,
             phone: phoneVal,
+            website: honeypot,
+            startedAt,
           })
             .then(() => {
               currentStep = 6;
@@ -531,6 +547,17 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 </script>
 
 <style>
+  /* ── Antibot honeypot ────────────────────────── */
+  .brif-honeypot {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
   /* ── Section — full viewport ─────────────────── */
   .brif-section {
     display: flex;
