@@ -3,19 +3,33 @@ interface Props {
   href?: string;
   type?: 'button' | 'submit';
   variant?: 'primary';
+  glow?: boolean;
   class?: string;
 }
 
-const { href, type = 'button', variant = 'primary', class: className = '' } = Astro.props;
+const {
+  href,
+  type = 'button',
+  variant = 'primary',
+  glow = false,
+  class: className = '',
+} = Astro.props;
 const Tag = href ? 'a' : 'button';
 const tagProps = href ? { href } : { type };
 ---
 
-<Tag class:list={['btn', `btn--${variant}`, className]} {...tagProps}>
-  <slot />
+<Tag
+  class:list={['btn', `btn--${variant}`, glow && 'btn--glow', className]}
+  data-glow-button={glow ? '' : undefined}
+  {...tagProps}
+>
+  <span class="btn__label"><slot /></span>
+  {glow && <span class="btn__glow" aria-hidden="true" />}
 </Tag>
 
 <style>
+  /* @property --edge-proximity and --cursor-angle registered in tokens.css */
+
   .btn {
     display: inline-flex;
     align-items: center;
@@ -30,7 +44,10 @@ const tagProps = href ? { href } : { type };
     line-height: var(--line-height-body);
     text-decoration: none;
     cursor: pointer;
-    transition: transform 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+    transition:
+      transform 0.15s ease,
+      background-color 0.15s ease,
+      box-shadow 0.15s ease;
   }
 
   .btn--primary {
@@ -46,4 +63,178 @@ const tagProps = href ? { href } : { type };
   .btn--primary:active {
     transform: translateY(0);
   }
+
+  .btn__label {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ── Border Glow (reactbits) ──────────────────── */
+  .btn--glow {
+    --glow-rgb: 21, 142, 242; /* --primary-default */
+    --edge-proximity: 0;
+    --cursor-angle: 0deg;
+    --edge-sensitivity: 25;
+    --color-sensitivity: 40;
+    --cone-spread: 22;
+    --glow-padding: clamp(16px, 1.6vw, 28px);
+
+    position: relative;
+    isolation: isolate;
+    transform: translate3d(0, 0, 0.01px);
+    animation: btn-glow-intro 2.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s 1 both;
+  }
+
+  /* Border sweep (mesh gradient masked to a cone around cursor) */
+  .btn--glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 6px solid transparent;
+    background:
+      linear-gradient(var(--surface-white) 0 100%) padding-box,
+      radial-gradient(at 75% 30%, rgba(var(--glow-rgb), 0.95) 0, transparent 55%) border-box,
+      radial-gradient(at 25% 70%, rgba(var(--glow-rgb), 0.85) 0, transparent 55%) border-box,
+      radial-gradient(at 50% 50%, rgba(var(--glow-rgb), 0.7) 0, transparent 60%) border-box,
+      linear-gradient(rgba(var(--glow-rgb), 0.55) 0 100%) border-box;
+    opacity: calc(
+      (var(--edge-proximity) - var(--color-sensitivity)) /
+        (100 - var(--color-sensitivity))
+    );
+    -webkit-mask-image: conic-gradient(
+      from var(--cursor-angle) at center,
+      black calc(var(--cone-spread) * 1%),
+      transparent calc((var(--cone-spread) + 15) * 1%),
+      transparent calc((100 - var(--cone-spread) - 15) * 1%),
+      black calc((100 - var(--cone-spread)) * 1%)
+    );
+    mask-image: conic-gradient(
+      from var(--cursor-angle) at center,
+      black calc(var(--cone-spread) * 1%),
+      transparent calc((var(--cone-spread) + 15) * 1%),
+      transparent calc((100 - var(--cone-spread) - 15) * 1%),
+      black calc((100 - var(--cone-spread)) * 1%)
+    );
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.25s ease-out;
+  }
+
+  /* Outer halo container — extended past the button, cone-masked */
+  .btn__glow {
+    position: absolute;
+    inset: calc(var(--glow-padding) * -1);
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+    opacity: calc(
+      (var(--edge-proximity) - var(--edge-sensitivity)) /
+        (100 - var(--edge-sensitivity))
+    );
+    -webkit-mask-image: conic-gradient(
+      from var(--cursor-angle) at center,
+      black 2.5%,
+      transparent 10%,
+      transparent 90%,
+      black 97.5%
+    );
+    mask-image: conic-gradient(
+      from var(--cursor-angle) at center,
+      black 2.5%,
+      transparent 10%,
+      transparent 90%,
+      black 97.5%
+    );
+    mix-blend-mode: plus-lighter;
+    transition: opacity 0.25s ease-out;
+  }
+
+  /* Inner ring that radiates the glow via layered box-shadows */
+  .btn__glow::before {
+    content: '';
+    position: absolute;
+    inset: var(--glow-padding);
+    border-radius: inherit;
+    box-shadow:
+      inset 0 0 0 1px rgba(var(--glow-rgb), 0.9),
+      inset 0 0 3px 0 rgba(var(--glow-rgb), 0.5),
+      inset 0 0 10px 0 rgba(var(--glow-rgb), 0.3),
+      0 0 1px 0 rgba(var(--glow-rgb), 0.7),
+      0 0 3px 0 rgba(var(--glow-rgb), 0.5),
+      0 0 8px 0 rgba(var(--glow-rgb), 0.35),
+      0 0 20px 2px rgba(var(--glow-rgb), 0.25),
+      0 0 40px 4px rgba(var(--glow-rgb), 0.12);
+  }
+
+  /* Intro sweep — runs once on load */
+  @keyframes btn-glow-intro {
+    0%   { --edge-proximity: 0;   --cursor-angle: 0deg;   }
+    15%  { --edge-proximity: 100;                         }
+    85%  { --edge-proximity: 100; --cursor-angle: 360deg; }
+    100% { --edge-proximity: 0;   --cursor-angle: 360deg; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .btn--glow { animation: none; }
+  }
 </style>
+
+<script>
+  // Border Glow — per-button pointer tracking
+  (() => {
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
+    if (prefersReduced) return;
+
+    const buttons = document.querySelectorAll<HTMLElement>('[data-glow-button]');
+    if (!buttons.length) return;
+
+    for (const btn of Array.from(buttons)) {
+      let rafId = 0;
+      let nextProximity = 0;
+      let nextAngle = 0;
+
+      const flush = () => {
+        rafId = 0;
+        btn.style.setProperty('--edge-proximity', nextProximity.toFixed(2));
+        btn.style.setProperty('--cursor-angle', `${nextAngle.toFixed(2)}deg`);
+      };
+
+      const onMove = (e: PointerEvent) => {
+        const r = btn.getBoundingClientRect();
+        const cx = r.left + r.width / 2;
+        const cy = r.top + r.height / 2;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+
+        // Cursor angle: 0deg = top, sweeping clockwise
+        nextAngle = ((Math.atan2(dy, dx) * 180) / Math.PI + 90 + 360) % 360;
+
+        // Edge proximity: 0 at center, 100 at edge (using L∞ distance for pill)
+        const nx = dx / (r.width / 2);
+        const ny = dy / (r.height / 2);
+        const normalized = Math.min(1, Math.max(Math.abs(nx), Math.abs(ny)));
+        nextProximity = normalized * 100;
+
+        if (!rafId) rafId = requestAnimationFrame(flush);
+      };
+
+      const onLeave = () => {
+        btn.style.removeProperty('--edge-proximity');
+        btn.style.removeProperty('--cursor-angle');
+      };
+
+      // Cancel one-shot intro animation on first interaction so JS can own the vars
+      const killIntro = () => {
+        btn.style.animation = 'none';
+        btn.removeEventListener('pointerenter', killIntro);
+      };
+
+      btn.addEventListener('pointerenter', killIntro);
+      btn.addEventListener('pointermove', onMove);
+      btn.addEventListener('pointerleave', onLeave);
+    }
+  })();
+</script>

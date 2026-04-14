@@ -82,3 +82,16 @@
   --cta-width:  clamp(200px, 17vw, 320px);
   --cta-height: clamp(44px, 3.8vw, 68px);
 }
+
+/* ── Animatable custom props (used by Button border-glow intro) ── */
+@property --edge-proximity {
+  syntax: '<number>';
+  initial-value: 0;
+  inherits: true;
+}
+
+@property --cursor-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: true;
+}
