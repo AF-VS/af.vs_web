@@ -587,7 +587,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     width: 45%;
     flex-shrink: 0;
     overflow: hidden;
-    background: rgba(10, 22, 38, 0.55);
+    background: var(--surface-card-glass);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
   }
@@ -601,8 +601,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     padding: 1px;
     background: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.14) 0%,
-      rgba(255, 255, 255, 0.03) 100%
+      var(--border-glass-top) 0%,
+      var(--border-glass-bottom) 100%
     );
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
@@ -1024,7 +1024,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
   /* ── Error message ─────────────────────────── */
   .brif-error {
-    color: #d32f2f;
+    color: var(--text-danger);
     font-family: var(--font-body);
     font-size: var(--font-size-caption);
     line-height: var(--line-height-body);
