@@ -39,7 +39,7 @@
 | 21 | Drizzle без миграций | 🟡 | 2 | 6 |
 | 22 | Mobile menu без dialog/focus-trap | 🟡 | 5 | 1 |
 | 23 | Слабая валидация на сервере (`MAX_FIELD_LEN=500`) | 🟡 | 2 | 2, 5 |
-| 24 | `created_at` как `text`, а не integer timestamp | 🟡 | 2 | 1, 5 |
+| 24 | `created_at` как `text`, а не integer timestamp | 🟡 | 2 | ⚠️ осознанно оставлен text: существующие данные в Turso делают миграцию типа рискованной; ISO-строки сортируются лексикографически |
 | 25 | Дубликат `.vercel` в `.gitignore` | 🟡 | 1 | 5 |
 | 26 | Services scroll listener без `astro:page-load` | 🟢 | 5 | 2 |
 | 27 | Lenis (~12 KB gzip) только ради smooth scroll | 🟢 | 4 | 6 |
