@@ -17,6 +17,39 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-size-adjust: 100%;
+  /* Prevent fixed/absolute overflow (e.g. Services cursor spotlight)
+     from triggering a page-level horizontal scrollbar.
+     `clip` — modern browsers, doesn't create a scroll container so it
+     plays nice with Lenis smooth scroll and `position: sticky`.
+     `hidden` — fallback for older Safari (<16). */
+  overflow-x: hidden;
+  overflow-x: clip;
+
+  /* Branded thin scrollbar. Standard props cover Firefox + recent Chrome/Safari;
+     ::-webkit rules add rounded thumb + hover for Chromium/WebKit. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(145, 198, 242, 0.3) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: rgba(145, 198, 242, 0.3);
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background-clip: padding-box;
+  transition: background-color 0.2s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(145, 198, 242, 0.55);
 }
 
 body {

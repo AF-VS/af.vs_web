@@ -45,6 +45,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://afvs.stu
     <slot />
 
     <script>
+      import { initSmoothScroll } from '../../lib/smoothScroll';
+      initSmoothScroll();
+    </script>
+
+    <script>
       // Reveal-on-scroll via Web Animations API.
       // Config via data-animate-direction (up|down|left|right), -distance, -delay, -duration.
       // Auto-stagger: ancestor with [data-animate-stagger="<ms>"] spaces children's delays.
