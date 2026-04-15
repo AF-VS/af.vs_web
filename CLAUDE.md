@@ -22,6 +22,9 @@
 - TypeScript strict, `any` запрещён, `interface` для props.
 - Mobile-first CSS. Брейкпоинты через `min-width`, значения — из `DESIGN.md`.
 - Именование: `PascalCase` для компонентов и файлов компонентов.
+- Метаданные страниц (`<title>`, meta description, OG, Twitter) строятся через `src/lib/seoMeta.ts` из `dict.seo.*`. Хардкодить `<title>` или `<meta>` в шаблонах запрещено — добавляй ключи в `src/i18n/{en,ru,uz}.ts` и расширяй `buildHomeMeta` / соседние builder'ы.
+- JSON-LD структурированные данные генерируются только через хелперы в `src/lib/schema.ts` (`organizationSchema`, `websiteSchema`, и т.д.). Инлайнить `<script type="application/ld+json">` с сырыми литералами в компонентах — нельзя. Кросс-ссылки — через `@id`-фрагменты.
+- Канонический origin задаётся один раз в `astro.config.mjs` (поле `site`). В `.astro`-шаблонах использовать `Astro.site!`, в серверных роутах (`src/pages/api/*.ts`) — `SITE_URL` из `src/lib/site.ts`. Не хардкодить `https://afvs.dev` в строках.
 - Изображения из Figma (`figma.com/api/mcp/asset/...`) живут 7 дней → скачивать в `src/assets/`.
 - Все видимые тексты — из `DESIGN.md` (source of truth — Figma).
 

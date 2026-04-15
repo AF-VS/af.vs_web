@@ -3,14 +3,14 @@ import { getDb } from '../../db/client';
 import { submissions } from '../../db/schema';
 import { contactSchema } from '../../lib/contactSchema';
 import { checkRateLimit } from '../../lib/rateLimit';
+import { SITE_URL } from '../../lib/site';
 import { sendTelegramMessage, formatSubmissionMessage } from '../../lib/telegram';
 
 export const prerender = false;
 
-const ALLOWED_ORIGINS = new Set([
-  'https://afvs.dev',
-  'https://www.afvs.dev',
-]);
+const SITE_ORIGIN = new URL(SITE_URL).origin;
+const WWW_ORIGIN = SITE_ORIGIN.replace('://', '://www.');
+const ALLOWED_ORIGINS = new Set([SITE_ORIGIN, WWW_ORIGIN]);
 
 const MIN_FILL_TIME_MS = 3000;
 
