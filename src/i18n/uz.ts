@@ -39,6 +39,7 @@ export const uz: Dict = {
       {
         title: 'Memolink',
         description: "Foydalanuvchilarni interaktiv ijtimoiy tarmoq ilovasi orqali bog'lash",
+        imageAlt: "Memolink — ijtimoiy tarmoq ilovasi interfeysi ko'rinishi",
         tags: ['web & mob', 'ui/ux dizayn', "o'sishni qo'llab-quvvatlash"],
         image: 'case-1',
         video: '/cases/memolink.mp4',

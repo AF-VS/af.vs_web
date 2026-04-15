@@ -15,7 +15,7 @@ const { title, description, tags, image, class: className } = Astro.props;
 
 <article class:list={['card', className]} data-glow-card data-animate>
   <div class="card__img">
-    <Image src={image} alt="" loading="lazy" widths={[368, 502, 736]} sizes="(min-width: 1248px) 502px, (min-width: 768px) 50vw, 100vw" />
+    <Image src={image} alt="" aria-hidden="true" loading="lazy" widths={[368, 502, 736]} sizes="(min-width: 1248px) 502px, (min-width: 768px) 50vw, 100vw" />
   </div>
 
   <div class="card__body">

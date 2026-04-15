@@ -4,19 +4,20 @@ import { Image } from 'astro:assets';
 interface Props {
   title: string;
   description: string;
+  imageAlt: string;
   tags: readonly string[];
   image: ImageMetadata;
   video?: string;
 }
 
-const { title, description, tags, image, video } = Astro.props;
+const { title, description, imageAlt, tags, image, video } = Astro.props;
 ---
 
 <article class="case" data-animate>
   <div class="case__photo">
     <Image
       src={image}
-      alt=""
+      alt={imageAlt}
       class="case__image"
       widths={[320, 472, 640]}
       sizes="(min-width: 1248px) 472px, 80vw"
