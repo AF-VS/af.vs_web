@@ -90,7 +90,7 @@ const tokens = tokenizeTitle(dict.hero.title, dict.hero.accentWords ?? []);
     bottom: -25vh;
     left: 50%;
     transform: translateX(-50%);
-    height: 135vh;
+    height: 133vh;
     width: auto;
     max-width: 100%;
     object-fit: contain;
@@ -105,8 +105,21 @@ const tokens = tokenizeTitle(dict.hero.title, dict.hero.accentWords ?? []);
   @media (max-width: 768px) {
     .hero__mountain {
       height: auto;
-      width: 90%;
+      width: 89%;
       bottom: -10vh;
+    }
+  }
+
+  @media (max-width: 743px) {
+    .hero__title {
+      max-width: 18ch;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .hero__title {
+      font-size: 30px;
+      letter-spacing: -1.2px;
     }
   }
 </style>

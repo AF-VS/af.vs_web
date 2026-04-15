@@ -502,6 +502,37 @@ const otherLocales = locales.filter((l) => l !== locale);
     text-underline-offset: 4px;
   }
 
+  /* ── Mobile: compact header, burger hugs right edge ── */
+  @media (max-width: 743px) {
+    .header {
+      top: 12px;
+      width: calc(100% - 24px);
+    }
+
+    .header__inner {
+      grid-template-columns: 1fr auto;
+      height: 52px;
+      gap: 12px;
+      padding-inline: 18px 8px;
+    }
+
+    .brand {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+    }
+
+    .burger {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+    }
+
+    .burger__icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
   /* ── Desktop breakpoint ────────────────────── */
   @media (min-width: 744px) {
     .nav-center {

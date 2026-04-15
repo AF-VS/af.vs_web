@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets';
+import Chip from '../ui/Chip.astro';
 
 interface Props {
   title: string;
@@ -35,9 +36,7 @@ const { title, description, imageAlt, tags, image, video } = Astro.props;
   </div>
 
   <div class="case__tags">
-    {tags.map((tag) => (
-      <span class="case__chip">{tag}</span>
-    ))}
+    {tags.map((tag) => <Chip label={tag} />)}
   </div>
 
   <div class="case__meta">
@@ -133,22 +132,8 @@ const { title, description, imageAlt, tags, image, video } = Astro.props;
 
   .case__tags {
     display: flex;
-    gap: 16px;
+    gap: var(--spacing-tags-gap);
     flex-wrap: wrap;
-  }
-
-  .case__chip {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 16px;
-    border: 1px solid var(--text-secondary);
-    border-radius: var(--radius-pill);
-    font-family: var(--font-body);
-    font-size: var(--font-size-caption);
-    font-weight: 500;
-    line-height: var(--line-height-caption);
-    color: var(--text-secondary);
-    white-space: nowrap;
   }
 
   .case__meta {

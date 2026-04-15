@@ -65,7 +65,7 @@
   --card-border-width: 2px;
 
   /* ── Container ─────────────────────────────── */
-  --container-padding: clamp(16px, 5vw, 200px);
+  --container-padding: clamp(20px, 5vw, 200px);
 
   /* ── Spacing ───────────────────────────────── */
   --spacing-section: clamp(24px, 3.2vw, 64px);

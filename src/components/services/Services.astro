@@ -68,13 +68,15 @@ const s = dict.services;
   }
 
   /* ── Card image positioning (% values adapt to card size) ── */
+  /* Masks fade images in regions where title/tags sit, preserving text legibility
+     at every breakpoint. Image stays fully visible only in its "own" zone. */
   .grid :global(.card--build) {
     --img-right: 0;
     --img-top: 50%;
     --img-width: 64%;
     --img-height: 84%;
     --img-translate: 0 -50%;
-    --img-mask: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 25%, black 55%);
+    --img-mask: linear-gradient(to right, transparent 0%, transparent 45%, rgba(0,0,0,0.35) 62%, black 82%);
   }
 
   .grid :global(.card--ai) {
@@ -83,6 +85,7 @@ const s = dict.services;
     --img-width: 77%;
     --img-translate: -50% -50%;
     --img-rotate: -170.43deg;
+    --img-mask: radial-gradient(ellipse at 80% 25%, black 0%, rgba(0,0,0,0.4) 45%, transparent 70%);
   }
 
   .grid :global(.card--advisory) {
@@ -90,13 +93,82 @@ const s = dict.services;
     --img-top: 19%;
     --img-width: 95%;
     --img-translate: -50% -50%;
+    --img-mask: radial-gradient(ellipse at 70% 20%, black 0%, rgba(0,0,0,0.4) 45%, transparent 72%);
   }
 
   .grid :global(.card--growth) {
     --img-left: 50%;
-    --img-top: 44%;
+    --img-top: 40%;
     --img-width: 100%;
     --img-translate: -50% -50%;
+    --img-mask: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.4) 45%, transparent 65%);
+  }
+
+  /* ── Mobile image layout ────────────────────────
+     On phones each card stacks as a full-width column with text at the
+     bottom, so the image occupies the top half of the card. Masks are
+     gentler and image sizes larger — the desktop "image-to-right"
+     composition doesn't serve the narrow stacked card. */
+  @media (max-width: 743px) {
+    .grid :global(.card__img) :global(img) {
+      opacity: 0.8;
+    }
+
+    .grid :global(.card--build) {
+      --img-right: auto;
+      --img-left: 50%;
+      --img-top: 32%;
+      --img-width: 92%;
+      --img-height: auto;
+      --img-translate: -50% -50%;
+      --img-mask: linear-gradient(to bottom, black 0%, black 42%, rgba(0,0,0,0.4) 65%, transparent 88%);
+    }
+
+    .grid :global(.card--ai) {
+      --img-left: 50%;
+      --img-top: 32%;
+      --img-width: 82%;
+      --img-translate: -50% -50%;
+      --img-mask: linear-gradient(to bottom, black 0%, black 42%, rgba(0,0,0,0.4) 65%, transparent 88%);
+    }
+
+    .grid :global(.card--advisory) {
+      --img-left: 50%;
+      --img-top: 32%;
+      --img-width: 82%;
+      --img-translate: -50% -50%;
+      --img-mask: linear-gradient(to bottom, black 0%, black 42%, rgba(0,0,0,0.4) 65%, transparent 88%);
+    }
+
+    .grid :global(.card--growth) {
+      --img-left: 50%;
+      --img-top: 32%;
+      --img-width: 92%;
+      --img-translate: -50% -50%;
+      --img-mask: linear-gradient(to bottom, black 0%, black 42%, rgba(0,0,0,0.4) 65%, transparent 88%);
+    }
+  }
+
+  /* ── Adaptive masks per card width (2K+/4K ambient) ──
+     On large cards the image zone is physically big enough that aggressive
+     fade wastes real estate. Soften the transition so the visual weight of
+     the asset matches the enlarged card.
+     Target `.card__img` (a descendant of .card) because a container cannot
+     query itself — custom-property is read by .card__img via var().
+     Threshold references content-box inline-size (≈card_width − 2×padding). */
+  @container (min-width: 620px) {
+    .grid :global(.card--build .card__img) {
+      --img-mask: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 35%, black 65%);
+    }
+    .grid :global(.card--ai .card__img) {
+      --img-mask: radial-gradient(ellipse at 75% 30%, black 0%, rgba(0,0,0,0.35) 55%, transparent 82%);
+    }
+    .grid :global(.card--advisory .card__img) {
+      --img-mask: radial-gradient(ellipse at 65% 25%, black 0%, rgba(0,0,0,0.35) 55%, transparent 82%);
+    }
+    .grid :global(.card--growth .card__img) {
+      --img-mask: linear-gradient(to bottom, black 0%, rgba(0,0,0,0.35) 55%, transparent 75%);
+    }
   }
 
   @media (min-width: 744px) {
@@ -132,6 +204,18 @@ const s = dict.services;
     .grid :global(.card--advisory) {
       grid-column: 2;
       grid-row: 2;
+    }
+  }
+
+  @media (max-width: 743px) {
+    /* Services content is naturally tall on mobile (4 stacked cards);
+       release the 100dvh floor so empty tail space doesn't appear. */
+    .services {
+      min-height: auto;
+    }
+
+    .grid {
+      gap: clamp(16px, 4vw, 24px);
     }
   }
 </style>

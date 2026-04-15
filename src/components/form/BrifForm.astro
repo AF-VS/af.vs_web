@@ -284,9 +284,9 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     position: relative;
     display: flex;
     width: 100%;
-    max-width: clamp(600px, 88vw, 1600px);
+    max-width: min(100%, clamp(320px, 88vw, 1600px));
     height: 100%;
-    max-height: clamp(520px, 78vh, 1200px);
+    max-height: clamp(560px, 92vh, 1200px);
     min-height: clamp(420px, 55vh, 520px);
     border-radius: var(--radius-card);
     overflow: hidden;
@@ -529,7 +529,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     }
   }
 
-  .brif-step-header { margin-bottom: clamp(16px, 2.5vh, 36px); }
+  .brif-step-header { margin-bottom: clamp(12px, 1.8vh, 28px); }
 
   .brif-step-title {
     font-family: var(--font-body);
@@ -570,8 +570,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: clamp(40px, 5vh, 48px);
-    height: clamp(48px, 7.5vh, 72px);
+    min-height: 48px;
+    height: clamp(48px, 6vh, 64px);
     background: transparent;
     border: none;
     border-bottom: 1px solid var(--text-dark-divider);
@@ -686,8 +686,8 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   }
 
   .brif-input {
-    min-height: clamp(40px, 5vh, 48px);
-    height: clamp(48px, 7.5vh, 72px);
+    min-height: 48px;
+    height: clamp(48px, 6vh, 64px);
     background: transparent;
     border: none;
     border-bottom: 1px solid var(--text-dark-divider);
@@ -838,7 +838,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
     .brif-left {
       width: 100%;
-      padding: clamp(20px, 5vw, 40px);
+      padding: clamp(24px, 6vw, 40px);
     }
 
     .brif-left-content { padding: 0; }
@@ -846,7 +846,11 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
 
     .brif-right {
       border-radius: 0 0 var(--radius-card) var(--radius-card);
-      padding: var(--spacing-card);
+      padding: clamp(20px, 5vw, 32px);
+    }
+
+    .brif-progress {
+      margin-bottom: 4px;
     }
 
     .brif-steps { margin-top: clamp(16px, 3vh, 28px); }
