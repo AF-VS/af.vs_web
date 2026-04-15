@@ -3,6 +3,7 @@ import '../../styles/tokens.css';
 import '../../styles/global.css';
 import GlowBackground from './GlowBackground.astro';
 import { locales, type Locale } from '../../lib/paths';
+import { organizationSchema, websiteSchema } from '../../lib/schema';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
@@ -81,14 +82,13 @@ function altHref(loc: Locale): string {
     <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    <!-- JSON-LD Organization -->
-    <script is:inline type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'AF Venture Studio',
-      url: 'https://afvs.studio/',
-      logo: new URL('/favicon.svg', Astro.site ?? 'https://afvs.studio').href,
-    })} />
+    <!-- Structured data -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(
+      organizationSchema(Astro.site!.origin)
+    )} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(
+      websiteSchema(Astro.site!.origin, lang)
+    )} />
   </head>
   <body>
     <GlowBackground />
