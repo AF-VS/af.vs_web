@@ -8,8 +8,8 @@ import { sendTelegramMessage, formatSubmissionMessage } from '../../lib/telegram
 export const prerender = false;
 
 const ALLOWED_ORIGINS = new Set([
-  'https://afvs.studio',
-  'https://www.afvs.studio',
+  'https://afvs.dev',
+  'https://www.afvs.dev',
 ]);
 
 const MIN_FILL_TIME_MS = 3000;

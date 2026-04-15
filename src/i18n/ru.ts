@@ -99,7 +99,7 @@ export const ru: Dict = {
       { label: 'LinkedIn', href: 'https://linkedin.com' },
       { label: 'Instagram', href: 'https://instagram.com' },
       { label: 'Telegram', href: 'https://t.me' },
-      { label: 'Mail', href: 'mailto:hello@afvs.studio' },
+      { label: 'Mail', href: 'mailto:hello@afvs.dev' },
       { label: 'Clutch', href: 'https://clutch.co' },
     ],
   },
