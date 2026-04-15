@@ -1,10 +1,11 @@
 // src/lib/schema.ts
 import { SITE_NAME, CONTACT_EMAIL } from './site';
+import type { Locale } from './paths';
 
 export function organizationSchema(siteUrl: string) {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    '@type': 'ProfessionalService',
     '@id': `${siteUrl}/#organization`,
     name: SITE_NAME,
     alternateName: 'AFVS',
@@ -26,15 +27,10 @@ export function organizationSchema(siteUrl: string) {
         availableLanguage: ['en', 'ru', 'uz'],
       },
     ],
-    sameAs: [
-      'https://www.linkedin.com/company/af-venture-studio',
-      'https://www.instagram.com/afventurestudio',
-      'https://t.me/afventurestudio',
-    ],
   } as const;
 }
 
-export function websiteSchema(siteUrl: string, locale: 'en' | 'ru' | 'uz') {
+export function websiteSchema(siteUrl: string, locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
