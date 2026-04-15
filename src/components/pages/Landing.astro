@@ -8,6 +8,7 @@ import BrifForm from '../form/BrifForm.astro';
 import Footer from '../chrome/Footer.astro';
 import type { Dict } from '../../i18n/en';
 import type { Locale } from '../../lib/paths';
+import { buildHomeMeta } from '../../lib/seoMeta';
 
 interface Props {
   dict: Dict;
@@ -15,12 +16,16 @@ interface Props {
 }
 
 const { dict, locale } = Astro.props;
-
-// Strip <br> tags so meta description / OG / Twitter read as plain prose.
-const description = dict.hero.title.replace(/<br\s*\/?>/gi, ' ');
+const meta = buildHomeMeta(dict, locale);
 ---
 
-<Layout title="AF Venture Studio" description={description} lang={locale}>
+<Layout
+  title={meta.title}
+  description={meta.description}
+  ogTitle={meta.ogTitle}
+  ogDescription={meta.ogDescription}
+  lang={locale}
+>
   <Header dict={dict} locale={locale} />
   <main>
     <Hero dict={dict} />

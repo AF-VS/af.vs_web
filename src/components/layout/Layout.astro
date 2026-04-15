@@ -9,11 +9,20 @@ import SpeedInsights from '@vercel/speed-insights/astro';
 interface Props {
   title: string;
   description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   lang?: Locale;
   ogImage?: string;
 }
 
-const { title, description = '', lang = 'en', ogImage = '/og-image.png' } = Astro.props;
+const {
+  title,
+  description = '',
+  ogTitle = title,
+  ogDescription = description,
+  lang = 'en',
+  ogImage = '/og-image.png',
+} = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site!);
 const ogImageURL = new URL(ogImage, Astro.site!).href;
 
@@ -58,8 +67,8 @@ function altHref(loc: Locale): string {
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:locale" content={lang} />
     <meta property="og:image" content={ogImageURL} />
@@ -68,8 +77,8 @@ function altHref(loc: Locale): string {
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImageURL} />
 
     <!-- JSON-LD Organization -->

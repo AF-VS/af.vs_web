@@ -87,6 +87,14 @@ export const ru: Dict = {
     },
     errorUnconfigured: 'Отправка формы ещё не настроена.',
   },
+  seo: {
+    homeTitle: 'AF Venture Studio — Студия дизайна и разработки продуктов',
+    homeDescription:
+      'AF Venture Studio создаёт MVP, AI-функции и продукты полного цикла. Стратегическое консультирование, UI/UX дизайн и поддержка роста — от идеи до масштаба.',
+    homeOgTitle: 'AF Venture Studio — От идеи к продукту, от продукта к росту',
+    homeOgDescription:
+      'Студия дизайна и разработки продуктов. Делаем MVP, встраиваем AI в реальные сценарии и сопровождаем продукт от запуска до роста.',
+  },
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',

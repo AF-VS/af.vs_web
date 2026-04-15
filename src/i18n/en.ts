@@ -87,6 +87,14 @@ export const en = {
     },
     errorUnconfigured: 'Form delivery not configured yet.',
   },
+  seo: {
+    homeTitle: 'AF Venture Studio — Product Design & Development Studio',
+    homeDescription:
+      'AF Venture Studio builds MVPs, AI-powered features, and full-cycle products. Strategic product advisory, UI/UX design, and growth support from idea to scale.',
+    homeOgTitle: 'AF Venture Studio — From idea to product, from product to growth',
+    homeOgDescription:
+      'A product design and development studio. We ship MVPs, integrate AI into real workflows, and support products from launch through growth.',
+  },
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',
