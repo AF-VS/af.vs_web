@@ -39,6 +39,7 @@ export const ru: Dict = {
       {
         title: 'Memolink',
         description: 'Социальная платформа для интерактивного общения пользователей',
+        imageAlt: 'Memolink — превью интерфейса социального приложения',
         tags: ['web & mob', 'ui/ux дизайн', 'поддержка роста'],
         image: 'case-1',
         video: '/cases/memolink.mp4',
@@ -87,6 +88,14 @@ export const ru: Dict = {
     },
     errorUnconfigured: 'Отправка формы ещё не настроена.',
   },
+  seo: {
+    homeTitle: 'AF Venture Studio — Студия дизайна и разработки продуктов',
+    homeDescription:
+      'AF Venture Studio создаёт MVP, AI-функции и продукты полного цикла. Стратегическое консультирование, UI/UX дизайн и поддержка роста — от идеи до масштаба.',
+    homeOgTitle: 'AF Venture Studio — От идеи к продукту, от продукта к росту',
+    homeOgDescription:
+      'Студия дизайна и разработки продуктов. Делаем MVP, встраиваем AI в реальные сценарии и сопровождаем продукт от запуска до роста.',
+  },
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',
@@ -99,7 +108,7 @@ export const ru: Dict = {
       { label: 'LinkedIn', href: 'https://linkedin.com' },
       { label: 'Instagram', href: 'https://instagram.com' },
       { label: 'Telegram', href: 'https://t.me' },
-      { label: 'Mail', href: 'mailto:hello@afvs.studio' },
+      { label: 'Mail', href: 'mailto:hello@afvs.dev' },
       { label: 'Clutch', href: 'https://clutch.co' },
     ],
   },

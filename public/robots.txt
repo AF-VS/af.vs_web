@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://afvs.studio/sitemap-index.xml
+Sitemap: https://afvs.dev/sitemap-index.xml

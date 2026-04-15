@@ -46,6 +46,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
         width={575}
         height={575}
         alt=""
+        aria-hidden="true"
         class="brif-mountain"
         loading="lazy"
       />
@@ -97,7 +98,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
           {dict.brif.steps.productType.options.map((opt, i) => (
             <button type="button" class="brif-option" data-name="productType" data-value={opt}>
               <span class="brif-option-left">
-                <img src={step1Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                <img src={step1Icons[i].src} width={32} height={32} alt="" aria-hidden="true" class="brif-option-icon" />
                 <span class="brif-option-label">{opt}</span>
               </span>
               <span class="brif-radio"></span>
@@ -116,7 +117,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
           {dict.brif.steps.readiness.options.map((opt, i) => (
             <button type="button" class="brif-option" data-name="readiness" data-value={opt}>
               <span class="brif-option-left">
-                <img src={step2Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                <img src={step2Icons[i].src} width={32} height={32} alt="" aria-hidden="true" class="brif-option-icon" />
                 <span class="brif-option-label">{opt}</span>
               </span>
               <span class="brif-radio"></span>
@@ -136,7 +137,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
             i === dict.brif.steps.platform.options.length - 1 ? (
               <button type="button" class="brif-option brif-option--other" data-name="platform" data-value="Other" data-other>
                 <span class="brif-option-left">
-                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                  <img src={step3Icons[i].src} width={32} height={32} alt="" aria-hidden="true" class="brif-option-icon" />
                   <input type="text" class="brif-other-input" placeholder={opt} data-other-input />
                 </span>
                 <span class="brif-radio"></span>
@@ -144,7 +145,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
             ) : (
               <button type="button" class="brif-option" data-name="platform" data-value={opt}>
                 <span class="brif-option-left">
-                  <img src={step3Icons[i].src} width={32} height={32} alt="" class="brif-option-icon" />
+                  <img src={step3Icons[i].src} width={32} height={32} alt="" aria-hidden="true" class="brif-option-icon" />
                   <span class="brif-option-label">{opt}</span>
                 </span>
                 <span class="brif-radio"></span>
@@ -234,7 +235,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       <!-- Step 6: Success -->
       <div class="brif-step" data-step="6">
         <div class="brif-success">
-          <img src={successIcon.src} width={96} height={96} alt="" class="brif-success-icon" />
+          <img src={successIcon.src} width={96} height={96} alt="" aria-hidden="true" class="brif-success-icon" />
           <div class="brif-success-text">
             <h3 class="brif-success-title">{dict.brif.success.title}</h3>
             <p class="brif-success-description">{dict.brif.success.description}</p>

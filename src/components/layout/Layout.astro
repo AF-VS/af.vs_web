@@ -3,19 +3,29 @@ import '../../styles/tokens.css';
 import '../../styles/global.css';
 import GlowBackground from './GlowBackground.astro';
 import { locales, type Locale } from '../../lib/paths';
+import { organizationSchema, websiteSchema } from '../../lib/schema';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
   title: string;
   description?: string;
+  ogTitle?: string;
+  ogDescription?: string;
   lang?: Locale;
   ogImage?: string;
 }
 
-const { title, description = '', lang = 'en', ogImage = '/og-image.png' } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://afvs.studio');
-const ogImageURL = new URL(ogImage, Astro.site ?? 'https://afvs.studio').href;
+const {
+  title,
+  description = '',
+  ogTitle = title,
+  ogDescription = description,
+  lang = 'en',
+  ogImage = '/og-image.png',
+} = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site!);
+const ogImageURL = new URL(ogImage, Astro.site!).href;
 
 // Strip any existing locale prefix to build alternate links
 const pathWithoutLocale = (() => {
@@ -29,9 +39,9 @@ const pathWithoutLocale = (() => {
 })();
 
 function altHref(loc: Locale): string {
-  if (loc === 'en') return new URL(pathWithoutLocale, Astro.site ?? 'https://afvs.studio').href;
+  if (loc === 'en') return new URL(pathWithoutLocale, Astro.site!).href;
   const base = pathWithoutLocale === '/' ? `/${loc}/` : `/${loc}${pathWithoutLocale}`;
-  return new URL(base, Astro.site ?? 'https://afvs.studio').href;
+  return new URL(base, Astro.site!).href;
 }
 ---
 
@@ -58,8 +68,8 @@ function altHref(loc: Locale): string {
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:locale" content={lang} />
     <meta property="og:image" content={ogImageURL} />
@@ -68,18 +78,17 @@ function altHref(loc: Locale): string {
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    <!-- JSON-LD Organization -->
-    <script is:inline type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'AF Venture Studio',
-      url: 'https://afvs.studio/',
-      logo: new URL('/favicon.svg', Astro.site ?? 'https://afvs.studio').href,
-    })} />
+    <!-- Structured data -->
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(
+      organizationSchema(Astro.site!.origin)
+    )} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(
+      websiteSchema(Astro.site!.origin, lang)
+    )} />
   </head>
   <body>
     <GlowBackground />

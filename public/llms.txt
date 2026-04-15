@@ -1,0 +1,34 @@
+# AF Venture Studio
+
+> Product design and development studio. We build MVPs, integrate AI into real workflows, and support products from launch through growth.
+
+AF Venture Studio is a venture studio that ships products end-to-end: discovery, UI/UX design, MVP development, AI integrations, product advisory, and growth support. We work across web and mobile for founders, enterprises, and fellow studios.
+
+## What we do
+
+- **Build** — From idea to launch-ready product: product discovery, UI/UX design, MVP development, full-cycle product delivery.
+- **AI** — Practical AI for real product use cases: AI-powered features, LLM integrations, agent workflows.
+- **Advisory** — Strategic product support: product strategy, delivery setup, discovery facilitation.
+- **Growth** — From launch to long-term product growth: expansion, upgrade, support, iteration.
+
+## Industries
+
+E-commerce, real estate, FinTech, social, EdTech, SaaS, healthcare.
+
+## Languages
+
+English, Russian, Uzbek.
+
+## Contact
+
+hello@afvs.dev
+
+## Canonical
+
+https://afvs.dev/
+
+## Locales
+
+- English: https://afvs.dev/
+- Russian: https://afvs.dev/ru/
+- Uzbek: https://afvs.dev/uz/

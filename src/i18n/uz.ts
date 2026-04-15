@@ -39,6 +39,7 @@ export const uz: Dict = {
       {
         title: 'Memolink',
         description: "Foydalanuvchilarni interaktiv ijtimoiy tarmoq ilovasi orqali bog'lash",
+        imageAlt: "Memolink — ijtimoiy tarmoq ilovasi interfeysi ko'rinishi",
         tags: ['web & mob', 'ui/ux dizayn', "o'sishni qo'llab-quvvatlash"],
         image: 'case-1',
         video: '/cases/memolink.mp4',
@@ -87,6 +88,14 @@ export const uz: Dict = {
     },
     errorUnconfigured: "Forma yuborish hali sozlanmagan.",
   },
+  seo: {
+    homeTitle: 'AF Venture Studio — Mahsulot dizayni va ishlab chiqish studiyasi',
+    homeDescription:
+      "AF Venture Studio MVP, AI asosidagi imkoniyatlar va to'liq tsikl mahsulotlarini yaratadi. Mahsulot strategiyasi, UI/UX dizayn va o'sish qo'llab-quvvatlashi — g'oyadan miqyosgacha.",
+    homeOgTitle: "AF Venture Studio — G'oyadan mahsulotga, mahsulotdan o'sishga",
+    homeOgDescription:
+      "Mahsulot dizayni va ishlab chiqish studiyasi. MVP yaratamiz, AI ni real stsenariylarga integratsiya qilamiz va mahsulotni ishga tushirishdan o'sishgacha qo'llab-quvvatlaymiz.",
+  },
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',
@@ -99,7 +108,7 @@ export const uz: Dict = {
       { label: 'LinkedIn', href: 'https://linkedin.com' },
       { label: 'Instagram', href: 'https://instagram.com' },
       { label: 'Telegram', href: 'https://t.me' },
-      { label: 'Mail', href: 'mailto:hello@afvs.studio' },
+      { label: 'Mail', href: 'mailto:hello@afvs.dev' },
       { label: 'Clutch', href: 'https://clutch.co' },
     ],
   },
