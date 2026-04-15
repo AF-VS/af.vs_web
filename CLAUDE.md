@@ -7,13 +7,32 @@
 
 ## Стек
 
-- **Astro** (static-first, минимум JS)
+- **Astro 5**, `output: 'server'`, адаптер `@astrojs/vercel`. Node 22. Клиентский JS — минимум.
 - **TypeScript** strict
 - **CSS Modules** (`*.module.css`) + токены в `src/styles/tokens.css` через `:root`
 - **`@fontsource/inter`** + **`@fontsource/space-grotesk`** для шрифтов
 - **`astro:assets`** для изображений
-- **`@astrojs/vercel`** как адаптер деплоя
-- **Без Tailwind. Без CSS-in-JS.**
+- **i18n:** `en` (дефолт, без префикса), `ru`, `uz`. Словари — `src/i18n/{en,ru,uz}.ts`. Конфиг — `astro.config.mjs`, sitemap через `@astrojs/sitemap`.
+- **Контактная форма** (`src/pages/api/contact.ts`): Zod (`contactSchema.ts`) → Upstash rate-limit (`rateLimit.ts`) → Drizzle + libSQL (`src/db/`) → Telegram (`telegram.ts`).
+- **Без Tailwind. Без CSS-in-JS. Без React.**
+
+## Команды
+
+```bash
+npm run dev            # astro dev
+npm run check          # astro check (типы)
+npm run build          # сборка под Vercel
+npm run db:generate    # drizzle-kit generate
+npm run db:migrate     # drizzle-kit migrate
+```
+
+## Переменные окружения
+
+`.env.local` (prod — в Vercel):
+- `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN` — libSQL
+- `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` — rate-limit
+- `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` — уведомления
+- `SITE_URL` — переопределение canonical origin (по умолчанию берётся из `astro.config.mjs`)
 
 ## Конвенции
 
@@ -40,5 +59,6 @@
 ## Важное
 
 - **Figma — single source of truth** для визуала. Нашёл расхождение дизайна с требованиями — сначала спроси пользователя, не правь молча.
-- Проект greenfield. Перед генерацией кода проверь текущее состояние `src/`.
-- Любые отклонения от стека (Astro / CSS Modules / без Tailwind) — только после явного подтверждения пользователя.
+- Перед генерацией кода проверяй текущее состояние `src/` — проект уже не greenfield.
+- Канонический домен — **`afvs.dev`**. Превью-домены `*.vercel.app` должны отдавать `noindex`.
+- Любые отклонения от стека (Astro / CSS Modules / server-mode / без Tailwind / без React) — только после явного подтверждения пользователя.
