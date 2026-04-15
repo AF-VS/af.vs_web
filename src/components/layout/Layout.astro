@@ -14,8 +14,8 @@ interface Props {
 }
 
 const { title, description = '', lang = 'en', ogImage = '/og-image.png' } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://afvs.studio');
-const ogImageURL = new URL(ogImage, Astro.site ?? 'https://afvs.studio').href;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site!);
+const ogImageURL = new URL(ogImage, Astro.site!).href;
 
 // Strip any existing locale prefix to build alternate links
 const pathWithoutLocale = (() => {
@@ -29,9 +29,9 @@ const pathWithoutLocale = (() => {
 })();
 
 function altHref(loc: Locale): string {
-  if (loc === 'en') return new URL(pathWithoutLocale, Astro.site ?? 'https://afvs.studio').href;
+  if (loc === 'en') return new URL(pathWithoutLocale, Astro.site!).href;
   const base = pathWithoutLocale === '/' ? `/${loc}/` : `/${loc}${pathWithoutLocale}`;
-  return new URL(base, Astro.site ?? 'https://afvs.studio').href;
+  return new URL(base, Astro.site!).href;
 }
 ---
 

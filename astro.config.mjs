@@ -3,7 +3,7 @@ import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://afvs.studio',
+  site: 'https://afvs.dev',
   adapter: vercel(),
   output: 'server',
   integrations: [
