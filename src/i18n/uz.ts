@@ -81,6 +81,7 @@ export const uz: Dict = {
       },
     },
     next: 'Keyingi',
+    back: 'Orqaga',
     send: 'Yuborish',
     success: {
       title: "So'rov qabul qilindi",

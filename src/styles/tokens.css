@@ -1,15 +1,15 @@
 :root {
   /* ── Surface ───────────────────────────────── */
-  --surface-white: #f8f9fe;
-  --surface-card:  #0a1626;
-  --surface-bg:    #060b14;
+  --surface-white: #ffffff;
+  --surface-card:  #192945;
+  --surface-bg:    #101b2c;
 
   /* ── Primary ───────────────────────────────── */
-  --primary-default: #158ef2;
-  --primary-accent:  #91c6f2;
+  --primary-default: #6ab8ed;
+  --primary-accent:  #a8d2f0;
 
   /* ── Text on dark ──────────────────────────── */
-  --text-primary:   #f8f9fe;
+  --text-primary:   #ffffff;
   --text-subtle:    rgba(255, 255, 255, 0.8);
   --text-secondary: rgba(255, 255, 255, 0.6);
 
@@ -31,7 +31,7 @@
   --neutral-400: #c4c8d4;
 
   /* ── Typography families ───────────────────── */
-  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-display: 'Mardox', 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-body:    'Inter', system-ui, -apple-system, sans-serif;
 
   /* ── Font sizes ────────────────────────────── */
@@ -83,10 +83,10 @@
   --cta-height: clamp(44px, 3.8vw, 68px);
 
   /* ── RGB triplets (для rgba() с α из кода) ── */
-  --surface-bg-rgb:    6, 11, 20;
-  --surface-card-rgb:  10, 22, 38;
-  --primary-default-rgb: 21, 142, 242;
-  --primary-accent-rgb:  145, 198, 242;
+  --surface-bg-rgb:    16, 27, 44;
+  --surface-card-rgb:  25, 41, 69;
+  --primary-default-rgb: 106, 184, 237;
+  --primary-accent-rgb:  168, 210, 240;
   --white-rgb: 255, 255, 255;
 
   /* ── Glass surfaces ───────────────────────── */

@@ -15,6 +15,7 @@ export function initBrifWizard(): void {
 
   const progressFill = wizard.querySelector<HTMLDivElement>('[data-progress-fill]');
   const btn = wizard.querySelector<HTMLButtonElement>('[data-brif-btn]');
+  const btnBack = wizard.querySelector<HTMLButtonElement>('[data-brif-back]');
   const btnText = wizard.querySelector<HTMLSpanElement>('[data-btn-text]');
   const dots = wizard.querySelectorAll<HTMLDivElement>('[data-dot]');
   const steps = wizard.querySelectorAll<HTMLDivElement>('[data-step]');
@@ -75,10 +76,13 @@ export function initBrifWizard(): void {
 
     previousStep = currentStep;
 
-    // Update progress fill
+    // Update progress fill + ARIA
     const progressEl = wizard!.querySelector<HTMLDivElement>('.brif-progress');
     if (progressEl) {
       progressEl.style.display = currentStep === 6 ? 'none' : '';
+      const stepForAria = Math.min(currentStep, 5);
+      progressEl.setAttribute('aria-valuenow', String(stepForAria));
+      progressEl.setAttribute('aria-valuetext', `Step ${stepForAria} of 5`);
     }
     if (progressFill) {
       const idx = Math.min(currentStep - 1, fillPercents.length - 1);
@@ -98,7 +102,7 @@ export function initBrifWizard(): void {
       }
     });
 
-    // Update button
+    // Update primary button
     if (btn && btnText) {
       if (currentStep === 6) {
         btn.style.display = 'none';
@@ -108,13 +112,11 @@ export function initBrifWizard(): void {
         const labelSend = wizard!.dataset.labelSend || 'Send';
         btnText.textContent = currentStep === 5 ? labelSend : labelNext;
       }
+    }
 
-      // Adjust button position for step 4
-      if (currentStep === 4) {
-        btn.classList.add('brif-btn--shifted');
-      } else {
-        btn.classList.remove('brif-btn--shifted');
-      }
+    // Update back button visibility — visible on steps 2–5
+    if (btnBack) {
+      btnBack.hidden = !(currentStep >= 2 && currentStep <= 5);
     }
   }
 
@@ -158,12 +160,10 @@ export function initBrifWizard(): void {
       return;
     }
 
-    // Dot click — navigate back to completed steps
-    const dot = target.closest<HTMLDivElement>('[data-dot]');
-    if (dot) {
-      const dotStep = parseInt(dot.dataset.dot || '0', 10);
-      if (dotStep < currentStep && dotStep >= 1) {
-        currentStep = dotStep;
+    // Back button — step backward (stepper dots are status-only, not nav)
+    if (target.closest('[data-brif-back]')) {
+      if (currentStep > 1) {
+        currentStep--;
         updateUI();
       }
       return;

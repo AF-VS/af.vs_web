@@ -81,6 +81,7 @@ export const en = {
       },
     },
     next: 'Next',
+    back: 'Back',
     send: 'Send',
     success: {
       title: 'Request received',
