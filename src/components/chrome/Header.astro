@@ -1,6 +1,13 @@
 ---
-import type { Dict } from '../../i18n/en';
-import { switchLocaleUrl, locales, localeLabels, type Locale } from '../../lib/paths';
+import type { Dict } from "../../i18n/en";
+import {
+  switchLocaleUrl,
+  locales,
+  localeLabels,
+  type Locale,
+} from "../../lib/paths";
+import logoHorizontal from "../../assets/brand/logo_h_white.svg";
+import symbolWhite from "../../assets/brand/symbol_white.svg";
 
 interface Props {
   dict: Dict;
@@ -14,8 +21,27 @@ const otherLocales = locales.filter((l) => l !== locale);
 <header class="header" data-header>
   <nav class="header__inner">
     <!-- Brand -->
-    <a class="brand" href={locale === 'en' ? '/' : `/${locale}/`} aria-label="AF Venture Studio — home">
-      AF VENTURE STUDIO
+    <a
+      class="brand"
+      href={locale === "en" ? "/" : `/${locale}/`}
+      aria-label="AF Venture Studio — home"
+    >
+      <img
+        class="brand__logo brand__logo--desktop"
+        src={logoHorizontal.src}
+        width={logoHorizontal.width}
+        height={logoHorizontal.height}
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        class="brand__logo brand__logo--mobile"
+        src={symbolWhite.src}
+        width={symbolWhite.width}
+        height={symbolWhite.height}
+        alt=""
+        aria-hidden="true"
+      />
     </a>
 
     <!-- Center nav links (desktop) -->
@@ -28,18 +54,38 @@ const otherLocales = locales.filter((l) => l !== locale);
     <!-- Right group -->
     <div class="header__right">
       <div class="lang-dropdown" data-lang-dropdown>
-        <button class="lang-trigger" type="button" aria-expanded="false" aria-haspopup="true">
+        <button
+          class="lang-trigger"
+          type="button"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
           {localeLabels[locale]}
-          <svg class="lang-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 4.5 6 7.5 9 4.5" />
+          <svg
+            class="lang-chevron"
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 4.5 6 7.5 9 4.5"></path>
           </svg>
         </button>
         <div class="lang-menu">
-          {otherLocales.map((loc) => (
-            <a class="lang-option" href={switchLocaleUrl(Astro.url.pathname, loc)}>
-              {localeLabels[loc]}
-            </a>
-          ))}
+          {
+            otherLocales.map((loc) => (
+              <a
+                class="lang-option"
+                href={switchLocaleUrl(Astro.url.pathname, loc)}
+              >
+                {localeLabels[loc]}
+              </a>
+            ))
+          }
         </div>
       </div>
 
@@ -63,8 +109,8 @@ const otherLocales = locales.filter((l) => l !== locale);
           <path
             class="burger__path"
             d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
-          />
-          <path d="M7 16 27 16" />
+          ></path>
+          <path d="M7 16 27 16"></path>
         </svg>
       </button>
     </div>
@@ -89,15 +135,25 @@ const otherLocales = locales.filter((l) => l !== locale);
       </div>
       <div class="mobile-menu__bottom">
         <div class="lang-row">
-          {locales.map((loc) => loc === locale ? (
-            <span class="lang-row__item lang-row__item--active" aria-current="true">
-              {localeLabels[loc]}
-            </span>
-          ) : (
-            <a class="lang-row__item" href={switchLocaleUrl(Astro.url.pathname, loc)}>
-              {localeLabels[loc]}
-            </a>
-          ))}
+          {
+            locales.map((loc) =>
+              loc === locale ? (
+                <span
+                  class="lang-row__item lang-row__item--active"
+                  aria-current="true"
+                >
+                  {localeLabels[loc]}
+                </span>
+              ) : (
+                <a
+                  class="lang-row__item"
+                  href={switchLocaleUrl(Astro.url.pathname, loc)}
+                >
+                  {localeLabels[loc]}
+                </a>
+              ),
+            )
+          }
         </div>
       </div>
     </div>
@@ -105,41 +161,44 @@ const otherLocales = locales.filter((l) => l !== locale);
 </header>
 
 <script>
-  const header = document.querySelector('[data-header]') as HTMLElement;
-  const burger = document.querySelector('[data-burger]') as HTMLButtonElement;
-  const menu = document.querySelector('[data-mobile-menu]') as HTMLElement;
-  const mobileLinks = document.querySelectorAll<HTMLAnchorElement>('[data-mobile-link]');
+  const header = document.querySelector("[data-header]") as HTMLElement;
+  const burger = document.querySelector("[data-burger]") as HTMLButtonElement;
+  const menu = document.querySelector("[data-mobile-menu]") as HTMLElement;
+  const mobileLinks =
+    document.querySelectorAll<HTMLAnchorElement>("[data-mobile-link]");
 
   let open = false;
   let lastFocused: HTMLElement | null = null;
 
   function onScroll() {
-    header.classList.toggle('header--scrolled', window.scrollY > 10);
+    header.classList.toggle("header--scrolled", window.scrollY > 10);
   }
 
   function getFocusable(container: HTMLElement): HTMLElement[] {
     return Array.from(
       container.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      ),
     );
   }
 
   function openMenu() {
     open = true;
     lastFocused = document.activeElement as HTMLElement;
-    header.classList.add('header--open');
-    burger.setAttribute('aria-expanded', 'true');
-    menu.classList.add('mobile-menu--open');
-    menu.setAttribute('aria-hidden', 'false');
+    header.classList.add("header--open");
+    burger.setAttribute("aria-expanded", "true");
+    menu.classList.add("mobile-menu--open");
+    menu.setAttribute("aria-hidden", "false");
     // Lock both html and body: iOS Safari scrolls the root, not body.
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
 
     // inert everything except header
-    document.querySelectorAll<HTMLElement>('body > *:not(header)').forEach((el) => {
-      el.setAttribute('inert', '');
-    });
+    document
+      .querySelectorAll<HTMLElement>("body > *:not(header)")
+      .forEach((el) => {
+        el.setAttribute("inert", "");
+      });
 
     const first = getFocusable(menu)[0];
     first?.focus();
@@ -148,33 +207,36 @@ const otherLocales = locales.filter((l) => l !== locale);
   function closeMenu() {
     if (!open) return;
     open = false;
-    header.classList.remove('header--open');
-    burger.setAttribute('aria-expanded', 'false');
-    menu.classList.remove('mobile-menu--open');
-    menu.setAttribute('aria-hidden', 'true');
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
+    header.classList.remove("header--open");
+    burger.setAttribute("aria-expanded", "false");
+    menu.classList.remove("mobile-menu--open");
+    menu.setAttribute("aria-hidden", "true");
+    document.documentElement.style.overflow = "";
+    document.body.style.overflow = "";
 
-    document.querySelectorAll<HTMLElement>('body > *:not(header)').forEach((el) => {
-      el.removeAttribute('inert');
-    });
+    document
+      .querySelectorAll<HTMLElement>("body > *:not(header)")
+      .forEach((el) => {
+        el.removeAttribute("inert");
+      });
 
     lastFocused?.focus();
     lastFocused = null;
   }
 
   function toggleMenu() {
-    if (open) closeMenu(); else openMenu();
+    if (open) closeMenu();
+    else openMenu();
   }
 
   function onKey(e: KeyboardEvent) {
     if (!open) return;
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       e.preventDefault();
       closeMenu();
       return;
     }
-    if (e.key === 'Tab') {
+    if (e.key === "Tab") {
       // Focus trap
       const focusables = getFocusable(menu);
       if (focusables.length === 0) return;
@@ -190,36 +252,38 @@ const otherLocales = locales.filter((l) => l !== locale);
     }
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
 
-  burger.addEventListener('click', toggleMenu);
-  mobileLinks.forEach((link) => link.addEventListener('click', closeMenu));
-  document.addEventListener('keydown', onKey);
+  burger.addEventListener("click", toggleMenu);
+  mobileLinks.forEach((link) => link.addEventListener("click", closeMenu));
+  document.addEventListener("keydown", onKey);
 
   // Lang dropdown (unchanged)
-  const langDropdown = document.querySelector('[data-lang-dropdown]');
+  const langDropdown = document.querySelector("[data-lang-dropdown]");
   if (langDropdown) {
-    const trigger = langDropdown.querySelector('.lang-trigger') as HTMLButtonElement;
-    const langMenu = langDropdown.querySelector('.lang-menu') as HTMLElement;
+    const trigger = langDropdown.querySelector(
+      ".lang-trigger",
+    ) as HTMLButtonElement;
+    const langMenu = langDropdown.querySelector(".lang-menu") as HTMLElement;
 
-    trigger.addEventListener('click', () => {
-      const expanded = trigger.getAttribute('aria-expanded') === 'true';
-      trigger.setAttribute('aria-expanded', String(!expanded));
-      langMenu.classList.toggle('lang-menu--open');
+    trigger.addEventListener("click", () => {
+      const expanded = trigger.getAttribute("aria-expanded") === "true";
+      trigger.setAttribute("aria-expanded", String(!expanded));
+      langMenu.classList.toggle("lang-menu--open");
     });
 
-    document.addEventListener('click', (e) => {
+    document.addEventListener("click", (e) => {
       if (!langDropdown.contains(e.target as Node)) {
-        trigger.setAttribute('aria-expanded', 'false');
-        langMenu.classList.remove('lang-menu--open');
+        trigger.setAttribute("aria-expanded", "false");
+        langMenu.classList.remove("lang-menu--open");
       }
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        trigger.setAttribute('aria-expanded', 'false');
-        langMenu.classList.remove('lang-menu--open');
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        trigger.setAttribute("aria-expanded", "false");
+        langMenu.classList.remove("lang-menu--open");
       }
     });
   }
@@ -262,17 +326,29 @@ const otherLocales = locales.filter((l) => l !== locale);
   /* ── Brand ─────────────────────────────────── */
   .brand {
     justify-self: start;
-    font-family: var(--font-body);
-    font-size: var(--font-size-caption);
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    display: inline-flex;
+    align-items: center;
     color: var(--text-primary);
     transition: opacity 0.2s ease;
-    white-space: nowrap;
   }
 
   .brand:hover {
     opacity: 0.7;
+  }
+
+  .brand__logo {
+    display: block;
+    width: auto;
+    height: auto;
+  }
+
+  .brand__logo--desktop {
+    height: 32px;
+  }
+
+  .brand__logo--mobile {
+    display: none;
+    padding: 8px;
   }
 
   /* ── Center nav ────────────────────────────── */
@@ -329,7 +405,7 @@ const otherLocales = locales.filter((l) => l !== locale);
     transition: transform 0.2s ease;
   }
 
-  .lang-trigger[aria-expanded='true'] .lang-chevron {
+  .lang-trigger[aria-expanded="true"] .lang-chevron {
     transform: rotate(180deg);
   }
 
@@ -347,7 +423,10 @@ const otherLocales = locales.filter((l) => l !== locale);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-4px);
-    transition: opacity 0.15s ease, visibility 0.15s ease, transform 0.15s ease;
+    transition:
+      opacity 0.15s ease,
+      visibility 0.15s ease,
+      transform 0.15s ease;
   }
 
   .lang-menu--open {
@@ -362,7 +441,9 @@ const otherLocales = locales.filter((l) => l !== locale);
     color: var(--text-secondary);
     font-size: var(--font-size-caption);
     border-radius: 8px;
-    transition: color 0.15s ease, background 0.15s ease;
+    transition:
+      color 0.15s ease,
+      background 0.15s ease;
     text-align: center;
   }
 
@@ -399,7 +480,9 @@ const otherLocales = locales.filter((l) => l !== locale);
 
   .burger__path {
     stroke-dasharray: 12 63;
-    transition: stroke-dasharray 0.3s ease, stroke-dashoffset 0.3s ease;
+    transition:
+      stroke-dasharray 0.3s ease,
+      stroke-dashoffset 0.3s ease;
   }
 
   .header--open .burger__path {
@@ -424,7 +507,9 @@ const otherLocales = locales.filter((l) => l !== locale);
     overflow: hidden;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
+    transition:
+      opacity 0.3s ease,
+      visibility 0.3s ease;
   }
 
   .mobile-menu--open {
@@ -440,7 +525,9 @@ const otherLocales = locales.filter((l) => l !== locale);
     padding: 32px var(--container-padding);
     transform: translateY(8px);
     opacity: 0;
-    transition: transform 0.35s ease 0.05s, opacity 0.3s ease 0.05s;
+    transition:
+      transform 0.35s ease 0.05s,
+      opacity 0.3s ease 0.05s;
   }
 
   .mobile-menu--open .mobile-menu__content {
@@ -516,9 +603,14 @@ const otherLocales = locales.filter((l) => l !== locale);
       padding-inline: 18px 8px;
     }
 
-    .brand {
-      font-size: 13px;
-      letter-spacing: 0.06em;
+    .brand__logo--desktop {
+      display: none;
+    }
+
+    .brand__logo--mobile {
+      display: block;
+      height: 48px;
+      width: 48px;
     }
 
     .burger {

@@ -4,6 +4,17 @@
 @import '@fontsource/inter/600.css';
 @import '@fontsource/space-grotesk/700.css';
 
+/* Self-hosted brand display font. Weight range is permissive —
+   Mardox.ttf ships a single cut, the declaration lets any font-weight
+   call resolve to the available glyphs without browser synthesis. */
+@font-face {
+  font-family: 'Mardox';
+  src: url('/fonts/Mardox.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Minimal reset */
 *,
 *::before,
