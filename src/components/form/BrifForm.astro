@@ -62,7 +62,14 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       data-animate-duration="1100"
     >
       <!-- Progress Bar -->
-      <div class="brif-progress">
+      <div
+        class="brif-progress"
+        role="progressbar"
+        aria-valuemin="1"
+        aria-valuemax="5"
+        aria-valuenow="1"
+        aria-valuetext="Step 1 of 5"
+      >
         <div class="brif-progress-track">
           <div class="brif-progress-fill" data-progress-fill></div>
         </div>
@@ -245,10 +252,15 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
       </div>
       <!-- /.brif-steps -->
 
-      <!-- Action Button -->
-      <button type="button" class="brif-btn" data-brif-btn>
-        <span data-btn-text>{dict.brif.next}</span>
-      </button>
+      <!-- Action Buttons -->
+      <div class="brif-actions">
+        <button type="button" class="brif-btn-back" data-brif-back hidden>
+          <span>{dict.brif.back}</span>
+        </button>
+        <button type="button" class="brif-btn" data-brif-btn>
+          <span data-btn-text>{dict.brif.next}</span>
+        </button>
+      </div>
     </div>
   </div>
 </section>
@@ -412,6 +424,7 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: default;
     transition: all 0.3s ease;
   }
 
@@ -439,7 +452,6 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     width: clamp(12px, 1.5vh, 20px);
     height: clamp(12px, 1.5vh, 20px);
     background: var(--primary-default);
-    cursor: pointer;
   }
 
   .brif-dot.completed .brif-dot-number { display: none; }
@@ -782,9 +794,17 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     max-width: clamp(280px, 28vw, 460px);
   }
 
-  /* ── Action Button ───────────────────────────── */
+  /* ── Action Buttons — Back (ghost) + Next (filled) ── */
+  .brif-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-inline-gap);
+    margin-top: auto;
+    flex-shrink: 0;
+  }
+
   .brif-btn {
-    align-self: flex-end;
     width: clamp(180px, 40%, 240px);
     height: clamp(48px, 7vh, 56px);
     background: var(--primary-default);
@@ -795,7 +815,6 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     font-size: var(--font-size-body);
     font-weight: 600;
     cursor: pointer;
-    margin-top: auto;
     transition: opacity 0.2s ease, transform 0.2s ease;
     flex-shrink: 0;
   }
@@ -803,14 +822,35 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
   .brif-btn:hover { opacity: 0.9; }
   .brif-btn:active { transform: scale(0.98); }
 
-  .brif-btn--shifted {
-    align-self: flex-end;
-  }
-
   .brif-btn--loading {
     opacity: 0.6;
     pointer-events: none;
   }
+
+  .brif-btn-back {
+    height: clamp(48px, 7vh, 56px);
+    min-width: 44px;
+    padding: 0 clamp(16px, 2vw, 24px);
+    background: transparent;
+    border: none;
+    color: var(--text-dark-secondary);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: var(--radius-pill);
+    transition: color 0.2s ease;
+  }
+
+  .brif-btn-back:hover { color: var(--text-dark-primary); }
+  .brif-btn-back:active { transform: scale(0.98); }
+
+  .brif-btn-back:focus-visible {
+    outline: 2px solid var(--primary-default);
+    outline-offset: 2px;
+  }
+
+  .brif-btn-back[hidden] { display: none; }
 
   @keyframes shake {
     0%, 100% { transform: translateX(0); }
@@ -869,12 +909,9 @@ const step3Icons = [websiteIcon, mobileIcon, webmobileIcon, designIcon];
     }
 
     .brif-btn {
-      align-self: stretch;
-      width: 100%;
-    }
-
-    .brif-btn--shifted {
-      align-self: stretch;
+      width: auto;
+      flex: 1;
+      max-width: 240px;
     }
 
     .brif-dot:nth-child(2) { left: 0; }

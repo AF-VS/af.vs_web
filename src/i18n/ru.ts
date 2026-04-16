@@ -81,6 +81,7 @@ export const ru: Dict = {
       },
     },
     next: 'Далее',
+    back: 'Назад',
     send: 'Отправить',
     success: {
       title: 'Заявка получена',
