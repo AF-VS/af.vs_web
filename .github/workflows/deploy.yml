@@ -1,4 +1,4 @@
-name: Deploy to Vercel
+name: CI & Deploy
 
 on:
   push:
@@ -11,7 +11,28 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
+  check:
+    name: Typecheck & Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run check
+
+      - name: Build (verify)
+        run: npm run build
+
   deploy:
+    name: Deploy to Vercel
+    needs: check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
