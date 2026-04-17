@@ -47,6 +47,66 @@ npm run db:migrate     # drizzle-kit migrate
 - Изображения из Figma (`figma.com/api/mcp/asset/...`) живут 7 дней → скачивать в `src/assets/`.
 - Все видимые тексты — из `DESIGN.md` (source of truth — Figma).
 
+## Git & GitHub
+
+### Branching — GitHub Flow
+
+- **`main`** — production. Деплоится на Vercel автоматически.
+- Для любой работы — создавать **feature-ветку** от `main`.
+- Имя ветки: `type/short-description` — например `feat/contact-v2`, `fix/og-image`, `chore/deps-update`.
+- Прямые push в `main` запрещены branch protection. Весь код попадает через **Pull Request**.
+- PR мержится **только squash merge** (настроено на уровне репо). Ветка удаляется автоматически.
+
+### Коммиты — Conventional Commits
+
+Формат строго enforced через **commitlint + Husky** (`.husky/commit-msg`).
+
+```
+type(scope): описание на английском, lowercase, без точки в конце
+```
+
+Допустимые типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`, `a11y`.
+
+Примеры:
+```
+feat(seo): add JSON-LD BreadcrumbList schema
+fix(form): prevent double submit on slow connections
+chore(deps): bump astro to 5.2
+a11y(nav): add skip-to-content link
+refactor(tokens): extract spacing scale to custom properties
+ci: add typecheck job before deploy
+```
+
+Правила:
+- Максимум 100 символов в заголовке.
+- `scope` — опциональный, но рекомендуется для контекста.
+- Body (через пустую строку) — для объяснения "зачем", если не очевидно из заголовка.
+- **Не добавлять** `Co-Authored-By`, AI-теги или любые автоматические подписи. Коммиты — персональные.
+
+### CI / CD
+
+Workflow `.github/workflows/deploy.yml` содержит два job:
+
+1. **`check`** (Typecheck & Build) — `npm run check` + `npm run build`. Обязательный status check для merge в `main`.
+2. **`deploy`** — деплой на Vercel. Запускается только после успешного `check`. На PR оставляет комментарий с preview URL.
+
+### Pull Request
+
+1. Создать feature-ветку: `git checkout -b feat/my-feature`.
+2. Коммитить атомарно — одна логическая единица = один коммит.
+3. Запушить: `git push -u origin feat/my-feature`.
+4. Создать PR в `main`. В описании:
+   - **Summary** — что и зачем (1–3 bullet points).
+   - **Test plan** — как проверить.
+5. Дождаться прохождения `Typecheck & Build`.
+6. Squash merge. Заголовок PR = итоговый коммит в `main`, поэтому он тоже должен следовать Conventional Commits.
+
+### Релизы
+
+- Теги — semver: `vX.Y.Z`.
+- Создавать через `gh release create vX.Y.Z --generate-notes` или с кастомными notes.
+- `feat` → minor bump, `fix` → patch bump, breaking change → major bump.
+
 ## Figma MCP workflow
 
 Перед написанием новой секции / компонента:
