@@ -1,124 +1,167 @@
-# AF Venture Studio — Web
+# CLAUDE.md — af.vs_web
 
-Маркетинговый лендинг студии AF Venture Studio. Деплой на Vercel.
+Single-page landing at **afvs.dev**. Astro 5 SSR, CSS Modules, dark-only, i18n (ru/en/uz), Vercel/Linear/Framer-tier animations under a strict performance budget.
 
-- **Полный справочник по макету (токены, секции, node IDs, копирайт):** [`DESIGN.md`](./DESIGN.md)
-- **Figma:** https://www.figma.com/design/L3skuk3D54hgX93qX7EIjd/AF.VS---web?node-id=277-734
+---
 
-## Стек
+## Stack
 
-- **Astro 5**, `output: 'server'`, адаптер `@astrojs/vercel`. Node 22. Клиентский JS — минимум.
-- **TypeScript** strict
-- **CSS Modules** (`*.module.css`) + токены в `src/styles/tokens.css` через `:root`
-- **`@fontsource/inter`** + **`@fontsource/space-grotesk`** для шрифтов
-- **`astro:assets`** для изображений
-- **i18n:** `en` (дефолт, без префикса), `ru`, `uz`. Словари — `src/i18n/{en,ru,uz}.ts`. Конфиг — `astro.config.mjs`, sitemap через `@astrojs/sitemap`.
-- **Контактная форма** (`src/pages/api/contact.ts`): Zod (`contactSchema.ts`) → Upstash rate-limit (`rateLimit.ts`) → Drizzle + libSQL (`src/db/`) → Telegram (`telegram.ts`).
-- **Без Tailwind. Без CSS-in-JS. Без React.**
+**Use:**
+- Astro 5.x — `output: 'server'`, adapter `@astrojs/vercel`
+- TypeScript strict
+- CSS Modules (`*.module.css`) + `src/styles/tokens.css` (CSS custom properties)
+- `@fontsource-variable/inter` + `@fontsource-variable/space-grotesk` (self-hosted, subset)
+- Astro built-in i18n (`prefixDefaultLocale: false`, default `en`) — matches afvs.dev production.
+- Drizzle ORM + `@libsql/client` (contact form persistence)
+- `@upstash/ratelimit` + `@upstash/redis` (rate limit by IP)
+- Zod (request validation)
+- Vercel Analytics + Speed Insights
+- Motion One (`motion`) — primary animation lib
+- GSAP + ScrollTrigger — scroll-linked sequences only
+- Lenis — smooth scroll
+- Canvas 2D / OGL — shaders, particles, background effects
 
-## Команды
+**Never use:**
+- Tailwind, UnoCSS, any utility-CSS or CSS-in-JS
+- Alpine.js, htmx
+- React, Vue, Svelte, Framer Motion — no islands framework
+- `<style>` blocks inside `.astro` files — ever
+- Three.js (too heavy — use OGL if WebGL needed)
+- `any` type; default exports for components
+- Co-Authored-By footer in commits
 
-```bash
-npm run dev            # astro dev
-npm run check          # astro check (типы)
-npm run build          # сборка под Vercel
-npm run db:generate    # drizzle-kit generate
-npm run db:migrate     # drizzle-kit migrate
-```
+If an interactive island is genuinely unavoidable, pause and ask the user before adding one. Preferred fallback: Solid.js (smallest runtime).
 
-## Переменные окружения
+---
 
-`.env.local` (prod — в Vercel):
-- `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN` — libSQL
-- `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` — rate-limit
-- `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` — уведомления
-- `SITE_URL` — переопределение canonical origin (по умолчанию берётся из `astro.config.mjs`)
-
-## Конвенции
-
-- Единственный источник цветов/шрифтов/радиусов — CSS-переменные из `src/styles/tokens.css`. Хардкодить hex в компонентах запрещено.
-- Компоненты — `.astro` файлы, стили через scoped `<style>` или `*.module.css` рядом с компонентом.
-- TypeScript strict, `any` запрещён, `interface` для props.
-- Mobile-first CSS. Брейкпоинты через `min-width`, значения — из `DESIGN.md`.
-- Именование: `PascalCase` для компонентов и файлов компонентов.
-- Метаданные страниц (`<title>`, meta description, OG, Twitter) строятся через `src/lib/seoMeta.ts` из `dict.seo.*`. Хардкодить `<title>` или `<meta>` в шаблонах запрещено — добавляй ключи в `src/i18n/{en,ru,uz}.ts` и расширяй `buildHomeMeta` / соседние builder'ы.
-- JSON-LD структурированные данные генерируются только через хелперы в `src/lib/schema.ts` (`organizationSchema`, `websiteSchema`, и т.д.). Инлайнить `<script type="application/ld+json">` с сырыми литералами в компонентах — нельзя. Кросс-ссылки — через `@id`-фрагменты.
-- Канонический origin задаётся один раз в `astro.config.mjs` (поле `site`). В `.astro`-шаблонах использовать `Astro.site!`, в серверных роутах (`src/pages/api/*.ts`) — `SITE_URL` из `src/lib/site.ts`. Не хардкодить `https://afvs.dev` в строках.
-- Изображения из Figma (`figma.com/api/mcp/asset/...`) живут 7 дней → скачивать в `src/assets/`.
-- Все видимые тексты — из `DESIGN.md` (source of truth — Figma).
-
-## Git & GitHub
-
-### Branching — GitHub Flow
-
-- **`main`** — production. Деплоится на Vercel автоматически.
-- Для любой работы — создавать **feature-ветку** от `main`.
-- Имя ветки: `type/short-description` — например `feat/contact-v2`, `fix/og-image`, `chore/deps-update`.
-- Прямые push в `main` запрещены branch protection. Весь код попадает через **Pull Request**.
-- PR мержится **только squash merge** (настроено на уровне репо). Ветка удаляется автоматически.
-
-### Коммиты — Conventional Commits
-
-Формат строго enforced через **commitlint + Husky** (`.husky/commit-msg`).
+## Directory
 
 ```
-type(scope): описание на английском, lowercase, без точки в конце
+src/
+  components/<Name>/<Name>.astro + <Name>.module.css [+ <Name>.ts]
+  layouts/Layout.astro        only layout; owns <head>, fonts, analytics, hreflang
+  pages/
+    index.astro               en (default)
+    ru/index.astro
+    uz/index.astro
+    api/contact.ts            SSR, prerender = false
+  i18n/
+    ru.json, en.json, uz.json
+    index.ts                  typed t(key, locale) helper
+  lib/
+    db.ts                     drizzle client
+    ratelimit.ts              upstash client
+    telegram.ts               notification sender
+  scripts/                    lazy-loaded animation modules (dynamic import only)
+  styles/
+    tokens.css                CSS custom properties (dark palette)
+    reset.css                 modern reset
+    global.css                @layer composition
 ```
 
-Допустимые типы: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `ci`, `a11y`.
+One component = one folder with paired `.astro` + `.module.css`. No exceptions.
 
-Примеры:
-```
-feat(seo): add JSON-LD BreadcrumbList schema
-fix(form): prevent double submit on slow connections
-chore(deps): bump astro to 5.2
-a11y(nav): add skip-to-content link
-refactor(tokens): extract spacing scale to custom properties
-ci: add typecheck job before deploy
-```
+---
 
-Правила:
-- Максимум 100 символов в заголовке.
-- `scope` — опциональный, но рекомендуется для контекста.
-- Body (через пустую строку) — для объяснения "зачем", если не очевидно из заголовка.
-- **Не добавлять** `Co-Authored-By`, AI-теги или любые автоматические подписи. Коммиты — персональные.
+## CSS rules
 
-### CI / CD
+- Every component has its own `*.module.css`; import it as `import s from './X.module.css'` and use `class:list={[s.root]}`.
+- **No `<style>` in `.astro` files.** If a rule feels too small for a module, it still goes in the module.
+- Global tokens in `src/styles/tokens.css`: colors (HSL), spacing scale, radii, shadows, z-index, typography scale, easing curves, durations.
+- **Dark-only.** Do not write `prefers-color-scheme` branches. No theme toggle, no light overrides.
+- Use CSS nesting (Lightning CSS handles it) — no SCSS/PostCSS plugins.
+- `@layer` order: `reset → tokens → base → components → utilities`.
+- Fluid sizing via `clamp()` — no breakpoint-driven typography.
+- Class names in camelCase (CSS Modules convention): `s.heroTitle`, not `s['hero-title']`.
 
-Workflow `.github/workflows/deploy.yml` содержит два job:
+---
 
-1. **`check`** (Typecheck & Build) — `npm run check` + `npm run build`. Обязательный status check для merge в `main`.
-2. **`deploy`** — деплой на Vercel. Запускается только после успешного `check`. На PR оставляет комментарий с preview URL.
+## Animation rules
 
-### Pull Request
+Goal: Vercel/Linear/Framer feel, Lighthouse ≥ 95.
 
-1. Создать feature-ветку: `git checkout -b feat/my-feature`.
-2. Коммитить атомарно — одна логическая единица = один коммит.
-3. Запушить: `git push -u origin feat/my-feature`.
-4. Создать PR в `main`. В описании:
-   - **Summary** — что и зачем (1–3 bullet points).
-   - **Test plan** — как проверить.
-5. Дождаться прохождения `Typecheck & Build`.
-6. Squash merge. Заголовок PR = итоговый коммит в `main`, поэтому он тоже должен следовать Conventional Commits.
+- **Motion One** for declarative element animations, hover/press states, enter/exit.
+- **GSAP + ScrollTrigger** for scroll choreography (Linear-style hero pinning, timeline sequences).
+- **Lenis** mounted once in `Layout.astro` for smooth scroll; integrate with ScrollTrigger via its `scrollerProxy`.
+- **Canvas/OGL** for backgrounds and shader effects — fullscreen, `position: fixed; z-index: -1; pointer-events: none`.
+- **Always lazy-load** animation modules: `const { animate } = await import('motion')` inside `IntersectionObserver` callbacks or after first user interaction. Never top-level import in a page/component that ships to the client.
+- Respect `prefers-reduced-motion: reduce` — guard every non-trivial animation with the media query and return an instant state.
+- Use `transform` / `opacity` / `filter` only on the compositor path. Avoid animating `width`, `height`, `top`, `left`.
+- Preload shader/image assets used in the LCP viewport.
 
-### Релизы
+---
 
-- Теги — semver: `vX.Y.Z`.
-- Создавать через `gh release create vX.Y.Z --generate-notes` или с кастомными notes.
-- `feat` → minor bump, `fix` → patch bump, breaking change → major bump.
+## Performance budgets (enforced)
 
-## Figma MCP workflow
+- Lighthouse: Performance ≥ 95, Accessibility ≥ 95, Best Practices ≥ 95, SEO = 100.
+- Initial client JS ≤ 100 KB gzipped. Animation libs excluded from initial bundle via dynamic import.
+- LCP ≤ 2.5s, CLS < 0.1, INP < 200ms.
+- Fonts: subset to latin + cyrillic, `font-display: swap`, preload one weight per family, use variable fonts.
+- Images: always via `astro:assets` `<Image />`, AVIF + WebP, `loading="lazy"` except the hero LCP image.
+- Never render a heavy effect above the fold without a deferred-paint strategy.
 
-Перед написанием новой секции / компонента:
+---
 
-1. Найди node ID секции в таблице `DESIGN.md`.
-2. Получи контекст: `get_design_context(nodeId, fileKey="L3skuk3D54hgX93qX7EIjd")`.
-3. Вернувшийся React+Tailwind-код используй **только как визуальный референс**. Транслируй в `.astro` + CSS Modules, применяя токены из `tokens.css`.
-4. Сверяйся со скриншотом через `get_screenshot` перед коммитом.
+## i18n
 
-## Важное
+- `astro.config.mjs`: `i18n: { defaultLocale: 'en', locales: ['en','ru','uz'], routing: { prefixDefaultLocale: false } }`.
+- Translations in `src/i18n/{ru,en,uz}.json`, flat or one-level-nested keys.
+- Access via `t(key, locale)` helper returning a `string` — typed against `en.json` as the source of truth; missing keys in `ru`/`uz` are a type error.
+- Every user-visible string goes through `t()` — no hardcoded text in components.
+- `Layout.astro` emits `<link rel="alternate" hreflang="…">` for all locales and a canonical URL on `afvs.dev`.
 
-- **Figma — single source of truth** для визуала. Нашёл расхождение дизайна с требованиями — сначала спроси пользователя, не правь молча.
-- Перед генерацией кода проверяй текущее состояние `src/` — проект уже не greenfield.
-- Канонический домен — **`afvs.dev`**. Превью-домены `*.vercel.app` должны отдавать `noindex`.
-- Любые отклонения от стека (Astro / CSS Modules / server-mode / без Tailwind / без React) — только после явного подтверждения пользователя.
+---
+
+## Backend pattern (contact form)
+
+`src/pages/api/contact.ts` with `export const prerender = false`:
+
+1. Parse body → validate with Zod schema.
+2. Upstash ratelimit by IP (e.g. 5 req / 10 min).
+3. Drizzle insert into `submissions`.
+4. Send Telegram notification via bot token.
+5. Respond `{ ok: true }` or `{ ok: false, error }` with correct HTTP status.
+
+All secrets come from `.env.local` locally and Vercel env vars in deploy. Never commit secrets. Never log PII.
+
+---
+
+## SEO
+
+- `site: 'https://afvs.dev'` in `astro.config.mjs`.
+- `@astrojs/sitemap` with per-locale entries.
+- Every page frontmatter: `title`, `description`, `ogImage`.
+- `robots.txt` allows `afvs.dev`, disallows `afvsweb.vercel.app` (legacy, de-indexed).
+- OG images: static `/public/og/*.png` initially; Satori/`@vercel/og` later if needed.
+
+---
+
+## TypeScript & code style
+
+- `tsconfig.json` extends Astro strict; `noImplicitAny`, `strictNullChecks`, `exactOptionalPropertyTypes` all on.
+- Component props: `interface Props { … }` declared above the component, destructured from `Astro.props`.
+- Filenames: PascalCase for components (`Hero.astro`, `Hero.module.css`), camelCase for helpers (`formatDate.ts`).
+- No default exports for components.
+- No comments that describe *what* the code does — only *why* when non-obvious.
+- Don't add abstractions, feature flags, or backwards-compat shims for hypothetical futures.
+
+---
+
+## Git / commits
+
+- Branch: `redesign-1`. Main is `master`.
+- Conventional commits: `feat:`, `fix:`, `perf:`, `refactor:`, `style:`, `chore:`, `docs:`.
+- Atomic commits — one logical change each.
+- **No Co-Authored-By Claude footer.** Personal attribution only.
+- Never `--no-verify`, never force-push.
+
+---
+
+## Before claiming done
+
+Run all three before saying a feature is complete:
+1. `pnpm build` succeeds with zero warnings.
+2. `pnpm astro check` passes.
+3. Manual smoke: open the page locally, scroll through every section, toggle locales, submit the contact form.
+
+If the work is UI-visible and you cannot open a browser, say so explicitly — do not claim success from a green build alone.

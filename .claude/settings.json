@@ -1,9 +1,7 @@
 {
   "enabledPlugins": {
     "playwright-skill@playwright-skill": true,
-    "ui-ux-pro-max@ui-ux-pro-max-skill": true,
-    "figma@claude-plugins-official": true,
-    "claude-seo@agricidaniel-seo": true,
-    "frontend-design@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true
   }
 }

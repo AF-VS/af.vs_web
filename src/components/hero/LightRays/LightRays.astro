@@ -1,0 +1,112 @@
+---
+import s from "./LightRays.module.css";
+
+type RaysOrigin =
+  | "top-center"
+  | "top-left"
+  | "top-right"
+  | "right"
+  | "left"
+  | "bottom-center"
+  | "bottom-right"
+  | "bottom-left";
+
+interface Props {
+  raysOrigin?: RaysOrigin;
+  raysColor?: string;
+  raysSpeed?: number;
+  lightSpread?: number;
+  rayLength?: number;
+  pulsating?: boolean;
+  fadeDistance?: number;
+  saturation?: number;
+  followMouse?: boolean;
+  mouseInfluence?: number;
+  noiseAmount?: number;
+  distortion?: number;
+  class?: string;
+}
+
+const {
+  raysOrigin = "top-center",
+  raysColor = "#ffffff",
+  raysSpeed = 1,
+  lightSpread = 1,
+  rayLength = 2,
+  pulsating = false,
+  fadeDistance = 1,
+  saturation = 1,
+  followMouse = true,
+  mouseInfluence = 0.1,
+  noiseAmount = 0,
+  distortion = 0,
+  class: className,
+} = Astro.props;
+---
+
+<div
+  class:list={[s.root, className]}
+  data-light-rays
+  data-origin={raysOrigin}
+  data-color={raysColor}
+  data-speed={raysSpeed}
+  data-spread={lightSpread}
+  data-length={rayLength}
+  data-pulsating={pulsating ? "1" : "0"}
+  data-fade={fadeDistance}
+  data-saturation={saturation}
+  data-follow-mouse={followMouse ? "1" : "0"}
+  data-mouse-influence={mouseInfluence}
+  data-noise={noiseAmount}
+  data-distortion={distortion}
+  aria-hidden="true"
+>
+</div>
+
+<script>
+  type MountFn = typeof import("../../../scripts/lightRays").mountLightRays;
+
+  const mediaReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  let mountPromise: Promise<MountFn> | null = null;
+  const loadMount = (): Promise<MountFn> => {
+    if (!mountPromise) {
+      mountPromise = import("../../../scripts/lightRays").then((m) => m.mountLightRays);
+    }
+    return mountPromise;
+  };
+
+  const boot = (el: HTMLElement) => {
+    if (mediaReduce.matches) return;
+    let cleanup: (() => void) | null = null;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && !cleanup) {
+            loadMount().then((mount) => {
+              if (cleanup) return;
+              cleanup = mount(el);
+            });
+          } else if (!entry.isIntersecting && cleanup) {
+            cleanup();
+            cleanup = null;
+          }
+        }
+      },
+      { threshold: 0.05 },
+    );
+    io.observe(el);
+  };
+
+  const start = () => {
+    for (const el of document.querySelectorAll<HTMLElement>("[data-light-rays]")) {
+      boot(el);
+    }
+  };
+
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(start, { timeout: 1500 });
+  } else {
+    setTimeout(start, 300);
+  }
+</script>

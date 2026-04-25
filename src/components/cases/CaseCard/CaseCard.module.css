@@ -1,0 +1,306 @@
+.root {
+  position: relative;
+  border-radius: var(--radius-card);
+  background: var(--surface-card-glass);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 1.6fr 1fr;
+  min-height: clamp(560px, 56vh, 720px);
+  transition:
+    transform 0.32s cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 0.32s;
+}
+
+.root:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-glass-hover-top);
+}
+
+.art {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at 50% 50%, #000 40%, transparent 75%);
+}
+
+.memolink .art {
+  background:
+    radial-gradient(500px 300px at 30% 30%, rgba(106, 184, 237, 0.35), transparent 60%),
+    linear-gradient(160deg, #0a1a2a 0%, #0c1219 100%);
+}
+
+.sisterra .art {
+  background:
+    radial-gradient(500px 300px at 70% 40%, rgba(255, 120, 175, 0.3), transparent 60%),
+    linear-gradient(160deg, #170a14 0%, #0c1219 100%);
+}
+
+.draft .art {
+  background:
+    radial-gradient(500px 300px at 50% 30%, rgba(168, 210, 240, 0.35), transparent 60%),
+    linear-gradient(160deg, #0a1220 0%, #0c1219 100%);
+}
+
+.mock {
+  position: absolute;
+  inset: 18px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--border-glass-top);
+  backdrop-filter: blur(6px);
+  display: grid;
+  grid-template-rows: 26px 1fr;
+  overflow: hidden;
+}
+
+.media {
+  position: absolute;
+  inset: 18px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-glass-top);
+  background: rgba(255, 255, 255, 0.02);
+  z-index: 1;
+}
+
+.image,
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.image {
+  transform: translate3d(0, 0, 0) scale(1);
+  transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+
+.video {
+  opacity: 0;
+  transition: opacity 0.45s cubic-bezier(0.2, 0.7, 0.2, 1);
+  pointer-events: none;
+}
+
+.root:hover .video,
+.root:focus-within .video,
+.root[data-case-playing="true"] .video {
+  opacity: 1;
+}
+
+.portrait .media {
+  background:
+    radial-gradient(80% 60% at 50% 30%, rgba(255, 140, 185, 0.18), transparent 70%),
+    linear-gradient(180deg, #1a0e18 0%, #0c0a12 100%);
+  display: grid;
+  place-items: center;
+}
+
+.portrait .media.videoOnly,
+.media.videoOnly {
+  background: transparent;
+  background-image: none;
+  border-color: transparent;
+}
+
+.media.videoOnly .video {
+  opacity: 1;
+  box-shadow: none;
+}
+
+.portrait .image,
+.portrait .video {
+  position: relative;
+  inset: auto;
+  width: auto;
+  height: 92%;
+  max-width: 92%;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.portrait .video {
+  position: absolute;
+  inset: 4%;
+  margin: auto;
+  width: auto;
+  max-width: 92%;
+  height: 92%;
+}
+
+.glow {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(255, 120, 175, 0.35), transparent 60%);
+  filter: blur(32px);
+  opacity: 0.5;
+  transition: opacity 0.6s ease, transform 0.9s ease;
+  pointer-events: none;
+}
+
+.root:hover .glow,
+.root:focus-within .glow {
+  opacity: 0.9;
+  transform: scale(1.08);
+}
+
+.parallax:hover .image,
+.parallax:focus-within .image {
+  transform: translate3d(var(--tx, 0px), var(--ty, 0px), 0) scale(1.08);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.bar span {
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  background: var(--text-secondary);
+  opacity: 0.4;
+}
+
+.content {
+  padding: 10px;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.b {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.08);
+}
+.w1 { width: 60%; }
+.w2 { width: 85%; }
+.w3 { width: 40%; }
+
+.tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.tile {
+  aspect-ratio: 1;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+}
+
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--text-primary);
+  padding: 4px 8px;
+  background: var(--surface-header-glass);
+  border: 1px solid var(--border-glass-top);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(6px);
+  z-index: 2;
+}
+
+.body {
+  padding: 22px 22px 24px;
+  display: grid;
+  gap: 12px;
+  align-content: space-between;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.015em;
+  margin: 0 0 6px;
+}
+
+.desc {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-caption);
+  line-height: 1.55;
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.duration {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.durationIcon {
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+
+@media (max-width: 767px) {
+  .root {
+    min-height: 520px;
+    grid-template-rows: 1.35fr 1fr;
+    scroll-snap-align: start;
+  }
+
+  .media,
+  .mock { inset: 14px; }
+
+  .body { padding: 18px 18px 20px; gap: 10px; }
+
+  .title { font-size: 20px; margin-bottom: 4px; }
+
+  .badge { top: 10px; right: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root { transition: none; }
+  .video { transition: none; }
+  .image { transition: none; }
+  .glow { transition: none; }
+  .root:hover .video,
+  .root:focus-within .video,
+  .root[data-case-playing="true"] .video { opacity: 0; }
+  .parallax:hover .image,
+  .parallax:focus-within .image { transform: none; }
+}

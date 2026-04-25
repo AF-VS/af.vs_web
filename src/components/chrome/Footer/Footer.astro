@@ -1,0 +1,45 @@
+---
+import s from "./Footer.module.css";
+import LogoHWhite from "../../../assets/brand/logo_h_white.svg";
+import type { Dict } from "../../../i18n/en";
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+---
+
+<footer class={s.root}>
+  <div class={s.cols}>
+    <div class={s.brandCol}>
+      <LogoHWhite class={s.logo} />
+    </div>
+    <div class={s.col}>
+      <h4>Studio</h4>
+      <ul>
+        {dict.footer.nav.map((n) => (
+          <li><a href={n.href}>{n.label}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div class={s.col}>
+      <h4>Social</h4>
+      <ul>
+        {dict.footer.social.map((soc) => (
+          <li>
+            <a
+              href={soc.href || undefined}
+              target={soc.href ? '_blank' : undefined}
+              rel={soc.href ? 'noopener noreferrer' : undefined}
+            >{soc.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+  <div class={s.bottom}>
+    <span>{dict.footer.copyright} · AF Venture studio · afvs.dev</span>
+    <span class={s.region}>Tashkent · Remote</span>
+  </div>
+</footer>

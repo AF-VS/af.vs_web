@@ -1,6 +1,9 @@
 import type { Dict } from './en';
 
 export const uz: Dict = {
+  a11y: {
+    skipToContent: 'Mazmunga oʻtish',
+  },
   nav: {
     services: 'Xizmatlar',
     cases: 'Loyihalar',
@@ -12,29 +15,33 @@ export const uz: Dict = {
     accentWords: ["G'oya", 'mahsulot', 'Mahsulot', "o'sish"],
   },
   services: {
+    kickerLabel: 'Xizmatlar / 02',
+    headTitle: "To'rt yo'nalish. <em>Bitta shartnoma.</em>",
+    ctaLabel: 'Muhokama qilish',
     build: {
       title: 'Build',
       description: "G'oyadan ishga tayyor mahsulotgacha",
-      tags: ['product discovery', 'ui/ux dizayn', 'MVP ishlab chiqish', "to'liq tsikl"],
+      tags: ['mahsulotni tadqiq qilish', 'ux/ui dizayn', 'MVP ishlab chiqish', "to'liq tsikl ishlab chiqish"],
     },
     ai: {
       title: 'AI',
       description: 'Haqiqiy mahsulot vazifalari uchun amaliy AI',
-      tags: ['AI-funksiyalar', 'integratsiyalar'],
+      tags: ['AI-funksiyalar', 'jarayonlarni avtomatlashtirish', 'xizmatlar integratsiyasi', 'mahsulotni optimallashtirish'],
     },
     advisory: {
       title: 'Advisory',
       description: 'Mahsulot qarorlari uchun strategik yordam',
-      tags: ['mahsulot strategiyasi', 'jarayonlarni sozlash'],
+      tags: ['mahsulot strategiyasi', 'texnik rejalashtirish', 'jarayonlarni sozlash', 'investitsiyaga tayyorgarlik'],
     },
     growth: {
       title: 'Growth',
       description: "Ishga tushirishdan uzoq muddatli o'sishgacha",
-      tags: ['kengaytirish', 'yaxshilash', "qo'llab-quvvatlash", 'iteratsiya'],
+      tags: ['funksiyalarni kengaytirish', 'mahsulotni yaxshilash', "qo'llab-quvvatlash va xizmat ko'rsatish", 'uzluksiz rivojlantirish'],
     },
   },
   cases: {
     title: 'Oxirgi ishlarimiz',
+    headTitle: 'Tanlangan <em>ishlar.</em>',
     items: [
       {
         title: 'Memolink',
@@ -43,6 +50,21 @@ export const uz: Dict = {
         tags: ['web & mob', 'ui/ux dizayn', "o'sishni qo'llab-quvvatlash"],
         image: 'case-1',
         video: '/cases/memolink.mp4',
+      },
+      {
+        title: 'Sisterra',
+        description: "Qizlar tanishadigan, muloqot qiladigan va do'stlashadigan ijtimoiy ilova — xavfsiz va tekshirilgan jamiyat ichida",
+        imageAlt: "Sisterra — qizlar uchun ijtimoiy ilova interfeysi ko'rinishi",
+        tags: ['mobile', 'full-cycle', 'social'],
+        image: 'case-2',
+        video: '/cases/sisterra.mp4',
+      },
+      {
+        title: 'Draft AI',
+        description: "Bolalarni turli yo'nalishlar bo'yicha o'qitish uchun shaxsiy dasturlarga ega AI platforma",
+        imageAlt: "Draft AI — bolalar uchun o'quv platformasi interfeysi ko'rinishi",
+        tags: ['web & mob', 'ui/ux design', 'growth'],
+        image: 'case-3',
       },
     ],
   },
@@ -106,11 +128,11 @@ export const uz: Dict = {
       { label: 'Brif', href: '#contact' },
     ],
     social: [
-      { label: 'LinkedIn', href: 'https://linkedin.com' },
-      { label: 'Instagram', href: 'https://instagram.com' },
-      { label: 'Telegram', href: 'https://t.me' },
-      { label: 'Mail', href: 'mailto:hello@afvs.dev' },
-      { label: 'Clutch', href: 'https://clutch.co' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/company/af-venture-studio/posts/?feedView=all' },
+      { label: 'Instagram', href: 'https://www.instagram.com/afventurestudio?igsh=MXB6MDZ3eGhnMzY3dQ==' },
+      { label: 'Telegram', href: 'https://t.me/afvsdev' },
+      { label: 'Email', href: '' },
+      { label: 'Clutch', href: 'https://clutch.co/profile/af-venture-studio' },
     ],
   },
 };

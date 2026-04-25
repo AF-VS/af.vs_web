@@ -1,0 +1,93 @@
+---
+import "../styles/global.css";
+import Ambient from "../components/chrome/Ambient/Ambient.astro";
+import Analytics from "@vercel/analytics/astro";
+import SpeedInsights from "@vercel/speed-insights/astro";
+import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import interCyrillicWoff2 from "@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2?url";
+import { getDict } from "../i18n";
+
+type Locale = "en" | "ru" | "uz";
+
+interface Props {
+  title: string;
+  description: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  locale: Locale;
+  canonical?: string;
+}
+
+const {
+  title,
+  description,
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = "/og-image.png",
+  locale,
+  canonical,
+} = Astro.props;
+
+const dict = getDict(locale);
+
+const siteUrl = "https://afvs.dev";
+const pathname = Astro.url.pathname;
+const pathWithoutLocale = pathname.replace(/^\/(ru|uz)(?=\/|$)/, "") || "/";
+const canonicalHref = canonical ?? `${siteUrl}${pathname}`;
+
+function altHref(l: Locale): string {
+  if (l === "en") return `${siteUrl}${pathWithoutLocale}`;
+  const suffix = pathWithoutLocale === "/" ? "/" : pathWithoutLocale;
+  return `${siteUrl}/${l}${suffix}`;
+}
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="preload" href={interLatinWoff2} as="font" type="font/woff2" crossorigin />
+    {locale === "ru" && (
+      <link rel="preload" href={interCyrillicWoff2} as="font" type="font/woff2" crossorigin />
+    )}
+    <script is:inline>document.documentElement.classList.add("js");</script>
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#101b2c" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <link rel="canonical" href={canonicalHref} />
+    <link rel="alternate" hreflang="en" href={altHref("en")} />
+    <link rel="alternate" hreflang="ru" href={altHref("ru")} />
+    <link rel="alternate" hreflang="uz" href={altHref("uz")} />
+    <link rel="alternate" hreflang="x-default" href={altHref("en")} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:url" content={canonicalHref} />
+    <meta property="og:locale" content={locale} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">{dict.a11y.skipToContent}</a>
+    <Ambient />
+    <slot />
+    <Analytics />
+    <SpeedInsights />
+    <script>
+      import("../scripts/reveal").then(({ initReveal }) => initReveal());
+    </script>
+  </body>
+</html>

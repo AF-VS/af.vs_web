@@ -1,6 +1,9 @@
 // Source of truth for EN copy is DESIGN.md → Figma.
 
 export const en = {
+  a11y: {
+    skipToContent: 'Skip to content',
+  },
   nav: {
     services: 'Services',
     cases: 'Cases',
@@ -12,29 +15,33 @@ export const en = {
     accentWords: ['idea', 'product', 'growth'],
   },
   services: {
+    kickerLabel: 'Services / 02',
+    headTitle: 'Four directions. <em>One contract.</em>',
+    ctaLabel: 'Discuss',
     build: {
       title: 'Build',
       description: 'From idea to launch-ready product',
-      tags: ['product discovery', 'ui/ux design', 'mvp development', 'full-cycle product'],
+      tags: ['product discovery', 'ux/ui design', 'mvp development', 'full-cycle product build'],
     },
     ai: {
       title: 'AI',
       description: 'Practical AI for real product use cases',
-      tags: ['ai-powered features', 'integrations'],
+      tags: ['ai-powered features', 'process automation', 'service integrations', 'product optimization'],
     },
     advisory: {
       title: 'Advisory',
       description: 'Strategic support for product decisions',
-      tags: ['product strategy', 'delivery setup'],
+      tags: ['product strategy', 'technical planning', 'delivery setup', 'investment readiness'],
     },
     growth: {
       title: 'Growth',
       description: 'From launch to long-term product growth',
-      tags: ['expansion', 'upgrade', 'support', 'iteration'],
+      tags: ['feature expansion', 'product improvement', 'support & maintenance', 'continuous development'],
     },
   },
   cases: {
     title: 'Our latest work',
+    headTitle: 'Selected <em>work.</em>',
     items: [
       {
         title: 'Memolink',
@@ -43,6 +50,21 @@ export const en = {
         tags: ['web & mob', 'ui/ux design', 'growth support'],
         image: 'case-1',
         video: '/cases/memolink.mp4',
+      },
+      {
+        title: 'Sisterra',
+        description: 'Social app where women connect, date, and build friendships in a safe, verified community',
+        imageAlt: 'Sisterra — women-only social app interface preview',
+        tags: ['mobile', 'full-cycle', 'social'],
+        image: 'case-2',
+        video: '/cases/sisterra.mp4',
+      },
+      {
+        title: 'Draft AI',
+        description: 'AI learning platform guiding kids through personalized programs across many subjects',
+        imageAlt: "Draft AI — kids' learning platform interface preview",
+        tags: ['web & mob', 'ui/ux design', 'growth'],
+        image: 'case-3',
       },
     ],
   },
@@ -106,11 +128,11 @@ export const en = {
       { label: 'Brif', href: '#contact' },
     ],
     social: [
-      { label: 'LinkedIn', href: 'https://linkedin.com' },
-      { label: 'Instagram', href: 'https://instagram.com' },
-      { label: 'Telegram', href: 'https://t.me' },
-      { label: 'Mail', href: 'mailto:hello@afvs.dev' },
-      { label: 'Clutch', href: 'https://clutch.co' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/company/af-venture-studio/posts/?feedView=all' },
+      { label: 'Instagram', href: 'https://www.instagram.com/afventurestudio?igsh=MXB6MDZ3eGhnMzY3dQ==' },
+      { label: 'Telegram', href: 'https://t.me/afvsdev' },
+      { label: 'Email', href: '' },
+      { label: 'Clutch', href: 'https://clutch.co/profile/af-venture-studio' },
     ],
   },
 };

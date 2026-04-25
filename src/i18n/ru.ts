@@ -1,6 +1,9 @@
 import type { Dict } from './en';
 
 export const ru: Dict = {
+  a11y: {
+    skipToContent: 'Перейти к содержимому',
+  },
   nav: {
     services: 'Услуги',
     cases: 'Кейсы',
@@ -12,29 +15,33 @@ export const ru: Dict = {
     accentWords: ['идеи', 'продукту', 'продукта', 'росту'],
   },
   services: {
+    kickerLabel: 'Услуги / 02',
+    headTitle: 'Четыре направления. <em>Один контракт.</em>',
+    ctaLabel: 'Обсудить',
     build: {
       title: 'Разработка',
       description: 'От идеи до готового к запуску продукта',
-      tags: ['product discovery', 'ui/ux дизайн', 'разработка MVP', 'полный цикл'],
+      tags: ['исследование продукта', 'ux/ui дизайн', 'разработка MVP', 'полный цикл разработки'],
     },
     ai: {
       title: 'ИИ',
       description: 'Практичный AI для реальных задач продукта',
-      tags: ['AI-функции', 'интеграции'],
+      tags: ['AI-функции', 'автоматизация процессов', 'интеграции сервисов', 'оптимизация продукта'],
     },
     advisory: {
       title: 'Менторство',
       description: 'Стратегическая поддержка продуктовых решений',
-      tags: ['продуктовая стратегия', 'настройка процессов'],
+      tags: ['продуктовая стратегия', 'техническое планирование', 'настройка процессов', 'подготовка к инвестициям'],
     },
     growth: {
       title: 'Рост',
       description: 'От запуска к долгосрочному росту продукта',
-      tags: ['масштабирование', 'улучшение', 'поддержка', 'итерации'],
+      tags: ['расширение функций', 'улучшение продукта', 'поддержка и сопровождение', 'постоянное развитие'],
     },
   },
   cases: {
     title: 'Наши последние работы',
+    headTitle: 'Избранные <em>работы.</em>',
     items: [
       {
         title: 'Memolink',
@@ -43,6 +50,21 @@ export const ru: Dict = {
         tags: ['web & mob', 'ui/ux дизайн', 'поддержка роста'],
         image: 'case-1',
         video: '/cases/memolink.mp4',
+      },
+      {
+        title: 'Sisterra',
+        description: 'Социальное приложение, где девушки знакомятся, общаются и находят дружбу в безопасном проверенном сообществе',
+        imageAlt: 'Sisterra — превью интерфейса социального приложения для девушек',
+        tags: ['mobile', 'full-cycle', 'social'],
+        image: 'case-2',
+        video: '/cases/sisterra.mp4',
+      },
+      {
+        title: 'Draft AI',
+        description: 'ИИ-платформа для обучения детей с персональными программами по разным направлениям',
+        imageAlt: 'Draft AI — превью интерфейса платформы обучения для детей',
+        tags: ['web & mob', 'ui/ux design', 'growth'],
+        image: 'case-3',
       },
     ],
   },
@@ -106,11 +128,11 @@ export const ru: Dict = {
       { label: 'Бриф', href: '#contact' },
     ],
     social: [
-      { label: 'LinkedIn', href: 'https://linkedin.com' },
-      { label: 'Instagram', href: 'https://instagram.com' },
-      { label: 'Telegram', href: 'https://t.me' },
-      { label: 'Mail', href: 'mailto:hello@afvs.dev' },
-      { label: 'Clutch', href: 'https://clutch.co' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/company/af-venture-studio/posts/?feedView=all' },
+      { label: 'Instagram', href: 'https://www.instagram.com/afventurestudio?igsh=MXB6MDZ3eGhnMzY3dQ==' },
+      { label: 'Telegram', href: 'https://t.me/afvsdev' },
+      { label: 'Email', href: '' },
+      { label: 'Clutch', href: 'https://clutch.co/profile/af-venture-studio' },
     ],
   },
 };

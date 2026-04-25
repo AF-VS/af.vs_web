@@ -1,157 +1,125 @@
-/* Font imports — only weights we actually use */
-@import '@fontsource/inter/400.css';
-@import '@fontsource/inter/500.css';
-@import '@fontsource/inter/600.css';
-@import '@fontsource/space-grotesk/700.css';
+@layer reset, tokens, base, components, utilities;
 
-/* Self-hosted brand display font. Weight range is permissive —
-   Mardox.ttf ships a single cut, the declaration lets any font-weight
-   call resolve to the available glyphs without browser synthesis. */
-@font-face {
-  font-family: 'Mardox';
-  src: url('/fonts/Mardox.ttf') format('truetype');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+@import "./reset.css" layer(reset);
+@import "./tokens.css" layer(tokens);
+@import "@fontsource-variable/unbounded/wght.css" layer(base);
+@import "@fontsource-variable/inter/wght.css" layer(base);
 
-/* Minimal reset */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  color-scheme: dark;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-size-adjust: 100%;
-  /* Prevent fixed/absolute overflow (e.g. Services cursor spotlight)
-     from triggering a page-level horizontal scrollbar.
-     `clip` — modern browsers, doesn't create a scroll container.
-     `hidden` — fallback for older Safari (<16). */
-  overflow-x: hidden;
-  overflow-x: clip;
-
-  /* Branded thin scrollbar. Standard props cover Firefox + recent Chrome/Safari;
-     ::-webkit rules add rounded thumb + hover for Chromium/WebKit. */
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) transparent;
-  scroll-behavior: smooth;
-}
-
-html::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-html::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-html::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
-  border: 2px solid transparent;
-  border-radius: 999px;
-  background-clip: padding-box;
-  transition: background-color 0.2s ease;
-}
-
-html::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-hover);
-}
-
-body {
-  min-height: 100vh;
-  background-color: var(--surface-bg);
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  font-weight: 400;
-}
-
-img,
-picture,
-svg,
-video {
-  display: block;
-  max-width: 100%;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 700;
-}
-
-/* ── Container ───────────────────────────────── */
-.container {
-  width: 100%;
-  margin-inline: auto;
-  padding-inline: var(--container-padding);
-}
-
-@media (min-width: 744px)  { .container { max-width: 700px; } }
-@media (min-width: 984px)  { .container { max-width: 936px; } }
-@media (min-width: 1248px) { .container { max-width: 1200px; } }
-@media (min-width: 1920px) { .container { max-width: 1600px; } }
-@media (min-width: 2560px) { .container { max-width: 2200px; } }
-
-/* ── Section viewport ────────────────────────── */
-.section-viewport {
-  min-height: 100dvh;
-  width: 100%;
-  padding-block: var(--spacing-section);
-}
-
-/* ── Screen reader only ──────────────────────── */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* ── Focus-visible ───────────────────────────── */
-:where(a, button, input, textarea):focus-visible {
-  outline: 2px solid var(--primary-accent);
-  outline-offset: 4px;
-  border-radius: 4px;
-}
-
-/* ── Reveal-on-scroll ────────────────────────── */
-/* Initial hidden state. Reveal itself is driven via Web Animations API
-   (see Layout.astro) so that component-scoped `transition` rules (e.g.
-   `.card { transition: box-shadow ... }`) cannot override the reveal,
-   and final state is committed inline after animation ends. */
-[data-animate]:not(.is-revealed) {
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-animate] {
-    opacity: 1;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--primary-default-rgb), 0.45) var(--surface-bg-deep);
+    scrollbar-gutter: stable;
   }
-  html { scroll-behavior: auto; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  body {
+    background: var(--surface-bg);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--primary-default);
+    color: var(--surface-bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--primary-default);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--surface-bg-deep);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--primary-default-rgb), 0.55),
+      rgba(var(--primary-accent-rgb), 0.35)
+    );
+    border: 2px solid var(--surface-bg-deep);
+    border-radius: 999px;
+    transition: background 0.2s ease;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      rgba(var(--primary-default-rgb), 0.85),
+      rgba(var(--primary-accent-rgb), 0.6)
+    );
+  }
+  ::-webkit-scrollbar-corner {
+    background: var(--surface-bg-deep);
+  }
+}
+
+@layer utilities {
+  .skip-link {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -120%);
+    z-index: 100;
+    padding: 10px 18px;
+    border-radius: var(--radius-pill);
+    background: var(--surface-card);
+    color: var(--text-primary);
+    border: 1px solid var(--primary-default);
+    font-family: var(--font-body);
+    font-size: var(--font-size-caption);
+    transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .skip-link:focus-visible {
+    transform: translate(-50%, 16px);
+    outline: 2px solid var(--primary-default);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .skip-link { transition: none; }
+  }
+
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  html.js [data-reveal="fade"] {
+    transform: none;
+  }
+  html.js [data-reveal="up-sm"] {
+    transform: translate3d(0, 10px, 0);
+    transition-duration: 0.5s;
+  }
+  html.js [data-reveal="scale"] {
+    transform: scale(0.97);
+    transition-duration: 0.7s;
+  }
+  html.js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js [data-reveal] {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
 }

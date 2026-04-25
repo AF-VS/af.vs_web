@@ -4,7 +4,11 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://afvs.dev',
-  adapter: vercel(),
+  adapter: vercel({
+    imageService: true,
+    webAnalytics: { enabled: true },
+    maxDuration: 10,
+  }),
   output: 'server',
   integrations: [
     sitemap({
