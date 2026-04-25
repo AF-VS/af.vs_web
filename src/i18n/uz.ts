@@ -12,7 +12,7 @@ export const uz: Dict = {
   hero: {
     title: "G'oyadan mahsulotga<br>Mahsulotdan o'sishga",
     cta: 'Boshlash',
-    accentWords: ["G'oya", 'mahsulot', 'Mahsulot', "o'sish"],
+    accentWords: ['mahsulotga', "o'sishga"],
   },
   services: {
     kickerLabel: 'Xizmatlar / 02',
