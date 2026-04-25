@@ -41,6 +41,49 @@ function altHref(l: Locale): string {
   const suffix = pathWithoutLocale === "/" ? "/" : pathWithoutLocale;
   return `${siteUrl}/${l}${suffix}`;
 }
+
+const orgId = `${siteUrl}/#organization`;
+const websiteId = `${siteUrl}/#website`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": orgId,
+      name: "AF Venture Studio",
+      alternateName: ["AFVS", "AF Venture", "afvs"],
+      url: siteUrl,
+      logo: {
+        "@type": "ImageObject",
+        url: `${siteUrl}/apple-touch-icon.png`,
+        width: 180,
+        height: 180,
+      },
+      description,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Tashkent",
+        addressCountry: "UZ",
+      },
+      sameAs: [
+        "https://www.linkedin.com/company/af-venture-studio/",
+        "https://www.instagram.com/afventurestudio/",
+        "https://t.me/afvsdev",
+        "https://clutch.co/profile/af-venture-studio",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": websiteId,
+      url: siteUrl,
+      name: "AF Venture Studio",
+      description,
+      publisher: { "@id": orgId },
+      inLanguage: ["en", "ru", "uz"],
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -79,6 +122,8 @@ function altHref(l: Locale): string {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <a href="#main" class="skip-link">{dict.a11y.skipToContent}</a>
