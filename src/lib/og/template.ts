@@ -39,16 +39,31 @@ const COLORS = {
 
 function tokenize(line: string, accents: readonly string[]): SatoriEl[] {
   const accentSet = new Set(accents.map((w) => w.toLowerCase()));
-  const tokens = line.split(/(\s+)/).filter((t) => t.length > 0);
-  return tokens.map((token) => {
-    const stripped = token.replace(/[.,;:!?<>—–-]/g, '').toLowerCase();
+  // Split on word boundaries, keeping the words. Each word gets its trailing
+  // whitespace appended so Satori (which collapses whitespace-only flex items)
+  // still renders spaces between words. whiteSpace: 'pre' prevents Satori from
+  // stripping the trailing space character inside each span.
+  const words = line.split(/(\s+)/);
+  const result: SatoriEl[] = [];
+  for (let i = 0; i < words.length; i++) {
+    const word = words[i];
+    if (/^\s+$/.test(word)) continue; // skip standalone whitespace tokens
+    const trailing = words[i + 1] && /^\s+$/.test(words[i + 1]) ? words[i + 1] : '';
+    if (trailing) i++; // consume the whitespace token
+    const stripped = word.replace(/[.,;:!?<>—–-]/g, '').toLowerCase();
     const isAccent = stripped.length > 0 && accentSet.has(stripped);
-    return el(
-      'span',
-      isAccent ? { color: COLORS.primary } : {},
-      token,
+    result.push(
+      el(
+        'span',
+        {
+          ...(isAccent ? { color: COLORS.primary } : {}),
+          whiteSpace: 'pre',
+        },
+        word + trailing,
+      ),
     );
-  });
+  }
+  return result;
 }
 
 export function buildOgTree(locale: Locale): SatoriEl {
