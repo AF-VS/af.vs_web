@@ -22,10 +22,10 @@ interface Props {
 const {
   title,
   description,
+  locale,
   ogTitle = title,
   ogDescription = description,
-  ogImage = "/og-image.png",
-  locale,
+  ogImage = `/og/${locale}.png`,
   canonical,
 } = Astro.props;
 
