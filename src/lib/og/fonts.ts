@@ -1,14 +1,14 @@
 import fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 function read(relPath: string): Buffer {
-  return fs.readFileSync(fileURLToPath(new URL(relPath, import.meta.url)));
+  return fs.readFileSync(path.join(process.cwd(), 'src/lib/og/fonts', relPath));
 }
 
-const interRegular = read('./fonts/Inter-Regular.otf');
-const interMedium = read('./fonts/Inter-Medium.otf');
-const interSemiBold = read('./fonts/Inter-SemiBold.otf');
-const unboundedSemiBold = read('./fonts/Unbounded-SemiBold.ttf');
+const interRegular = read('Inter-Regular.otf');
+const interMedium = read('Inter-Medium.otf');
+const interSemiBold = read('Inter-SemiBold.otf');
+const unboundedSemiBold = read('Unbounded-SemiBold.ttf');
 
 export interface OgFont {
   name: string;
