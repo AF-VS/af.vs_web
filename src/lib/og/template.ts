@@ -39,17 +39,13 @@ const COLORS = {
 
 function tokenize(line: string, accents: readonly string[]): SatoriEl[] {
   const accentSet = new Set(accents.map((w) => w.toLowerCase()));
-  // Split on word boundaries, keeping the words. Each word gets its trailing
-  // whitespace appended so Satori (which collapses whitespace-only flex items)
-  // still renders spaces between words. whiteSpace: 'pre' prevents Satori from
-  // stripping the trailing space character inside each span.
   const words = line.split(/(\s+)/);
   const result: SatoriEl[] = [];
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
-    if (/^\s+$/.test(word)) continue; // skip standalone whitespace tokens
+    if (/^\s+$/.test(word)) continue;
     const trailing = words[i + 1] && /^\s+$/.test(words[i + 1]) ? words[i + 1] : '';
-    if (trailing) i++; // consume the whitespace token
+    if (trailing) i++;
     const stripped = word.replace(/[.,;:!?<>—–-]/g, '').toLowerCase();
     const isAccent = stripped.length > 0 && accentSet.has(stripped);
     result.push(
