@@ -1,8 +1,46 @@
 ---
-import Landing from '../../components/pages/Landing.astro';
-import { ru } from '../../i18n/ru';
-
 export const prerender = true;
+
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/chrome/Header/Header.astro";
+import Drawer from "../../components/chrome/Drawer/Drawer.astro";
+import Footer from "../../components/chrome/Footer/Footer.astro";
+import Hero from "../../components/hero/Hero/Hero.astro";
+import Services from "../../components/services/Services/Services.astro";
+import Cases from "../../components/cases/Cases/Cases.astro";
+import Brief from "../../components/brief/Brief/Brief.astro";
+import { ru } from "../../i18n/ru";
+import { buildHomeMeta } from "../../lib/seoMeta";
+
+const dict = ru;
+const locale = "ru" as const;
+const meta = buildHomeMeta(dict, locale);
 ---
 
-<Landing dict={ru} locale="ru" />
+<Layout
+  title={meta.title}
+  description={meta.description}
+  ogTitle={meta.ogTitle}
+  ogDescription={meta.ogDescription}
+  locale={locale}
+>
+  <Header dict={dict} locale={locale} />
+  <Drawer dict={dict} locale={locale} />
+  <main id="main">
+    <Hero dict={dict} />
+    <Services
+      dict={dict}
+      ctaLabel={dict.services.ctaLabel}
+      kickerLabel={dict.services.kickerLabel}
+      headTitle={dict.services.headTitle}
+    />
+    <Cases
+      dict={dict}
+      locale={locale}
+      kickerLabel={`${dict.cases.title} / 03`}
+      headTitle={dict.cases.headTitle}
+    />
+    <Brief dict={dict} kickerLabel={`${dict.brif.title} / 04`} />
+  </main>
+  <Footer dict={dict} />
+</Layout>

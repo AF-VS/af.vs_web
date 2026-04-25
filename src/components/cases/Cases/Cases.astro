@@ -1,0 +1,63 @@
+---
+import s from "./Cases.module.css";
+import CaseCard from "../CaseCard/CaseCard.astro";
+import type { Dict } from "../../../i18n/en";
+import type { Locale } from "../../../i18n";
+import { formatWeeks } from "../../../i18n/formatWeeks";
+import case1 from "../../../assets/cases/case-1.webp";
+import case2 from "../../../assets/cases/case-2.webp";
+import case3 from "../../../assets/cases/case-3.webp";
+
+interface Props {
+  dict: Dict;
+  locale: Locale;
+  kickerLabel: string;
+  headTitle: string;
+}
+
+const { dict, locale, kickerLabel, headTitle } = Astro.props;
+
+const slugs = ["memolink", "sisterra", "draft"] as const;
+const badges = { memolink: "Live", sisterra: "MVP", draft: "Beta" } as const;
+const weeks = { memolink: 14, sisterra: 11, draft: 16 } as const;
+const portraitSlugs: ReadonlySet<(typeof slugs)[number]> = new Set(["sisterra"]);
+
+const imageMap: Record<string, ImageMetadata | undefined> = {
+  "case-1": case1,
+  "case-2": case2,
+  "case-3": case3,
+};
+---
+
+<section class={s.section} id="cases">
+  <header class={s.head} data-reveal-group data-reveal-stagger="90">
+    <span class={s.kicker} data-reveal="up-sm">{kickerLabel}</span>
+    <h2 class={s.title} data-reveal="up-sm" set:html={headTitle} />
+  </header>
+
+  <div class={s.grid} data-reveal-group data-reveal-stagger="110" data-reveal-delay="120">
+    {dict.cases.items.map((item, i) => {
+      const slug = slugs[i] ?? "memolink";
+      const image = imageMap[item.image];
+      return (
+        <CaseCard
+          slug={slug}
+          title={item.title}
+          description={item.description}
+          tags={item.tags}
+          badge={badges[slug]}
+          duration={formatWeeks(weeks[slug], locale)}
+          image={image}
+          imageAlt={item.imageAlt}
+          video={item.video}
+          portrait={portraitSlugs.has(slug)}
+        />
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  import { initCaseHover } from "../CaseCard/caseCard";
+  initCaseHover();
+</script>

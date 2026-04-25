@@ -1,0 +1,87 @@
+---
+import { Image } from "astro:assets";
+import s from "./Hero.module.css";
+import Button from "../../ui/Button/Button.astro";
+import LightRays from "../LightRays/LightRays.astro";
+import bg from "../../../assets/hero/bg.webp";
+import { tokenizeTitle } from "../../../lib/highlightAccents";
+import type { Dict } from "../../../i18n/en";
+
+interface Props {
+  dict: Dict;
+}
+
+const { dict } = Astro.props;
+const tokens = tokenizeTitle(dict.hero.title, dict.hero.accentWords);
+---
+
+<section class={s.hero} id="hero">
+  <LightRays
+    raysOrigin="top-center"
+    raysColor="#7cc3ff"
+    raysSpeed={0.9}
+    lightSpread={1.1}
+    rayLength={1.8}
+    fadeDistance={1.1}
+    saturation={0.9}
+    followMouse={true}
+    mouseInfluence={0.08}
+    noiseAmount={0.04}
+    distortion={0.02}
+    class={s.rays}
+  />
+  <div
+    class={s.copy}
+    data-reveal-group
+    data-reveal-stagger="90"
+  >
+    <h1
+      class={s.title}
+      data-reveal="up-sm"
+      data-reveal-immediate
+    >
+      {
+        tokens.map((t) =>
+          t.text === "\n" ? (
+            <br />
+          ) : t.accent ? (
+            <em class={s.accent}>{t.text}</em>
+          ) : (
+            <span>{t.text}</span>
+          ),
+        )
+      }
+    </h1>
+    <p class={s.lead} data-reveal="up-sm" data-reveal-immediate>
+      {dict.seo.homeOgDescription}
+    </p>
+    <div
+      class={s.cta}
+      data-reveal-group
+      data-reveal-stagger="70"
+      data-reveal="fade"
+      data-reveal-immediate
+    >
+      <span data-reveal="up-sm" data-reveal-immediate style="display: inline-flex;">
+        <Button href="#contact" variant="primary"
+          >{dict.hero.cta} <span class={s.arr}>→</span></Button
+        >
+      </span>
+      <span data-reveal="up-sm" data-reveal-immediate style="display: inline-flex;">
+        <Button href="#cases" variant="ghost">{dict.nav.cases}</Button>
+      </span>
+    </div>
+  </div>
+  <div class={s.visual} data-reveal="fade" data-reveal-immediate data-reveal-delay="150">
+    <Image
+      src={bg}
+      alt=""
+      widths={[640, 828, 1080, 1200]}
+      sizes="(min-width: 1024px) 60vh, 100vw"
+      loading="eager"
+      fetchpriority="high"
+      quality={70}
+      class={s.bg}
+    />
+  </div>
+</section>

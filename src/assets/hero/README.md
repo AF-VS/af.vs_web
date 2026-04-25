@@ -1,0 +1,1 @@
+Hero illustration: 1728×1728 transparent PNG of a climber ascending to an AF.VS flag on a dark-blue peak. Use via Astro `<Image />` with `loading="eager"` and `fetchpriority="high"` (above-the-fold LCP candidate).

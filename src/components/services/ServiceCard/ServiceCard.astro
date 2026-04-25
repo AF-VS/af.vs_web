@@ -1,0 +1,32 @@
+---
+import s from "./ServiceCard.module.css";
+import Chip from "../../ui/Chip/Chip.astro";
+
+interface Props {
+  num: string;
+  slug: "build" | "ai" | "growth" | "advisory";
+  title: string;
+  description: string;
+  tags: readonly string[];
+  ctaLabel: string;
+}
+
+const { num, slug, title, description, tags, ctaLabel } = Astro.props;
+---
+
+<article class={s.root} data-slug={slug} data-bento-card data-reveal="up">
+  <div class={s.head}>
+    <span class={s.num}>{num}</span>
+    <div class={s.icon} aria-hidden="true">
+      <slot name="icon" />
+    </div>
+  </div>
+  <div class={s.body}>
+    <h3 class={s.title}>{title}</h3>
+    <p class={s.desc}>{description}</p>
+  </div>
+  <div class={s.tags}>
+    {tags.map((t) => <Chip>{t}</Chip>)}
+  </div>
+  <a href="#contact" class={s.link}>{ctaLabel} →</a>
+</article>

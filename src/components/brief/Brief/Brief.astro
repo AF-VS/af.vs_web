@@ -1,0 +1,245 @@
+---
+import { Image } from "astro:assets";
+import s from "./Brief.module.css";
+import mountainImg from "../../../assets/brif/mountain_brief.png";
+import type { Dict } from "../../../i18n/en";
+
+interface Props {
+  dict: Dict;
+  kickerLabel: string;
+}
+
+const { dict, kickerLabel } = Astro.props;
+const b = dict.brif;
+---
+
+<section class={s.section} id="contact">
+  <header class={s.head} data-reveal-group data-reveal-stagger="90">
+    <span class={s.kicker} data-reveal="up-sm">{kickerLabel}</span>
+    <h2 class={s.title} data-reveal="up-sm">{b.title}</h2>
+    <p class={s.lead} data-reveal="up-sm">{b.description}</p>
+  </header>
+
+  <div
+    class={s.wizard}
+    data-wizard
+    data-label-next={b.next}
+    data-label-send={b.send}
+    data-reveal="scale"
+    data-reveal-delay="120"
+  >
+    <aside class={s.left}>
+      <Image
+        src={mountainImg}
+        alt=""
+        widths={[640, 828, 1080, 1200]}
+        sizes="(min-width: 1024px) 42vw, 100vw"
+        loading="lazy"
+        decoding="async"
+        class={s.peakImg}
+      />
+    </aside>
+
+    <div class={s.right}>
+      <div
+        class={s.progress}
+        data-progress
+        role="progressbar"
+        aria-valuemin="1"
+        aria-valuemax="5"
+        aria-valuenow="1"
+      >
+        <div class={s.track}>
+          <div class={s.fill} data-progress-fill></div>
+        </div>
+        <div class={s.dots}>
+          {[1, 2, 3, 4, 5].map((n) => (
+            <div class:list={[s.dot, n === 1 ? "active" : "upcoming"]} data-dot={n}>
+              <span class={s.dotNum}>{n}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <input
+        type="text"
+        name="website"
+        class={s.honeypot}
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
+
+      <div class={s.steps} data-steps>
+        <!-- Step 1: productType -->
+        <div class:list={[s.step, "is-active"]} data-step="1">
+          <div class={s.stepHeader}>
+            <h3>{b.steps.productType.title}</h3>
+            <p>{b.steps.productType.description}</p>
+          </div>
+          <div class={s.options}>
+            {b.steps.productType.options.map((opt, i) => (
+              <button type="button" class={s.option} data-name="productType" data-value={opt}>
+                <span class={s.optionLeft}>
+                  <span class={s.optionIcon} aria-hidden="true">
+                    {i === 0 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 11-14h-7l1-6z"/></svg>}
+                    {i === 1 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>}
+                    {i === 2 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>}
+                    {i === 3 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>}
+                  </span>
+                  <span class={s.optionLabel}>{opt}</span>
+                </span>
+                <span class={s.radio}></span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Step 2: readiness -->
+        <div class={s.step} data-step="2">
+          <div class={s.stepHeader}>
+            <h3>{b.steps.readiness.title}</h3>
+            <p>{b.steps.readiness.description}</p>
+          </div>
+          <div class={s.options}>
+            {b.steps.readiness.options.map((opt, i) => (
+              <button type="button" class={s.option} data-name="readiness" data-value={opt}>
+                <span class={s.optionLeft}>
+                  <span class={s.optionIcon} aria-hidden="true">
+                    {i === 0 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 00-7 7c0 3 2 5 3 7h8c1-2 3-4 3-7a7 7 0 00-7-7z"/></svg>}
+                    {i === 1 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/></svg>}
+                    {i === 2 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="19" cy="13" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="10" cy="20" r="2.5"/></svg>}
+                    {i === 3 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>}
+                  </span>
+                  <span class={s.optionLabel}>{opt}</span>
+                </span>
+                <span class={s.radio}></span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Step 3: platform (last is Other with input) -->
+        <div class={s.step} data-step="3">
+          <div class={s.stepHeader}>
+            <h3>{b.steps.platform.title}</h3>
+            <p>{b.steps.platform.description}</p>
+          </div>
+          <div class={s.options}>
+            {b.steps.platform.options.map((opt, i) => {
+              const isOther = i === b.steps.platform.options.length - 1;
+              return isOther ? (
+                <button type="button" class:list={[s.option, s.optionOther]} data-name="platform" data-value="Other" data-other>
+                  <span class={s.optionLeft}>
+                    <span class={s.optionIcon} aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    </span>
+                    <input type="text" class={s.otherInput} placeholder={opt} data-other-input />
+                  </span>
+                  <span class={s.radio}></span>
+                </button>
+              ) : (
+                <button type="button" class={s.option} data-name="platform" data-value={opt}>
+                  <span class={s.optionLeft}>
+                    <span class={s.optionIcon} aria-hidden="true">
+                      {i === 0 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>}
+                      {i === 1 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>}
+                      {i === 2 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="11" rx="2"/><rect x="17" y="10" width="5" height="10" rx="1"/></svg>}
+                    </span>
+                    <span class={s.optionLabel}>{opt}</span>
+                  </span>
+                  <span class={s.radio}></span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <!-- Step 4: industry (grid, no icons, last is Other) -->
+        <div class={s.step} data-step="4">
+          <div class={s.stepHeader}>
+            <h3>{b.steps.industry.title}</h3>
+            <p>{b.steps.industry.description}</p>
+          </div>
+          <div class:list={[s.options, s.optionsGrid]}>
+            {b.steps.industry.options.map((opt, i) => {
+              const isOther = i === b.steps.industry.options.length - 1;
+              return isOther ? (
+                <button type="button" class:list={[s.option, s.optionOther]} data-name="industry" data-value="Other" data-other>
+                  <span class={s.optionLeft}>
+                    <input type="text" class={s.otherInput} placeholder={opt} data-other-input />
+                  </span>
+                  <span class={s.radio}></span>
+                </button>
+              ) : (
+                <button type="button" class={s.option} data-name="industry" data-value={opt}>
+                  <span class={s.optionLeft}>
+                    <span class={s.optionLabel}>{opt}</span>
+                  </span>
+                  <span class={s.radio}></span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <!-- Step 5: contact -->
+        <div class={s.step} data-step="5">
+          <div class={s.stepHeader}>
+            <h3>{b.steps.contact.title}</h3>
+            <p>{b.steps.contact.description}</p>
+          </div>
+          <div class={s.inputs}>
+            <label>
+              <span class={s.srOnly}>{b.steps.contact.name}</span>
+              <input type="text" class={s.input} name="name" placeholder={b.steps.contact.name} required autocomplete="name" />
+            </label>
+            <label>
+              <span class={s.srOnly}>{b.steps.contact.projectName}</span>
+              <input type="text" class={s.input} name="projectName" placeholder={b.steps.contact.projectName} autocomplete="organization" />
+            </label>
+            <label>
+              <span class={s.srOnly}>{b.steps.contact.email}</span>
+              <input type="email" class={s.input} name="email" placeholder={b.steps.contact.email} required autocomplete="email" />
+            </label>
+            <label>
+              <span class={s.srOnly}>Phone</span>
+              <input type="tel" class={s.input} name="phone" value="+998 " data-phone autocomplete="tel" />
+            </label>
+          </div>
+          <p class={s.error} data-brif-error aria-live="polite"></p>
+        </div>
+
+        <!-- Step 6: success -->
+        <div class={s.step} data-step="6">
+          <div class={s.success}>
+            <div class={s.successIcon} aria-hidden="true">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div>
+              <h3 class={s.successTitle}>{b.success.title}</h3>
+              <p class={s.successDesc}>{b.success.description}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class={s.actions} data-actions>
+        <div class={s.actionsLeft}>
+          <button type="button" class={s.btnBack} data-brif-back hidden>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <span>{b.back}</span>
+          </button>
+        </div>
+        <button type="button" class={s.btn} data-brif-btn>
+          <span data-btn-text>{b.next}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initBrifWizard } from "./wizard";
+  initBrifWizard();
+</script>

@@ -1,0 +1,91 @@
+---
+import { Image } from "astro:assets";
+import s from "./CaseCard.module.css";
+import Chip from "../../ui/Chip/Chip.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  tags: readonly string[];
+  slug: "memolink" | "sisterra" | "draft";
+  badge?: string;
+  duration?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  video?: string;
+  portrait?: boolean;
+}
+
+const { title, description, tags, slug, badge, duration, image, imageAlt, video, portrait = false } = Astro.props;
+const parallax = !video && !!image;
+const videoOnly = portrait && !!video;
+const showImage = !!image && !videoOnly;
+const showGlow = portrait && !video;
+---
+
+<article
+  class:list={[s.root, s[slug], portrait && s.portrait, parallax && s.parallax]}
+  data-case-hover
+  data-case-parallax={parallax ? "" : undefined}
+  data-reveal="up"
+>
+  <div class={s.art}>
+    {badge && <span class={s.badge}>● {badge}</span>}
+    {image || video ? (
+      <div class:list={[s.media, videoOnly && s.videoOnly]}>
+        {showGlow && <div class={s.glow} aria-hidden="true" />}
+        {showImage && (
+          <Image
+            src={image!}
+            alt={imageAlt ?? title}
+            class={s.image}
+            widths={[640, 828, 1080]}
+            sizes="(min-width: 1280px) 420px, (min-width: 768px) 50vw, 90vw"
+          />
+        )}
+        {video && (
+          <video
+            class={s.video}
+            src={videoOnly ? `${video}#t=0.1` : video}
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+            data-case-video
+          />
+        )}
+      </div>
+    ) : (
+      <div class={s.mock}>
+        <div class={s.bar}><span /><span /><span /></div>
+        <div class={s.content}>
+          <div class:list={[s.b, s.w2]} />
+          <div class:list={[s.b, s.w1]} />
+          <div class:list={[s.b, s.w3]} />
+          <div class={s.tiles}>
+            <div class={s.tile} /><div class={s.tile} /><div class={s.tile} />
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+  <div class={s.body}>
+    <div class={s.meta}>{tags.map((t) => <Chip>{t}</Chip>)}</div>
+    <div>
+      <h3 class={s.title}>{title}</h3>
+      <p class={s.desc}>{description}</p>
+    </div>
+    <div class={s.foot}>
+      {duration && (
+        <span class={s.duration}>
+          <svg class={s.durationIcon} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="17" rx="2" />
+            <path d="M16 2v4M8 2v4M3 10h18" />
+          </svg>
+          <span>{duration}</span>
+        </span>
+      )}
+    </div>
+  </div>
+</article>

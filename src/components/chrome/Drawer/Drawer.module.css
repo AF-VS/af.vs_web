@@ -1,0 +1,140 @@
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: var(--surface-overlay-glass);
+  backdrop-filter: blur(14px);
+  display: none;
+  opacity: 0;
+  transition: opacity 0.32s;
+}
+.drawer:global(.open) {
+  display: block;
+  opacity: 1;
+}
+
+.panel {
+  position: absolute;
+  top: 12px;
+  left: var(--container-padding);
+  right: var(--container-padding);
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  padding: 20px;
+  display: grid;
+  gap: 8px;
+  transform: translateY(-12px);
+  opacity: 0;
+  transition:
+    transform 0.32s,
+    opacity 0.32s;
+}
+.drawer:global(.open) .panel {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+.mark {
+  width: 22px;
+  height: 22px;
+}
+
+.close {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-chip);
+  border: 1px solid var(--border-subtle);
+  display: grid;
+  place-items: center;
+  color: var(--text-primary);
+}
+
+.list {
+  display: grid;
+  gap: 4px;
+}
+
+.list a {
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid transparent;
+  transition:
+    background 0.18s,
+    border-color 0.18s;
+}
+
+.list a:hover {
+  background: var(--surface-chip);
+  border-color: var(--border-subtle);
+}
+
+.ic {
+  color: var(--text-secondary);
+}
+
+.langRow {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.langChip {
+  flex: 1;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  background: var(--surface-chip);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  transition:
+    background 0.18s,
+    border-color 0.18s,
+    color 0.18s;
+}
+
+.langChip:hover {
+  background: var(--surface-chip-hover);
+  border-color: var(--border-chip);
+  color: var(--text-primary);
+}
+
+.langChipActive {
+  background: var(--surface-chip-hover);
+  border-color: var(--border-chip);
+  color: var(--text-primary);
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer,
+  .panel {
+    transition: none;
+  }
+}

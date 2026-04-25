@@ -1,0 +1,17 @@
+---
+import s from "./Ambient.module.css";
+---
+
+<div class={s.root} aria-hidden="true">
+  <div class={s.grid}></div>
+  <canvas class={s.starfield}></canvas>
+  <div class={`${s.orb} ${s.orb1}`}></div>
+  <div class={`${s.orb} ${s.orb2}`}></div>
+  <div class={`${s.orb} ${s.orb3}`}></div>
+  <div class={`${s.orb} ${s.orb4}`}></div>
+  <div class={`${s.orb} ${s.orb5}`}></div>
+</div>
+
+<script>
+  import "./starfield";
+</script>

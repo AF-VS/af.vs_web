@@ -1,0 +1,63 @@
+---
+import s from "./Drawer.module.css";
+import SymbolWhite from "../../../assets/brand/symbol_white.svg";
+import type { Dict } from "../../../i18n/en";
+import type { Locale } from "../../../i18n";
+
+interface Props {
+  dict: Dict;
+  locale: Locale;
+}
+
+const { dict, locale } = Astro.props;
+
+function localeHref(target: Locale): string {
+  const path = Astro.url.pathname.replace(/^\/(ru|uz)(?=\/|$)/, "") || "/";
+  if (target === "en") return path;
+  return path === "/" ? `/${target}/` : `/${target}${path}`;
+}
+
+const languages: readonly Locale[] = ["en", "ru", "uz"];
+---
+
+<div class={s.drawer} data-drawer aria-hidden="true" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class={s.panel}>
+    <div class={s.top}>
+      <div class={s.logo}>
+        <SymbolWhite class={s.mark} />
+        <span>afvs</span>
+      </div>
+      <button class={s.close} data-drawer-close aria-label="Close menu" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <nav class={s.list} aria-label="Mobile">
+      <a href="#services" data-drawer-link>{dict.nav.services} <span class={s.ic}>→</span></a>
+      <a href="#cases" data-drawer-link>{dict.nav.cases} <span class={s.ic}>→</span></a>
+      <a href="#contact" data-drawer-link>{dict.nav.brif} <span class={s.ic}>→</span></a>
+    </nav>
+    <div class={s.langRow} role="group" aria-label="Language">
+      {
+        languages.map((l) =>
+          l === locale ? (
+            <span class={`${s.langChip} ${s.langChipActive}`} aria-current="true">
+              {l.toUpperCase()}
+            </span>
+          ) : (
+            <a class={s.langChip} href={localeHref(l)} hreflang={l}>
+              {l.toUpperCase()}
+            </a>
+          )
+        )
+      }
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initDrawer } from "./drawer";
+  initDrawer();
+</script>

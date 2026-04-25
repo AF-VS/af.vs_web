@@ -1,0 +1,87 @@
+---
+import s from "./Services.module.css";
+import ServiceCard from "../ServiceCard/ServiceCard.astro";
+import type { Dict } from "../../../i18n/en";
+
+interface Props {
+  dict: Dict;
+  ctaLabel: string;
+  kickerLabel: string;
+  headTitle: string;
+}
+
+const { dict, ctaLabel, kickerLabel, headTitle } = Astro.props;
+
+const order = [
+  { num: "01 / BUILD",    slug: "build"    as const, key: "build"    as const },
+  { num: "02 / AI",       slug: "ai"       as const, key: "ai"       as const },
+  { num: "03 / GROWTH",   slug: "growth"   as const, key: "growth"   as const },
+  { num: "04 / ADVISORY", slug: "advisory" as const, key: "advisory" as const },
+] as const;
+---
+
+<section class={s.section} id="services">
+  <header class={s.head} data-reveal-group data-reveal-stagger="90">
+    <span class={s.kicker} data-reveal="up-sm">{kickerLabel}</span>
+    <h2 class={s.title} data-reveal="up-sm" set:html={headTitle} />
+  </header>
+
+  <div class={s.grid} data-bento-grid data-reveal-group data-reveal-stagger="80" data-reveal-delay="120">
+    {order.map((o) => {
+      const svc = dict.services[o.key];
+      return (
+        <ServiceCard
+          num={o.num}
+          slug={o.slug}
+          title={svc.title}
+          description={svc.description}
+          tags={svc.tags}
+          ctaLabel={ctaLabel}
+        >
+          <svg slot="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            {o.slug === "build" && (<><path d="M3 12l9-9 9 9-9 9-9-9z"/><path d="M12 3v18"/></>)}
+            {o.slug === "ai" && (<><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4"/></>)}
+            {o.slug === "growth" && (<><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></>)}
+            {o.slug === "advisory" && (<><path d="M12 21V10"/><circle cx="12" cy="7" r="3"/><path d="M4 21l8-8 8 8"/></>)}
+          </svg>
+        </ServiceCard>
+      );
+    })}
+  </div>
+</section>
+
+<script>
+  const grid = document.querySelector<HTMLElement>("[data-bento-grid]");
+  if (grid) {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    const isMobile = coarse || window.innerWidth <= 900;
+    if (!reduced) {
+      const io = new IntersectionObserver(
+        (entries, obs) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            obs.disconnect();
+            if (isMobile) {
+              import("../../../scripts/servicesBentoMobile").then(({ initServicesBentoMobile }) => {
+                initServicesBentoMobile(grid);
+              });
+            } else {
+              import("../../../scripts/servicesBento").then(({ initServicesBento }) => {
+                initServicesBento(grid, {
+                  enableTilt: true,
+                  enableStars: false,
+                  enableSpotlight: false,
+                  enableMagnetism: true,
+                });
+              });
+            }
+            break;
+          }
+        },
+        { rootMargin: "200px" },
+      );
+      io.observe(grid);
+    }
+  }
+</script>

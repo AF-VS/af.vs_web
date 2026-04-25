@@ -1,0 +1,11 @@
+---
+import s from "./Chip.module.css";
+
+interface Props {
+  class?: string;
+}
+
+const { class: cls } = Astro.props;
+---
+
+<span class:list={[s.root, cls]}><slot /></span>
