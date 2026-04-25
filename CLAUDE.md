@@ -46,8 +46,8 @@ src/
     uz/index.astro
     api/contact.ts            SSR, prerender = false
   i18n/
-    ru.json, en.json, uz.json
-    index.ts                  typed t(key, locale) helper
+    en.ts, ru.ts, uz.ts       typed dictionaries; `en.ts` is the source of truth (`Dict` type)
+    index.ts                  exports `getDict(locale)` and `Locale`
   lib/
     db.ts                     drizzle client
     ratelimit.ts              upstash client
@@ -105,9 +105,9 @@ Goal: Vercel/Linear/Framer feel, Lighthouse ≥ 95.
 ## i18n
 
 - `astro.config.mjs`: `i18n: { defaultLocale: 'en', locales: ['en','ru','uz'], routing: { prefixDefaultLocale: false } }`.
-- Translations in `src/i18n/{ru,en,uz}.json`, flat or one-level-nested keys.
-- Access via `t(key, locale)` helper returning a `string` — typed against `en.json` as the source of truth; missing keys in `ru`/`uz` are a type error.
-- Every user-visible string goes through `t()` — no hardcoded text in components.
+- Translations in `src/i18n/{en,ru,uz}.ts` — typed TS modules with nested objects (`a11y`, `nav`, `seo`, `hero`, …).
+- `en.ts` is the source of truth: it exports `Dict = typeof en`. `ru.ts` and `uz.ts` must satisfy `Dict`; missing/extra keys are a type error at build.
+- Pages get a dictionary via `getDict(locale)` from `src/i18n/index.ts` and access strings as `dict.section.key`. No string literal stays hardcoded in components.
 - `Layout.astro` emits `<link rel="alternate" hreflang="…">` for all locales and a canonical URL on `afvs.dev`.
 
 ---
@@ -129,9 +129,11 @@ All secrets come from `.env.local` locally and Vercel env vars in deploy. Never 
 ## SEO
 
 - `site: 'https://afvs.dev'` in `astro.config.mjs`.
-- `@astrojs/sitemap` with per-locale entries.
+- `@astrojs/sitemap` with per-locale entries; canonical domain is `afvs.dev`.
 - Every page frontmatter: `title`, `description`, `ogImage`.
-- `robots.txt` allows `afvs.dev`, disallows `afvsweb.vercel.app` (legacy, de-indexed).
+- `robots.txt`: `Allow: /`, `Disallow: /api/`, points to `https://afvs.dev/sitemap-index.xml`.
+- `Layout.astro` emits `Organization` + `WebSite` JSON-LD (linked via `@id`) for Google rich results, Knowledge Panel eligibility, and AI search citation.
+- DNS verification TXT records for Google Search Console and Yandex.Webmaster live in Vercel DNS on `afvs.dev` — keep them when editing DNS.
 - OG images: static `/public/og/*.png` initially; Satori/`@vercel/og` later if needed.
 
 ---
@@ -149,7 +151,8 @@ All secrets come from `.env.local` locally and Vercel env vars in deploy. Never 
 
 ## Git / commits
 
-- Branch: `redesign-1`. Main is `master`.
+- Default branch is `main` — also the Vercel production branch (push to `main` triggers a Production deploy).
+- Feature work goes on short-lived branches; merge to `main` via PR.
 - Conventional commits: `feat:`, `fix:`, `perf:`, `refactor:`, `style:`, `chore:`, `docs:`.
 - Atomic commits — one logical change each.
 - **No Co-Authored-By Claude footer.** Personal attribution only.
