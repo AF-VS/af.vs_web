@@ -208,7 +208,7 @@
 
 @media (min-width: 1024px) {
   .steps {
-    min-height: clamp(260px, 28vh, 320px);
+    min-height: clamp(360px, 38vh, 440px);
   }
 }
 
