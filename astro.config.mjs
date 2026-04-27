@@ -8,12 +8,6 @@ export default defineConfig({
     imageService: true,
     webAnalytics: { enabled: true },
     maxDuration: 10,
-    includeFiles: [
-      './src/lib/og/fonts/Inter-Regular.otf',
-      './src/lib/og/fonts/Inter-Medium.otf',
-      './src/lib/og/fonts/Inter-SemiBold.otf',
-      './src/lib/og/fonts/Unbounded-SemiBold.ttf',
-    ],
   }),
   output: 'server',
   integrations: [
