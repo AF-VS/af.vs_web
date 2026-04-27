@@ -67,6 +67,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   const data = parsed.data;
+  const email = data.email.toLowerCase();
+  const phone = data.phone ? data.phone.replace(/\s+/g, ' ') : '';
 
   // Antibot: honeypot — если не пусто, бот
   if (data.website) {
@@ -90,8 +92,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       industry: data.industry,
       name: data.name,
       projectName: data.projectName || null,
-      email: data.email,
-      phone: data.phone || null,
+      email,
+      phone: phone || null,
       createdAt: new Date().toISOString(),
     });
   } catch (err) {
@@ -107,8 +109,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       industry: data.industry,
       name: data.name,
       projectName: data.projectName || '',
-      email: data.email,
-      phone: data.phone || '',
+      email,
+      phone,
     }));
   } catch (err) {
     console.warn('[api/contact] Telegram failed:', err);
