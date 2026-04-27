@@ -109,6 +109,13 @@ export const uz: Dict = {
       title: "So'rov qabul qilindi",
       description: "Rahmat! Ma'lumotlarni ko'rib chiqamiz va 24 soat ichida siz bilan bog'lanamiz",
     },
+    errors: {
+      selectOption: 'Davom etish uchun variantlardan birini tanlang',
+      otherEmpty: "Variantingizni yozing (kamida 3 ta belgi)",
+      name: "Ismingizni kiriting (kamida 3 ta belgi)",
+      email: "To'g'ri email kiriting — faqat lotin harflari",
+      phone: "To'liq telefon raqamini kiriting, masalan +998 90 123-45-67",
+    },
     errorUnconfigured: "Forma yuborish hali sozlanmagan.",
   },
   seo: {

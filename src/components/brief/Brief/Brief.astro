@@ -25,6 +25,11 @@ const b = dict.brif;
     data-wizard
     data-label-next={b.next}
     data-label-send={b.send}
+    data-err-select-option={b.errors.selectOption}
+    data-err-other-empty={b.errors.otherEmpty}
+    data-err-name={b.errors.name}
+    data-err-email={b.errors.email}
+    data-err-phone={b.errors.phone}
     data-reveal="scale"
     data-reveal-delay="120"
   >
@@ -93,6 +98,7 @@ const b = dict.brif;
               </button>
             ))}
           </div>
+          <p class={s.stepError} data-step-error="1" aria-live="polite"></p>
         </div>
 
         <!-- Step 2: readiness -->
@@ -117,6 +123,7 @@ const b = dict.brif;
               </button>
             ))}
           </div>
+          <p class={s.stepError} data-step-error="2" aria-live="polite"></p>
         </div>
 
         <!-- Step 3: platform (last is Other with input) -->
@@ -153,6 +160,7 @@ const b = dict.brif;
               );
             })}
           </div>
+          <p class={s.stepError} data-step-error="3" aria-live="polite"></p>
         </div>
 
         <!-- Step 4: industry (grid, no icons, last is Other) -->
@@ -181,6 +189,7 @@ const b = dict.brif;
               );
             })}
           </div>
+          <p class={s.stepError} data-step-error="4" aria-live="polite"></p>
         </div>
 
         <!-- Step 5: contact -->
@@ -190,22 +199,33 @@ const b = dict.brif;
             <p>{b.steps.contact.description}</p>
           </div>
           <div class={s.inputs}>
-            <label>
-              <span class={s.srOnly}>{b.steps.contact.name}</span>
-              <input type="text" class={s.input} name="name" placeholder={b.steps.contact.name} required autocomplete="name" />
-            </label>
-            <label>
-              <span class={s.srOnly}>{b.steps.contact.projectName}</span>
-              <input type="text" class={s.input} name="projectName" placeholder={b.steps.contact.projectName} autocomplete="organization" />
-            </label>
-            <label>
-              <span class={s.srOnly}>{b.steps.contact.email}</span>
-              <input type="email" class={s.input} name="email" placeholder={b.steps.contact.email} required autocomplete="email" />
-            </label>
-            <label>
-              <span class={s.srOnly}>Phone</span>
-              <input type="tel" class={s.input} name="phone" value="+998 " data-phone autocomplete="tel" />
-            </label>
+            <div class={s.field}>
+              <label>
+                <span class={s.srOnly}>{b.steps.contact.name}</span>
+                <input type="text" class={s.input} name="name" placeholder={b.steps.contact.name} required autocomplete="name" />
+              </label>
+              <p class={s.fieldError} data-field-error="name" aria-live="polite"></p>
+            </div>
+            <div class={s.field}>
+              <label>
+                <span class={s.srOnly}>{b.steps.contact.projectName}</span>
+                <input type="text" class={s.input} name="projectName" placeholder={b.steps.contact.projectName} autocomplete="organization" />
+              </label>
+            </div>
+            <div class={s.field}>
+              <label>
+                <span class={s.srOnly}>{b.steps.contact.email}</span>
+                <input type="email" class={s.input} name="email" placeholder={b.steps.contact.email} required autocomplete="email" />
+              </label>
+              <p class={s.fieldError} data-field-error="email" aria-live="polite"></p>
+            </div>
+            <div class={s.field}>
+              <label>
+                <span class={s.srOnly}>Phone</span>
+                <input type="tel" class={s.input} name="phone" value="+998 " data-phone autocomplete="tel" />
+              </label>
+              <p class={s.fieldError} data-field-error="phone" aria-live="polite"></p>
+            </div>
           </div>
           <p class={s.error} data-brif-error aria-live="polite"></p>
         </div>

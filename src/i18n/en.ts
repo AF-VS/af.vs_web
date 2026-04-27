@@ -109,6 +109,13 @@ export const en = {
       title: 'Request received',
       description: 'Thank you! We will review the information and get back to you within 24 hours',
     },
+    errors: {
+      selectOption: 'Please pick one of the options to continue',
+      otherEmpty: 'Please describe your option (at least 3 characters)',
+      name: 'Please enter your name (at least 3 characters)',
+      email: 'Please enter a valid email — Latin characters only',
+      phone: 'Please enter a full phone number, e.g. +998 90 123-45-67',
+    },
     errorUnconfigured: 'Form delivery not configured yet.',
   },
   seo: {

@@ -21,6 +21,14 @@ export function initBrifWizard(): void {
   const dots = wizard.querySelectorAll<HTMLDivElement>('[data-dot]');
   const steps = wizard.querySelectorAll<HTMLDivElement>('[data-step]');
 
+  const errorTexts = {
+    selectOption: wizard.dataset.errSelectOption || 'Please select an option',
+    otherEmpty: wizard.dataset.errOtherEmpty || 'Please specify',
+    name: wizard.dataset.errName || 'Enter your name',
+    email: wizard.dataset.errEmail || 'Enter a valid email',
+    phone: wizard.dataset.errPhone || 'Enter a valid phone number',
+  };
+
   const fillPercents = [20, 42.7, 66.6, 87.3, 100];
   const ANIM_CLASSES = [
     'is-entering-fwd',
@@ -127,45 +135,126 @@ export function initBrifWizard(): void {
   }
 
   const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const CYRILLIC_RE = /[Ѐ-ӿ]/;
 
-  function validateStep(): boolean {
+  type ContactField = 'name' | 'email' | 'phone';
+  type ValidationError =
+    | { kind: 'step'; step: number; message: string; otherButton?: HTMLButtonElement }
+    | { kind: 'field'; field: ContactField; message: string };
+
+  function collectErrors(): ValidationError[] {
+    const errors: ValidationError[] = [];
     if (currentStep >= 1 && currentStep <= 4) {
       const stepNames = ['productType', 'readiness', 'platform', 'industry'];
-      const name = stepNames[currentStep - 1];
-      return !!selections[name];
+      const stepKey = stepNames[currentStep - 1];
+      const activeStep = wizard!.querySelector<HTMLDivElement>(
+        `[data-step="${currentStep}"]`
+      );
+      const selectedOther =
+        activeStep?.querySelector<HTMLButtonElement>('[data-other].selected') ??
+        undefined;
+      const value = selections[stepKey] ?? '';
+
+      if (selectedOther) {
+        if (value.length < 3) {
+          errors.push({
+            kind: 'step',
+            step: currentStep,
+            message: errorTexts.otherEmpty,
+            otherButton: selectedOther,
+          });
+        }
+      } else if (!value) {
+        errors.push({
+          kind: 'step',
+          step: currentStep,
+          message: errorTexts.selectOption,
+        });
+      }
+    } else if (currentStep === 5) {
+      const nameVal = (
+        wizard!.querySelector<HTMLInputElement>('input[name="name"]')?.value ?? ''
+      ).trim();
+      const emailVal = (
+        wizard!.querySelector<HTMLInputElement>('input[name="email"]')?.value ?? ''
+      ).trim();
+      const phoneVal = (
+        wizard!.querySelector<HTMLInputElement>('input[name="phone"]')?.value ?? ''
+      ).trim();
+
+      if (nameVal.length < 3) {
+        errors.push({ kind: 'field', field: 'name', message: errorTexts.name });
+      }
+      if (!EMAIL_RE.test(emailVal) || CYRILLIC_RE.test(emailVal)) {
+        errors.push({ kind: 'field', field: 'email', message: errorTexts.email });
+      }
+      const phoneDigits = phoneVal.replace(/\D/g, '');
+      if (phoneDigits.length !== 12 || !phoneDigits.startsWith('998')) {
+        errors.push({ kind: 'field', field: 'phone', message: errorTexts.phone });
+      }
     }
-    if (currentStep === 5) {
-      const nameInput = wizard!.querySelector<HTMLInputElement>('input[name="name"]');
-      const emailInput = wizard!.querySelector<HTMLInputElement>('input[name="email"]');
-      const nameVal = nameInput?.value.trim() ?? '';
-      const emailVal = emailInput?.value.trim() ?? '';
-      return !!nameVal && EMAIL_RE.test(emailVal);
-    }
-    return true;
+    return errors;
   }
 
-  function focusInvalidField(): void {
-    if (currentStep >= 1 && currentStep <= 4) {
-      const activeStep = wizard!.querySelector<HTMLDivElement>('[data-step].is-active');
-      const emptyOther = activeStep?.querySelector<HTMLInputElement>(
-        '[data-other-input]'
-      );
-      const parentOption = emptyOther?.closest<HTMLButtonElement>('[data-name]');
-      if (emptyOther && parentOption?.classList.contains('selected')) {
-        emptyOther.focus();
+  function showErrors(errors: ValidationError[]): void {
+    for (const err of errors) {
+      if (err.kind === 'step') {
+        const el = wizard!.querySelector<HTMLElement>(
+          `[data-step-error="${err.step}"]`
+        );
+        if (el) el.textContent = err.message;
+        err.otherButton?.classList.add('has-error');
+      } else {
+        const el = wizard!.querySelector<HTMLElement>(
+          `[data-field-error="${err.field}"]`
+        );
+        if (el) el.textContent = err.message;
+        wizard!
+          .querySelector<HTMLInputElement>(`input[name="${err.field}"]`)
+          ?.classList.add('has-error');
       }
-      return;
     }
-    if (currentStep === 5) {
-      const nameInput = wizard!.querySelector<HTMLInputElement>('input[name="name"]');
-      const emailInput = wizard!.querySelector<HTMLInputElement>('input[name="email"]');
-      if (!nameInput?.value.trim()) {
-        nameInput?.focus();
-        return;
-      }
-      if (!EMAIL_RE.test(emailInput?.value.trim() ?? '')) {
-        emailInput?.focus();
-      }
+  }
+
+  function clearAllErrors(): void {
+    wizard!
+      .querySelectorAll<HTMLElement>('[data-step-error], [data-field-error]')
+      .forEach((el) => {
+        el.textContent = '';
+      });
+    wizard!.querySelectorAll<HTMLElement>('.has-error').forEach((el) => {
+      el.classList.remove('has-error');
+    });
+  }
+
+  function clearStepError(step: number): void {
+    const el = wizard!.querySelector<HTMLElement>(`[data-step-error="${step}"]`);
+    if (el) el.textContent = '';
+    wizard!
+      .querySelector<HTMLDivElement>(`[data-step="${step}"]`)
+      ?.querySelectorAll<HTMLElement>('.has-error')
+      .forEach((node) => node.classList.remove('has-error'));
+  }
+
+  function clearFieldError(field: ContactField): void {
+    const el = wizard!.querySelector<HTMLElement>(`[data-field-error="${field}"]`);
+    if (el) el.textContent = '';
+    wizard!
+      .querySelector<HTMLInputElement>(`input[name="${field}"]`)
+      ?.classList.remove('has-error');
+  }
+
+  function focusFirstError(errors: ValidationError[]): void {
+    const first = errors[0];
+    if (!first) return;
+    if (first.kind === 'field') {
+      wizard!
+        .querySelector<HTMLInputElement>(`input[name="${first.field}"]`)
+        ?.focus();
+    } else if (first.otherButton) {
+      first.otherButton
+        .querySelector<HTMLInputElement>('[data-other-input]')
+        ?.focus();
     }
   }
 
@@ -177,9 +266,12 @@ export function initBrifWizard(): void {
     if (option) {
       const name = option.dataset.name || '';
 
-      // Deselect siblings
+      // Deselect siblings (and clear any has-error marks on them)
       const siblings = option.parentElement?.querySelectorAll('[data-name]');
-      siblings?.forEach((s) => s.classList.remove('selected'));
+      siblings?.forEach((s) => {
+        s.classList.remove('selected');
+        s.classList.remove('has-error');
+      });
 
       // Select this option
       option.classList.add('selected');
@@ -192,12 +284,14 @@ export function initBrifWizard(): void {
       } else {
         selections[name] = option.dataset.value || '';
       }
+      clearStepError(currentStep);
       return;
     }
 
     // Back button — step backward (stepper dots are status-only, not nav)
     if (target.closest('[data-brif-back]')) {
       if (currentStep > 1) {
+        clearAllErrors();
         currentStep--;
         updateUI();
       }
@@ -206,12 +300,15 @@ export function initBrifWizard(): void {
 
     // Next / Send button
     if (target.closest('[data-brif-btn]')) {
-      if (!validateStep()) {
+      const errors = collectErrors();
+      if (errors.length > 0) {
+        showErrors(errors);
         btn?.classList.add('brif-btn--shake');
         setTimeout(() => btn?.classList.remove('brif-btn--shake'), 400);
-        focusInvalidField();
+        focusFirstError(errors);
         return;
       }
+      clearAllErrors();
 
       if (currentStep === 5) {
         // Collect contact info and send
@@ -260,20 +357,57 @@ export function initBrifWizard(): void {
     }
   });
 
-  // Update selection value as user types in "Other" inputs
+  // Update selection value as user types in "Other" inputs;
+  // also clear validation errors as the user edits any contact input.
   wizard.addEventListener('input', (e) => {
     const input = e.target as HTMLInputElement;
-    if (!input.matches('[data-other-input]')) return;
-    const option = input.closest<HTMLButtonElement>('[data-name]');
-    if (option) {
-      const name = option.dataset.name || '';
-      selections[name] = input.value.trim();
+
+    if (input.matches('[data-other-input]')) {
+      const option = input.closest<HTMLButtonElement>('[data-name]');
+      if (option) {
+        const name = option.dataset.name || '';
+        selections[name] = input.value.trim();
+        if (input.value.trim()) {
+          option.classList.remove('has-error');
+          clearStepError(currentStep);
+        }
+      }
+      return;
+    }
+
+    const fieldName = input.getAttribute('name');
+    if (
+      fieldName === 'name' ||
+      fieldName === 'email' ||
+      fieldName === 'phone'
+    ) {
+      clearFieldError(fieldName);
     }
   });
 
-  // Prevent "Other" input clicks from bubbling (avoid re-triggering option click)
+  // "Other" input: clicks shouldn't re-trigger the option-click handler
+  // (would cause a flicker on the .selected class). Focus, however, must
+  // mark the parent option as selected — otherwise clicking directly into
+  // the input never registers as picking the "Other" choice.
   wizard.querySelectorAll<HTMLInputElement>('[data-other-input]').forEach((inp) => {
     inp.addEventListener('click', (e) => e.stopPropagation());
+    inp.addEventListener('focus', () => {
+      const option = inp.closest<HTMLButtonElement>('[data-name]');
+      if (!option) return;
+      // Mark option selected and deselect *true* siblings only — leave
+      // this option's own has-error untouched so the red border persists
+      // until the user actually types something.
+      option.parentElement
+        ?.querySelectorAll<HTMLElement>('[data-name]')
+        .forEach((s) => {
+          if (s === option) return;
+          s.classList.remove('selected');
+          s.classList.remove('has-error');
+        });
+      option.classList.add('selected');
+      const name = option.dataset.name || '';
+      selections[name] = inp.value.trim();
+    });
   });
 
   // Phone formatting: +998 XX XXX-XX-XX

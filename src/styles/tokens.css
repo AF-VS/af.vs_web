@@ -128,6 +128,9 @@
 
   /* ── Semantic ─────────────────────────────── */
   --text-danger: #d32f2f;
+  --text-danger-rgb: 211, 47, 47;
+  --glow-danger-soft: rgba(var(--text-danger-rgb), 0.18);
+  --glow-danger-faint: rgba(var(--text-danger-rgb), 0.06);
 
   /* ── Shadows ──────────────────────────────── */
   --shadow-header: 0 8px 32px rgba(0, 0, 0, 0.2);
