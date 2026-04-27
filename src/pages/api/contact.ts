@@ -4,7 +4,8 @@ import { submissions } from '../../db/schema';
 import { contactSchema } from '../../lib/contactSchema';
 import { checkRateLimit } from '../../lib/rateLimit';
 import { SITE_URL } from '../../lib/site';
-import { sendTelegramMessage, formatSubmissionMessage } from '../../lib/telegram';
+import { sendTelegramMessage, formatSubmissionMessage, type SubmissionPayload } from '../../lib/telegram';
+import { sendSubmissionEmail } from '../../lib/email';
 
 export const prerender = false;
 
@@ -101,19 +102,23 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     return new Response(JSON.stringify({ error: 'Database error' }), { status: 500, headers });
   }
 
-  try {
-    await sendTelegramMessage(formatSubmissionMessage({
-      productType: data.productType,
-      readinessStage: data.readinessStage,
-      platform: data.platform,
-      industry: data.industry,
-      name: data.name,
-      projectName: data.projectName || '',
-      email,
-      phone,
-    }));
-  } catch (err) {
-    console.warn('[api/contact] Telegram failed:', err);
+  const payload: SubmissionPayload = {
+    productType: data.productType,
+    readinessStage: data.readinessStage,
+    platform: data.platform,
+    industry: data.industry,
+    name: data.name,
+    projectName: data.projectName || '',
+    email,
+    phone,
+  };
+
+  const tgOk = await sendTelegramMessage(formatSubmissionMessage(payload));
+  if (!tgOk) {
+    const emailOk = await sendSubmissionEmail(payload);
+    if (!emailOk) {
+      console.error('[api/contact] both Telegram and email failed; lead persisted in DB only');
+    }
   }
 
   return new Response(JSON.stringify({ ok: true }), { status: 200, headers });

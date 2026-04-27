@@ -33,13 +33,13 @@ export function formatSubmissionMessage(data: SubmissionPayload): string {
   ].join('\n');
 }
 
-export async function sendTelegramMessage(text: string): Promise<void> {
+export async function sendTelegramMessage(text: string): Promise<boolean> {
   const token = import.meta.env.TELEGRAM_BOT_TOKEN;
   const chatId = import.meta.env.TELEGRAM_CHAT_ID;
 
   if (!token || !chatId) {
     console.warn('[telegram] TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID not set, skipping');
-    return;
+    return false;
   }
 
   let res: Response;
@@ -51,11 +51,13 @@ export async function sendTelegramMessage(text: string): Promise<void> {
     });
   } catch (err) {
     console.error('[telegram] sendMessage threw:', err);
-    return;
+    return false;
   }
 
   if (!res.ok) {
     const body = (await res.json().catch(() => ({}))) as { description?: string };
     console.error('[telegram] sendMessage failed:', body.description);
+    return false;
   }
+  return true;
 }
