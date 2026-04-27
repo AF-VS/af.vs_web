@@ -3,6 +3,7 @@ import s from "./Drawer.module.css";
 import SymbolWhite from "../../../assets/brand/symbol_white.svg";
 import type { Dict } from "../../../i18n/en";
 import type { Locale } from "../../../i18n";
+import { switchLocaleUrl } from "../../../lib/paths";
 
 interface Props {
   dict: Dict;
@@ -11,11 +12,7 @@ interface Props {
 
 const { dict, locale } = Astro.props;
 
-function localeHref(target: Locale): string {
-  const path = Astro.url.pathname.replace(/^\/(ru|uz)(?=\/|$)/, "") || "/";
-  if (target === "en") return path;
-  return path === "/" ? `/${target}/` : `/${target}${path}`;
-}
+const localeHref = (target: Locale): string => switchLocaleUrl(Astro.url.pathname, target);
 
 const languages: readonly Locale[] = ["en", "ru", "uz"];
 ---

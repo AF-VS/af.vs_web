@@ -6,8 +6,7 @@ import SpeedInsights from "@vercel/speed-insights/astro";
 import interLatinWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import interCyrillicWoff2 from "@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2?url";
 import { getDict } from "../i18n";
-
-type Locale = "en" | "ru" | "uz";
+import { switchLocaleUrl, type Locale } from "../lib/paths";
 
 interface Props {
   title: string;
@@ -33,14 +32,9 @@ const dict = getDict(locale);
 
 const siteUrl = "https://afvs.dev";
 const pathname = Astro.url.pathname;
-const pathWithoutLocale = pathname.replace(/^\/(ru|uz)(?=\/|$)/, "") || "/";
 const canonicalHref = canonical ?? `${siteUrl}${pathname}`;
 
-function altHref(l: Locale): string {
-  if (l === "en") return `${siteUrl}${pathWithoutLocale}`;
-  const suffix = pathWithoutLocale === "/" ? "/" : pathWithoutLocale;
-  return `${siteUrl}/${l}${suffix}`;
-}
+const altHref = (l: Locale): string => `${siteUrl}${switchLocaleUrl(pathname, l)}`;
 
 const orgId = `${siteUrl}/#organization`;
 const websiteId = `${siteUrl}/#website`;
