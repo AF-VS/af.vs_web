@@ -57,16 +57,12 @@ const order = [
     const coarse = window.matchMedia("(pointer: coarse)").matches;
     const isMobile = coarse || window.innerWidth <= 900;
     if (!reduced) {
-      const io = new IntersectionObserver(
-        (entries, obs) => {
-          for (const entry of entries) {
-            if (!entry.isIntersecting) continue;
-            obs.disconnect();
-            if (isMobile) {
-              import("../../../scripts/servicesBentoMobile").then(({ initServicesBentoMobile }) => {
-                initServicesBentoMobile(grid);
-              });
-            } else {
+      if (!isMobile) {
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              obs.disconnect();
               import("../../../scripts/servicesBento").then(({ initServicesBento }) => {
                 initServicesBento(grid, {
                   enableTilt: true,
@@ -75,13 +71,13 @@ const order = [
                   enableMagnetism: true,
                 });
               });
+              break;
             }
-            break;
-          }
-        },
-        { rootMargin: "200px" },
-      );
-      io.observe(grid);
+          },
+          { rootMargin: "200px" },
+        );
+        io.observe(grid);
+      }
     }
   }
 </script>

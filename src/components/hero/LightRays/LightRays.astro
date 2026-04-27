@@ -67,6 +67,9 @@ const {
   type MountFn = typeof import("../../../scripts/lightRays").mountLightRays;
 
   const mediaReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const mediaCoarse = window.matchMedia("(pointer: coarse)");
+  const isMobileViewport = (): boolean =>
+    mediaCoarse.matches || window.innerWidth <= 900;
 
   let mountPromise: Promise<MountFn> | null = null;
   const loadMount = (): Promise<MountFn> => {
@@ -78,6 +81,7 @@ const {
 
   const boot = (el: HTMLElement) => {
     if (mediaReduce.matches) return;
+    if (isMobileViewport()) return;
     let cleanup: (() => void) | null = null;
     const io = new IntersectionObserver(
       (entries) => {

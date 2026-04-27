@@ -17,9 +17,12 @@
     border-color 0.32s cubic-bezier(0.2, 0.7, 0.2, 1),
     box-shadow 0.32s cubic-bezier(0.2, 0.7, 0.2, 1);
   overflow: hidden;
-  will-change: transform;
   transform-style: preserve-3d;
   backface-visibility: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .root { will-change: transform; }
 }
 
 .root::after {
