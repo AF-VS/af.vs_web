@@ -1,5 +1,19 @@
 import { sendContact } from '../../../lib/contact';
 
+// Lazy-init Vercel BotID once per page so the challenge has time to solve
+// before the user reaches the submit step. Local dev always returns isBot:false,
+// so this is a no-op for `pnpm dev`.
+function scheduleBotIdInit(): void {
+  const run = (): void => {
+    void import('botid/client/core').then(({ initBotId }) => {
+      initBotId({ protect: [{ path: '/api/contact', method: 'POST' }] });
+    });
+  };
+  const ric = (window as Window & { requestIdleCallback?: (cb: () => void) => void }).requestIdleCallback;
+  if (ric) ric(run);
+  else setTimeout(run, 0);
+}
+
 export function initBrifWizard(): void {
   // Time-trap anchor — measures time from wizard-visible to submit.
   // Resets on astro:page-load (SPA nav); fine for this single-page lander.
@@ -7,6 +21,8 @@ export function initBrifWizard(): void {
 
   const wizard = document.querySelector<HTMLDivElement>('[data-wizard]');
   if (!wizard) return;
+
+  scheduleBotIdInit();
 
   let currentStep = 1;
   let previousStep = 1;

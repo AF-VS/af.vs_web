@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { checkBotId } from 'botid/server';
 import { getDb } from '../../db/client';
 import { submissions } from '../../db/schema';
 import { contactSchema } from '../../lib/contactSchema';
@@ -42,6 +43,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const origin = request.headers.get('origin') ?? undefined;
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (isOriginAllowed(origin)) headers['Access-Control-Allow-Origin'] = origin!;
+
+  // BotID classification — local dev always returns isBot:false; in prod the
+  // client-side challenge attaches headers that this call validates.
+  const verdict = await checkBotId();
+  if (verdict.isBot) {
+    return new Response(JSON.stringify({ error: 'Access denied' }), { status: 403, headers });
+  }
 
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || clientAddress
