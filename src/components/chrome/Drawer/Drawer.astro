@@ -47,7 +47,7 @@ const languages: readonly Locale[] = ["en", "ru", "uz"];
               {l.toUpperCase()}
             </span>
           ) : (
-            <a class={s.langChip} href={localeHref(l)} hreflang={l}>
+            <a class={s.langChip} href={localeHref(l)} hreflang={l} data-astro-prefetch>
               {l.toUpperCase()}
             </a>
           )

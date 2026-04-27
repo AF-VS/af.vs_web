@@ -44,7 +44,7 @@ const languages: readonly Locale[] = ["en", "ru", "uz"];
             .filter((l) => l !== locale)
             .map((l) => (
               <li role="none">
-                <a role="menuitem" href={localeHref(l)}>
+                <a role="menuitem" href={localeHref(l)} hreflang={l} data-astro-prefetch>
                   {l.toUpperCase()}
                 </a>
               </li>

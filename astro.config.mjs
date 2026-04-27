@@ -10,6 +10,7 @@ export default defineConfig({
     maxDuration: 10,
   }),
   output: 'server',
+  prefetch: { defaultStrategy: 'hover', prefetchAll: false },
   integrations: [
     sitemap({
       i18n: {
