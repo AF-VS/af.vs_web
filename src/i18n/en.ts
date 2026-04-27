@@ -122,6 +122,10 @@ export const en = {
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',
+    headings: {
+      nav: 'Navigation',
+      social: 'Social',
+    },
     nav: [
       { label: 'Services', href: '#services' },
       { label: 'Cases', href: '#cases' },

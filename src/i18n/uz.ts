@@ -122,6 +122,10 @@ export const uz: Dict = {
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',
+    headings: {
+      nav: 'Navigatsiya',
+      social: 'Ijtimoiy tarmoqlar',
+    },
     nav: [
       { label: 'Xizmatlar', href: '#services' },
       { label: 'Loyihalar', href: '#cases' },

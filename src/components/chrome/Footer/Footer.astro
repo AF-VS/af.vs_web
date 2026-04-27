@@ -16,7 +16,7 @@ const { dict } = Astro.props;
       <LogoHWhite class={s.logo} />
     </div>
     <div class={s.col}>
-      <h4>Studio</h4>
+      <h4>{dict.footer.headings.nav}</h4>
       <ul>
         {dict.footer.nav.map((n) => (
           <li><a href={n.href}>{n.label}</a></li>
@@ -24,7 +24,7 @@ const { dict } = Astro.props;
       </ul>
     </div>
     <div class={s.col}>
-      <h4>Social</h4>
+      <h4>{dict.footer.headings.social}</h4>
       <ul>
         {dict.footer.social.map((soc) => (
           <li>
