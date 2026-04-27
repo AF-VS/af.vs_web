@@ -7,7 +7,7 @@ export const en = {
   nav: {
     services: 'Services',
     cases: 'Cases',
-    brif: 'Brif',
+    brif: 'Brief',
   },
   hero: {
     title: 'From idea to product<br>From product to growth',
@@ -69,7 +69,7 @@ export const en = {
     ],
   },
   brif: {
-    title: 'Project Brif',
+    title: 'Project Brief',
     description:
       'Share the basics of your project so we can review your goals, scope, and requirements before the first call',
     steps: {
@@ -125,7 +125,7 @@ export const en = {
     nav: [
       { label: 'Services', href: '#services' },
       { label: 'Cases', href: '#cases' },
-      { label: 'Brif', href: '#contact' },
+      { label: 'Brief', href: '#contact' },
     ],
     social: [
       { label: 'LinkedIn', href: 'https://www.linkedin.com/company/af-venture-studio/posts/?feedView=all' },
