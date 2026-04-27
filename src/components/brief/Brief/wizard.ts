@@ -1,3 +1,4 @@
+import { track } from '@vercel/analytics';
 import { sendContact } from '../../../lib/contact';
 
 // Lazy-init Vercel BotID once per page so the challenge has time to solve
@@ -310,6 +311,7 @@ export function initBrifWizard(): void {
         clearAllErrors();
         currentStep--;
         updateUI();
+        track('brief_step', { step: currentStep, dir: 'back' });
       }
       return;
     }
@@ -352,12 +354,14 @@ export function initBrifWizard(): void {
           .then(() => {
             currentStep = 6;
             updateUI();
+            track('brief_submit', { ok: true });
           })
           .catch((err) => {
             const errorEl = wizard.querySelector<HTMLParagraphElement>('[data-brif-error]');
             if (errorEl) {
               errorEl.textContent = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
             }
+            track('brief_submit', { ok: false });
           })
           .finally(() => {
             btn?.classList.remove('brif-btn--loading');
@@ -369,6 +373,7 @@ export function initBrifWizard(): void {
       if (currentStep < totalSteps) {
         currentStep++;
         updateUI();
+        track('brief_step', { step: currentStep, dir: 'forward' });
       }
     }
   });
