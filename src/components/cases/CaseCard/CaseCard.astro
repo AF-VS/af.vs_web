@@ -8,12 +8,12 @@ interface Props {
   description: string;
   tags: readonly string[];
   slug: "memolink" | "sisterra" | "draft";
-  badge?: string;
-  duration?: string;
-  image?: ImageMetadata;
-  imageAlt?: string;
-  video?: string;
-  portrait?: boolean;
+  badge?: string | undefined;
+  duration?: string | undefined;
+  image?: ImageMetadata | undefined;
+  imageAlt?: string | undefined;
+  video?: string | undefined;
+  portrait?: boolean | undefined;
 }
 
 const { title, description, tags, slug, badge, duration, image, imageAlt, video, portrait = false } = Astro.props;
