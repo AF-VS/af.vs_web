@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import s from "./Brief.module.css";
-import mountainImg from "../../../assets/brif/mountain_brief.png";
+import mountainImg from "../../../assets/brief/mountain_brief.png";
 import type { Dict } from "../../../i18n/en";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { dict, kickerLabel } = Astro.props;
-const b = dict.brif;
+const b = dict.brief;
 ---
 
 <section class={s.section} id="contact">
@@ -25,6 +25,11 @@ const b = dict.brif;
     data-wizard
     data-label-next={b.next}
     data-label-send={b.send}
+    data-err-select-option={b.errors.selectOption}
+    data-err-other-empty={b.errors.otherEmpty}
+    data-err-name={b.errors.name}
+    data-err-email={b.errors.email}
+    data-err-phone={b.errors.phone}
     data-reveal="scale"
     data-reveal-delay="120"
   >
@@ -93,6 +98,7 @@ const b = dict.brif;
               </button>
             ))}
           </div>
+          <p class={s.stepError} data-step-error="1" aria-live="polite"></p>
         </div>
 
         <!-- Step 2: readiness -->
@@ -117,6 +123,7 @@ const b = dict.brif;
               </button>
             ))}
           </div>
+          <p class={s.stepError} data-step-error="2" aria-live="polite"></p>
         </div>
 
         <!-- Step 3: platform (last is Other with input) -->
@@ -153,6 +160,7 @@ const b = dict.brif;
               );
             })}
           </div>
+          <p class={s.stepError} data-step-error="3" aria-live="polite"></p>
         </div>
 
         <!-- Step 4: industry (grid, no icons, last is Other) -->
@@ -181,6 +189,7 @@ const b = dict.brif;
               );
             })}
           </div>
+          <p class={s.stepError} data-step-error="4" aria-live="polite"></p>
         </div>
 
         <!-- Step 5: contact -->
@@ -190,24 +199,35 @@ const b = dict.brif;
             <p>{b.steps.contact.description}</p>
           </div>
           <div class={s.inputs}>
-            <label>
-              <span class={s.srOnly}>{b.steps.contact.name}</span>
-              <input type="text" class={s.input} name="name" placeholder={b.steps.contact.name} required autocomplete="name" />
-            </label>
-            <label>
-              <span class={s.srOnly}>{b.steps.contact.projectName}</span>
-              <input type="text" class={s.input} name="projectName" placeholder={b.steps.contact.projectName} autocomplete="organization" />
-            </label>
-            <label>
-              <span class={s.srOnly}>{b.steps.contact.email}</span>
-              <input type="email" class={s.input} name="email" placeholder={b.steps.contact.email} required autocomplete="email" />
-            </label>
-            <label>
-              <span class={s.srOnly}>Phone</span>
-              <input type="tel" class={s.input} name="phone" value="+998 " data-phone autocomplete="tel" />
-            </label>
+            <div class={s.field}>
+              <label>
+                <span class={s.srOnly}>{b.steps.contact.name}</span>
+                <input type="text" class={s.input} name="name" placeholder={b.steps.contact.name} required autocomplete="name" />
+              </label>
+              <p class={s.fieldError} data-field-error="name" aria-live="polite"></p>
+            </div>
+            <div class={s.field}>
+              <label>
+                <span class={s.srOnly}>{b.steps.contact.projectName}</span>
+                <input type="text" class={s.input} name="projectName" placeholder={b.steps.contact.projectName} autocomplete="organization" />
+              </label>
+            </div>
+            <div class={s.field}>
+              <label>
+                <span class={s.srOnly}>{b.steps.contact.email}</span>
+                <input type="email" class={s.input} name="email" placeholder={b.steps.contact.email} required autocomplete="email" />
+              </label>
+              <p class={s.fieldError} data-field-error="email" aria-live="polite"></p>
+            </div>
+            <div class={s.field}>
+              <label>
+                <span class={s.srOnly}>Phone</span>
+                <input type="tel" class={s.input} name="phone" value="+998 " data-phone autocomplete="tel" />
+              </label>
+              <p class={s.fieldError} data-field-error="phone" aria-live="polite"></p>
+            </div>
           </div>
-          <p class={s.error} data-brif-error aria-live="polite"></p>
+          <p class={s.error} data-brief-error aria-live="polite"></p>
         </div>
 
         <!-- Step 6: success -->
@@ -226,12 +246,12 @@ const b = dict.brif;
 
       <div class={s.actions} data-actions>
         <div class={s.actionsLeft}>
-          <button type="button" class={s.btnBack} data-brif-back hidden>
+          <button type="button" class={s.btnBack} data-brief-back hidden>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             <span>{b.back}</span>
           </button>
         </div>
-        <button type="button" class={s.btn} data-brif-btn>
+        <button type="button" class={s.btn} data-brief-btn>
           <span data-btn-text>{b.next}</span>
         </button>
       </div>
@@ -240,6 +260,6 @@ const b = dict.brif;
 </section>
 
 <script>
-  import { initBrifWizard } from "./wizard";
-  initBrifWizard();
+  import { initBriefWizard } from "./wizard";
+  initBriefWizard();
 </script>

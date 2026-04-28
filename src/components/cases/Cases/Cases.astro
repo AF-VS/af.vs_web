@@ -35,7 +35,7 @@ const imageMap: Record<string, ImageMetadata | undefined> = {
     <h2 class={s.title} data-reveal="up-sm" set:html={headTitle} />
   </header>
 
-  <div class={s.grid} data-reveal-group data-reveal-stagger="110" data-reveal-delay="120">
+  <div class={s.grid}>
     {dict.cases.items.map((item, i) => {
       const slug = slugs[i] ?? "memolink";
       const image = imageMap[item.image];

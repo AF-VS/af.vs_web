@@ -38,7 +38,6 @@
   opacity: 0.1;
   filter: blur(clamp(80px, 10vw, 200px));
   transform: translateZ(0);
-  will-change: transform;
 }
 
 .orb1 { top: 5%;  left: 10%;  }
@@ -46,6 +45,11 @@
 .orb3 { top: 55%; left: 35%;  }
 .orb4 { top: 75%; right: 5%;  }
 .orb5 { top: 90%; left: 20%;  }
+
+@media (max-width: 900px), (pointer: coarse) {
+  .orb { display: none; }
+  .grid { background-size: 56px 56px; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .orb { opacity: 0.08; }

@@ -3,6 +3,7 @@ import s from "./Header.module.css";
 import SymbolWhite from "../../../assets/brand/symbol_white.svg";
 import type { Dict } from "../../../i18n/en";
 import type { Locale } from "../../../i18n";
+import { getLocaleUrl } from "../../../lib/paths";
 
 interface Props {
   dict: Dict;
@@ -11,11 +12,7 @@ interface Props {
 
 const { dict, locale } = Astro.props;
 
-function localeHref(target: Locale): string {
-  const path = Astro.url.pathname.replace(/^\/(ru|uz)(?=\/|$)/, "") || "/";
-  if (target === "en") return path;
-  return path === "/" ? `/${target}/` : `/${target}${path}`;
-}
+const localeHref = (target: Locale): string => getLocaleUrl(Astro.url, target);
 
 const languages: readonly Locale[] = ["en", "ru", "uz"];
 ---
@@ -28,7 +25,7 @@ const languages: readonly Locale[] = ["en", "ru", "uz"];
   <nav class={s.mid} aria-label="Primary">
     <a href="#services">{dict.nav.services}</a>
     <a href="#cases">{dict.nav.cases}</a>
-    <a href="#contact">{dict.nav.brif}</a>
+    <a href="#contact">{dict.nav.brief}</a>
   </nav>
   <div class={s.right}>
     <details class={s.lang} data-lang-dropdown>
@@ -44,7 +41,7 @@ const languages: readonly Locale[] = ["en", "ru", "uz"];
             .filter((l) => l !== locale)
             .map((l) => (
               <li role="none">
-                <a role="menuitem" href={localeHref(l)}>
+                <a role="menuitem" href={localeHref(l)} hreflang={l} data-astro-prefetch>
                   {l.toUpperCase()}
                 </a>
               </li>

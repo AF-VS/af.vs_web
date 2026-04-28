@@ -3,6 +3,7 @@ import s from "./Drawer.module.css";
 import SymbolWhite from "../../../assets/brand/symbol_white.svg";
 import type { Dict } from "../../../i18n/en";
 import type { Locale } from "../../../i18n";
+import { getLocaleUrl } from "../../../lib/paths";
 
 interface Props {
   dict: Dict;
@@ -11,11 +12,7 @@ interface Props {
 
 const { dict, locale } = Astro.props;
 
-function localeHref(target: Locale): string {
-  const path = Astro.url.pathname.replace(/^\/(ru|uz)(?=\/|$)/, "") || "/";
-  if (target === "en") return path;
-  return path === "/" ? `/${target}/` : `/${target}${path}`;
-}
+const localeHref = (target: Locale): string => getLocaleUrl(Astro.url, target);
 
 const languages: readonly Locale[] = ["en", "ru", "uz"];
 ---
@@ -37,7 +34,7 @@ const languages: readonly Locale[] = ["en", "ru", "uz"];
     <nav class={s.list} aria-label="Mobile">
       <a href="#services" data-drawer-link>{dict.nav.services} <span class={s.ic}>→</span></a>
       <a href="#cases" data-drawer-link>{dict.nav.cases} <span class={s.ic}>→</span></a>
-      <a href="#contact" data-drawer-link>{dict.nav.brif} <span class={s.ic}>→</span></a>
+      <a href="#contact" data-drawer-link>{dict.nav.brief} <span class={s.ic}>→</span></a>
     </nav>
     <div class={s.langRow} role="group" aria-label="Language">
       {
@@ -47,7 +44,7 @@ const languages: readonly Locale[] = ["en", "ru", "uz"];
               {l.toUpperCase()}
             </span>
           ) : (
-            <a class={s.langChip} href={localeHref(l)} hreflang={l}>
+            <a class={s.langChip} href={localeHref(l)} hreflang={l} data-astro-prefetch>
               {l.toUpperCase()}
             </a>
           )

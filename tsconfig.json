@@ -2,6 +2,7 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "strictNullChecks": true,
+    "exactOptionalPropertyTypes": true,
     "allowJs": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true
