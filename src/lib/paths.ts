@@ -1,4 +1,5 @@
-export type Locale = 'en' | 'ru' | 'uz';
+import type { Locale } from '../i18n';
+export type { Locale };
 
 export const locales: Locale[] = ['en', 'ru', 'uz'];
 
