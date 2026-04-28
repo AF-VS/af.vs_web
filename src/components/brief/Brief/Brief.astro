@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import s from "./Brief.module.css";
-import mountainImg from "../../../assets/brif/mountain_brief.png";
+import mountainImg from "../../../assets/brief/mountain_brief.png";
 import type { Dict } from "../../../i18n/en";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { dict, kickerLabel } = Astro.props;
-const b = dict.brif;
+const b = dict.brief;
 ---
 
 <section class={s.section} id="contact">
@@ -227,7 +227,7 @@ const b = dict.brif;
               <p class={s.fieldError} data-field-error="phone" aria-live="polite"></p>
             </div>
           </div>
-          <p class={s.error} data-brif-error aria-live="polite"></p>
+          <p class={s.error} data-brief-error aria-live="polite"></p>
         </div>
 
         <!-- Step 6: success -->
@@ -246,12 +246,12 @@ const b = dict.brif;
 
       <div class={s.actions} data-actions>
         <div class={s.actionsLeft}>
-          <button type="button" class={s.btnBack} data-brif-back hidden>
+          <button type="button" class={s.btnBack} data-brief-back hidden>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             <span>{b.back}</span>
           </button>
         </div>
-        <button type="button" class={s.btn} data-brif-btn>
+        <button type="button" class={s.btn} data-brief-btn>
           <span data-btn-text>{b.next}</span>
         </button>
       </div>
@@ -260,6 +260,6 @@ const b = dict.brif;
 </section>
 
 <script>
-  import { initBrifWizard } from "./wizard";
-  initBrifWizard();
+  import { initBriefWizard } from "./wizard";
+  initBriefWizard();
 </script>

@@ -7,7 +7,7 @@ export const en = {
   nav: {
     services: 'Services',
     cases: 'Cases',
-    brif: 'Brief',
+    brief: 'Brief',
   },
   hero: {
     title: 'From idea to product<br>From product to growth',
@@ -68,7 +68,7 @@ export const en = {
       },
     ],
   },
-  brif: {
+  brief: {
     title: 'Project Brief',
     description:
       'Share the basics of your project so we can review your goals, scope, and requirements before the first call',

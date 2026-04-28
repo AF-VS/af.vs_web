@@ -2,7 +2,7 @@ import { track } from '@vercel/analytics';
 import { scheduleBotIdInit } from './botid';
 import { sendContact } from '../../../lib/contact';
 
-export function initBrifWizard(): void {
+export function initBriefWizard(): void {
   // Time-trap anchor — measures time from wizard-visible to submit.
   // Resets on astro:page-load (SPA nav); fine for this single-page lander.
   const startedAt = Date.now();
@@ -18,8 +18,8 @@ export function initBrifWizard(): void {
   const selections: Record<string, string> = {};
 
   const progressFill = wizard.querySelector<HTMLDivElement>('[data-progress-fill]');
-  const btn = wizard.querySelector<HTMLButtonElement>('[data-brif-btn]');
-  const btnBack = wizard.querySelector<HTMLButtonElement>('[data-brif-back]');
+  const btn = wizard.querySelector<HTMLButtonElement>('[data-brief-btn]');
+  const btnBack = wizard.querySelector<HTMLButtonElement>('[data-brief-back]');
   const btnText = wizard.querySelector<HTMLSpanElement>('[data-btn-text]');
   const actions = wizard.querySelector<HTMLDivElement>('[data-actions]');
   const dots = wizard.querySelectorAll<HTMLDivElement>('[data-dot]');
@@ -286,7 +286,7 @@ export function initBrifWizard(): void {
     }
 
     // Back button — step backward (stepper dots are status-only, not nav)
-    if (target.closest('[data-brif-back]')) {
+    if (target.closest('[data-brief-back]')) {
       if (currentStep > 1) {
         clearAllErrors();
         currentStep--;
@@ -296,12 +296,12 @@ export function initBrifWizard(): void {
       return;
     }
 
-    if (target.closest('[data-brif-btn]')) {
+    if (target.closest('[data-brief-btn]')) {
       const errors = collectErrors();
       if (errors.length > 0) {
         showErrors(errors);
-        btn?.classList.add('brif-btn--shake');
-        setTimeout(() => btn?.classList.remove('brif-btn--shake'), 400);
+        btn?.classList.add('brief-btn--shake');
+        setTimeout(() => btn?.classList.remove('brief-btn--shake'), 400);
         focusFirstError(errors);
         return;
       }
@@ -315,7 +315,7 @@ export function initBrifWizard(): void {
 
         const honeypot = wizard.querySelector<HTMLInputElement>('input[name="website"]')?.value || '';
 
-        btn?.classList.add('brif-btn--loading');
+        btn?.classList.add('brief-btn--loading');
 
         sendContact({
           productType: selections['productType'] || '',
@@ -335,14 +335,14 @@ export function initBrifWizard(): void {
             track('brief_submit', { ok: true });
           })
           .catch((err) => {
-            const errorEl = wizard.querySelector<HTMLParagraphElement>('[data-brif-error]');
+            const errorEl = wizard.querySelector<HTMLParagraphElement>('[data-brief-error]');
             if (errorEl) {
               errorEl.textContent = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
             }
             track('brief_submit', { ok: false });
           })
           .finally(() => {
-            btn?.classList.remove('brif-btn--loading');
+            btn?.classList.remove('brief-btn--loading');
           });
 
         return;
