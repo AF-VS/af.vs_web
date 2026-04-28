@@ -1,4 +1,5 @@
 export function scheduleBotIdInit(): void {
+  if (import.meta.env.DEV) return;
   const run = (): void => {
     void import('botid/client/core').then(({ initBotId }) => {
       initBotId({ protect: [{ path: '/api/contact', method: 'POST' }] });
