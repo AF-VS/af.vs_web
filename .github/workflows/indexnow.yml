@@ -1,0 +1,38 @@
+name: IndexNow Ping
+
+on:
+  workflow_run:
+    workflows: ["CI & Deploy"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Notify IndexNow
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST to IndexNow
+        run: |
+          set -euo pipefail
+          STATUS=$(curl -sS -o /tmp/indexnow_body -w "%{http_code}" \
+            -X POST https://api.indexnow.org/IndexNow \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+              "host": "afvs.dev",
+              "key": "fb6199df53734e868ab9bd7dab8a6770",
+              "keyLocation": "https://afvs.dev/fb6199df53734e868ab9bd7dab8a6770.txt",
+              "urlList": [
+                "https://afvs.dev/",
+                "https://afvs.dev/ru/",
+                "https://afvs.dev/uz/"
+              ]
+            }')
+          echo "HTTP $STATUS"
+          cat /tmp/indexnow_body || true
+          echo
+          case "$STATUS" in
+            200|202) echo "IndexNow accepted" ;;
+            *) echo "IndexNow rejected"; exit 1 ;;
+          esac
