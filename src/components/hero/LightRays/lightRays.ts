@@ -1,6 +1,6 @@
 import { Renderer, Program, Triangle, Mesh } from "ogl";
 
-type RaysOrigin =
+export type RaysOrigin =
   | "top-center"
   | "top-left"
   | "top-right"

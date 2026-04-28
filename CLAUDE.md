@@ -69,8 +69,6 @@ src/
     og/                       Satori OG template, font loading, render entry
   scripts/
     reveal.ts                 IntersectionObserver-based reveal-on-scroll (loaded eagerly from Layout)
-    servicesBento.ts          Motion One bento card effects (lazy-loaded by Services.astro on viewport)
-    lightRays.ts              OGL shader (lazy mount via LightRays.astro)
   assets/                     local raster/svg consumed by `astro:assets` <Image />
   styles/
     tokens.css                CSS custom properties (dark palette + RGB triplets + @property animatables)

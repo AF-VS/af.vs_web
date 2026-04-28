@@ -63,7 +63,7 @@ const order = [
             for (const entry of entries) {
               if (!entry.isIntersecting) continue;
               obs.disconnect();
-              import("../../../scripts/servicesBento").then(({ initServicesBento }) => {
+              import("./servicesBento").then(({ initServicesBento }) => {
                 initServicesBento(grid, {
                   enableTilt: true,
                   enableStars: false,
