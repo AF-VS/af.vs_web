@@ -34,3 +34,7 @@ export function switchLocaleUrl(currentPath: string, targetLocale: Locale): stri
   const base = path === '/' ? '' : path;
   return `/${targetLocale}${base}/`;
 }
+
+export function getLocaleUrl(url: URL, target: Locale): string {
+  return switchLocaleUrl(url.pathname, target);
+}
