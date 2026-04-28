@@ -78,14 +78,12 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const email = data.email.toLowerCase();
   const phone = data.phone ? data.phone.replace(/\s+/g, ' ') : '';
 
-  // Antibot: honeypot — если не пусто, бот
   if (data.website) {
-    // Возвращаем 200 чтобы не палить логику боту
+    // Honeypot tripped — return 200 so the bot can't tell its submission was rejected.
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
   }
 
-  // Antibot: time-trap — слишком быстрая отправка.
-  // Best-effort: startedAt is client-supplied; real abuse defence is checkRateLimit above.
+  // Time-trap is best-effort: startedAt is client-supplied; the real abuse defence is checkRateLimit above.
   const elapsed = Date.now() - data.startedAt;
   if (elapsed < MIN_FILL_TIME_MS) {
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });

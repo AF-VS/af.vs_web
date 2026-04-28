@@ -47,7 +47,6 @@ export function initBrifWizard(): void {
     const dir =
       currentStep > previousStep ? 1 : currentStep < previousStep ? -1 : 0;
 
-    // Update steps visibility with direction-aware slide animation
     steps.forEach((s) => {
       const stepNum = parseInt(s.dataset.step || '0', 10);
       ANIM_CLASSES.forEach((c) => s.classList.remove(c));
@@ -69,7 +68,6 @@ export function initBrifWizard(): void {
       }
     });
 
-    // Strip animation modifiers once the entering step finishes
     if (dir !== 0 && !prefersReducedMotion) {
       const entering = wizard!.querySelector<HTMLDivElement>(
         '[data-step].is-entering-fwd, [data-step].is-entering-back'
@@ -89,7 +87,6 @@ export function initBrifWizard(): void {
 
     previousStep = currentStep;
 
-    // Update progress fill + ARIA
     const progressEl = wizard!.querySelector<HTMLDivElement>('[data-progress]');
     if (progressEl) {
       progressEl.style.display = currentStep === 6 ? 'none' : '';
@@ -102,7 +99,6 @@ export function initBrifWizard(): void {
       progressFill.style.width = `${fillPercents[idx]}%`;
     }
 
-    // Update dots
     dots.forEach((dot) => {
       const dotNum = parseInt(dot.dataset.dot || '0', 10);
       dot.classList.remove('active', 'completed', 'upcoming');
@@ -115,7 +111,6 @@ export function initBrifWizard(): void {
       }
     });
 
-    // Update primary button
     if (btn && btnText) {
       if (currentStep === 6) {
         btn.style.display = 'none';
@@ -127,7 +122,6 @@ export function initBrifWizard(): void {
       }
     }
 
-    // Update back button visibility — visible on steps 2–5
     if (btnBack) {
       btnBack.hidden = !(currentStep >= 2 && currentStep <= 5);
     }
@@ -277,7 +271,6 @@ export function initBrifWizard(): void {
         s.classList.remove('has-error');
       });
 
-      // Select this option
       option.classList.add('selected');
 
       // "Other" option — focus input; selection stays empty until user types
@@ -303,7 +296,6 @@ export function initBrifWizard(): void {
       return;
     }
 
-    // Next / Send button
     if (target.closest('[data-brif-btn]')) {
       const errors = collectErrors();
       if (errors.length > 0) {
@@ -316,7 +308,6 @@ export function initBrifWizard(): void {
       clearAllErrors();
 
       if (currentStep === 5) {
-        // Collect contact info and send
         const nameVal = wizard.querySelector<HTMLInputElement>('input[name="name"]')?.value.trim() || '';
         const projectVal = wizard.querySelector<HTMLInputElement>('input[name="projectName"]')?.value.trim() || '';
         const emailVal = wizard.querySelector<HTMLInputElement>('input[name="email"]')?.value.trim() || '';
@@ -454,7 +445,6 @@ export function initBrifWizard(): void {
 
     phoneInput.addEventListener('focus', () => {
       if (!phoneInput.value) phoneInput.value = PREFIX;
-      // Move cursor to end
       const len = phoneInput.value.length;
       phoneInput.setSelectionRange(len, len);
     });
