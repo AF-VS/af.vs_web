@@ -1,4 +1,3 @@
-// src/lib/schema.ts
 import { SITE_NAME, CONTACT_EMAIL } from './site';
 import type { Locale } from './paths';
 
