@@ -11,6 +11,7 @@
     scrollbar-width: thin;
     scrollbar-color: rgba(var(--primary-default-rgb), 0.45) var(--surface-bg-deep);
     scrollbar-gutter: stable;
+    overflow-x: clip;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -23,7 +24,7 @@
     font-family: var(--font-body);
     font-size: var(--font-size-body);
     line-height: var(--line-height-body);
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   ::selection {
@@ -97,7 +98,6 @@
     transition:
       opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
       transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: opacity, transform;
   }
   html.js [data-reveal="fade"] {
     transform: none;

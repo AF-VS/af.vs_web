@@ -1,15 +1,6 @@
 ---
 import s from "./LightRays.module.css";
-
-type RaysOrigin =
-  | "top-center"
-  | "top-left"
-  | "top-right"
-  | "right"
-  | "left"
-  | "bottom-center"
-  | "bottom-right"
-  | "bottom-left";
+import type { RaysOrigin } from "./lightRays";
 
 interface Props {
   raysOrigin?: RaysOrigin;
@@ -64,20 +55,24 @@ const {
 </div>
 
 <script>
-  type MountFn = typeof import("../../../scripts/lightRays").mountLightRays;
+  type MountFn = typeof import("./lightRays").mountLightRays;
 
   const mediaReduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const mediaCoarse = window.matchMedia("(pointer: coarse)");
+  const isMobileViewport = (): boolean =>
+    mediaCoarse.matches || window.innerWidth <= 900;
 
   let mountPromise: Promise<MountFn> | null = null;
   const loadMount = (): Promise<MountFn> => {
     if (!mountPromise) {
-      mountPromise = import("../../../scripts/lightRays").then((m) => m.mountLightRays);
+      mountPromise = import("./lightRays").then((m) => m.mountLightRays);
     }
     return mountPromise;
   };
 
   const boot = (el: HTMLElement) => {
     if (mediaReduce.matches) return;
+    if (isMobileViewport()) return;
     let cleanup: (() => void) | null = null;
     const io = new IntersectionObserver(
       (entries) => {

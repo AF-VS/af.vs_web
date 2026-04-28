@@ -42,7 +42,8 @@ export async function checkRateLimit(ip: string): Promise<{ success: boolean; re
   }
   try {
     const { success, reset } = await rl.limit(ip);
-    return { success, retryAfter: success ? undefined : Math.ceil((reset - Date.now()) / 1000) };
+    if (success) return { success: true };
+    return { success: false, retryAfter: Math.ceil((reset - Date.now()) / 1000) };
   } catch (err) {
     console.error('[rate-limit] Upstash call failed, fail-open:', err);
     return { success: true };

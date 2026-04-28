@@ -7,7 +7,7 @@ export const uz: Dict = {
   nav: {
     services: 'Xizmatlar',
     cases: 'Loyihalar',
-    brif: 'Brif',
+    brief: 'Brif',
   },
   hero: {
     title: "G'oyadan mahsulotga<br>Mahsulotdan o'sishga",
@@ -68,7 +68,7 @@ export const uz: Dict = {
       },
     ],
   },
-  brif: {
+  brief: {
     title: 'Loyiha brifi',
     description:
       "Birinchi qo'ng'iroqdan oldin maqsadlaringiz, ko'lami va talablaringizni ko'rib chiqishimiz uchun loyihangiz haqida asosiy ma'lumotlarni ulashing",
@@ -109,6 +109,13 @@ export const uz: Dict = {
       title: "So'rov qabul qilindi",
       description: "Rahmat! Ma'lumotlarni ko'rib chiqamiz va 24 soat ichida siz bilan bog'lanamiz",
     },
+    errors: {
+      selectOption: 'Davom etish uchun variantlardan birini tanlang',
+      otherEmpty: "Variantingizni yozing (kamida 3 ta belgi)",
+      name: "Ismingizni kiriting (kamida 3 ta belgi)",
+      email: "To'g'ri email kiriting — faqat lotin harflari",
+      phone: "To'liq telefon raqamini kiriting, masalan +998 90 123-45-67",
+    },
     errorUnconfigured: "Forma yuborish hali sozlanmagan.",
   },
   seo: {
@@ -122,6 +129,10 @@ export const uz: Dict = {
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',
+    headings: {
+      nav: 'Navigatsiya',
+      social: 'Ijtimoiy tarmoqlar',
+    },
     nav: [
       { label: 'Xizmatlar', href: '#services' },
       { label: 'Loyihalar', href: '#cases' },

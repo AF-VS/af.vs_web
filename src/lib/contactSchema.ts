@@ -9,7 +9,6 @@ export const contactSchema = z.object({
   projectName: z.string().trim().max(120).optional().default(''),
   email: z.string().trim().email().max(254),
   phone: z.string().trim().max(32).optional().default(''),
-  // Antibot fields — см. Task 4
   website: z.string().max(0).optional().default(''),
   startedAt: z.number().int().positive(),
 });

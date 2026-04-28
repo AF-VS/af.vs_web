@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { checkBotId } from 'botid/server';
 import { getDb } from '../../db/client';
 import { submissions } from '../../db/schema';
 import { contactSchema } from '../../lib/contactSchema';
@@ -42,6 +43,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   if (isOriginAllowed(origin)) headers['Access-Control-Allow-Origin'] = origin!;
 
+  // BotID classification — local dev always returns isBot:false; in prod the
+  // client-side challenge attaches headers that this call validates.
+  const verdict = await checkBotId();
+  if (verdict.isBot) {
+    return new Response(JSON.stringify({ error: 'Access denied' }), { status: 403, headers });
+  }
+
   const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || clientAddress
     || 'unknown';
@@ -67,15 +75,15 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   const data = parsed.data;
+  const email = data.email.toLowerCase();
+  const phone = data.phone ? data.phone.replace(/\s+/g, ' ') : '';
 
-  // Antibot: honeypot — если не пусто, бот
   if (data.website) {
-    // Возвращаем 200 чтобы не палить логику боту
+    // Honeypot tripped — return 200 so the bot can't tell its submission was rejected.
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
   }
 
-  // Antibot: time-trap — слишком быстрая отправка.
-  // Best-effort: startedAt is client-supplied; real abuse defence is checkRateLimit above.
+  // Time-trap is best-effort: startedAt is client-supplied; the real abuse defence is checkRateLimit above.
   const elapsed = Date.now() - data.startedAt;
   if (elapsed < MIN_FILL_TIME_MS) {
     return new Response(JSON.stringify({ ok: true }), { status: 200, headers });
@@ -90,8 +98,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       industry: data.industry,
       name: data.name,
       projectName: data.projectName || null,
-      email: data.email,
-      phone: data.phone || null,
+      email,
+      phone: phone || null,
       createdAt: new Date().toISOString(),
     });
   } catch (err) {
@@ -107,8 +115,8 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
       industry: data.industry,
       name: data.name,
       projectName: data.projectName || '',
-      email: data.email,
-      phone: data.phone || '',
+      email,
+      phone,
     }));
   } catch (err) {
     console.warn('[api/contact] Telegram failed:', err);

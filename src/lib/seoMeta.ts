@@ -1,4 +1,3 @@
-// src/lib/seoMeta.ts
 import type { Dict } from '../i18n/en';
 import type { Locale } from './paths';
 

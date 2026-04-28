@@ -7,7 +7,7 @@ export const ru: Dict = {
   nav: {
     services: 'Услуги',
     cases: 'Кейсы',
-    brif: 'Бриф',
+    brief: 'Бриф',
   },
   hero: {
     title: 'От идеи к продукту<br>От продукта к росту',
@@ -68,7 +68,7 @@ export const ru: Dict = {
       },
     ],
   },
-  brif: {
+  brief: {
     title: 'Бриф проекта',
     description:
       'Расскажите основное о вашем проекте, чтобы мы могли изучить цели, объём и требования до первого звонка',
@@ -109,6 +109,13 @@ export const ru: Dict = {
       title: 'Заявка получена',
       description: 'Спасибо! Мы изучим информацию и свяжемся с вами в течение 24 часов',
     },
+    errors: {
+      selectOption: 'Выберите один из вариантов, чтобы продолжить',
+      otherEmpty: 'Опишите ваш вариант (минимум 3 символа)',
+      name: 'Введите ваше имя (минимум 3 символа)',
+      email: 'Введите корректный email — только латиница',
+      phone: 'Введите полный номер телефона, например +998 90 123-45-67',
+    },
     errorUnconfigured: 'Отправка формы ещё не настроена.',
   },
   seo: {
@@ -122,6 +129,10 @@ export const ru: Dict = {
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',
+    headings: {
+      nav: 'Навигация',
+      social: 'Соцсети',
+    },
     nav: [
       { label: 'Услуги', href: '#services' },
       { label: 'Кейсы', href: '#cases' },

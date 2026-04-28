@@ -7,7 +7,7 @@ export const en = {
   nav: {
     services: 'Services',
     cases: 'Cases',
-    brif: 'Brif',
+    brief: 'Brief',
   },
   hero: {
     title: 'From idea to product<br>From product to growth',
@@ -68,8 +68,8 @@ export const en = {
       },
     ],
   },
-  brif: {
-    title: 'Project Brif',
+  brief: {
+    title: 'Project Brief',
     description:
       'Share the basics of your project so we can review your goals, scope, and requirements before the first call',
     steps: {
@@ -109,6 +109,13 @@ export const en = {
       title: 'Request received',
       description: 'Thank you! We will review the information and get back to you within 24 hours',
     },
+    errors: {
+      selectOption: 'Please pick one of the options to continue',
+      otherEmpty: 'Please describe your option (at least 3 characters)',
+      name: 'Please enter your name (at least 3 characters)',
+      email: 'Please enter a valid email — Latin characters only',
+      phone: 'Please enter a full phone number, e.g. +998 90 123-45-67',
+    },
     errorUnconfigured: 'Form delivery not configured yet.',
   },
   seo: {
@@ -122,10 +129,14 @@ export const en = {
   footer: {
     brand: 'AF Venture studio',
     copyright: '© 2026',
+    headings: {
+      nav: 'Navigation',
+      social: 'Social',
+    },
     nav: [
       { label: 'Services', href: '#services' },
       { label: 'Cases', href: '#cases' },
-      { label: 'Brif', href: '#contact' },
+      { label: 'Brief', href: '#contact' },
     ],
     social: [
       { label: 'LinkedIn', href: 'https://www.linkedin.com/company/af-venture-studio/posts/?feedView=all' },

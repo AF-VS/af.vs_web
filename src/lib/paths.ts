@@ -1,4 +1,5 @@
-export type Locale = 'en' | 'ru' | 'uz';
+import type { Locale } from '../i18n';
+export type { Locale };
 
 export const locales: Locale[] = ['en', 'ru', 'uz'];
 
@@ -17,7 +18,6 @@ const prefixedLocales: Locale[] = ['ru', 'uz'];
 export function switchLocaleUrl(currentPath: string, targetLocale: Locale): string {
   let path = currentPath.replace(/\/$/, '') || '/';
 
-  // Strip existing locale prefix
   for (const loc of prefixedLocales) {
     if (path === `/${loc}` || path.startsWith(`/${loc}/`)) {
       path = path.slice(loc.length + 1) || '/';
@@ -25,11 +25,14 @@ export function switchLocaleUrl(currentPath: string, targetLocale: Locale): stri
     }
   }
 
-  // Prepend target locale prefix
   if (targetLocale === 'en') {
     return path.endsWith('/') ? path : path + '/';
   }
 
   const base = path === '/' ? '' : path;
   return `/${targetLocale}${base}/`;
+}
+
+export function getLocaleUrl(url: URL, target: Locale): string {
+  return switchLocaleUrl(url.pathname, target);
 }
