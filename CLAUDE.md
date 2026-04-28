@@ -86,7 +86,7 @@ One component = one folder with paired `.astro` + `.module.css`. No exceptions.
 - Every component has its own `*.module.css`; import it as `import s from './X.module.css'` and use `class:list={[s.root]}`.
 - **No `<style>` in `.astro` files.** If a rule feels too small for a module, it still goes in the module.
 - Global tokens in `src/styles/tokens.css`: colors (hex + RGB triplets for `rgba()` consumers), spacing scale (clamp-based), radii, glass surfaces/borders, shadows, scrollbar styling, semantic colors.
-- **Dark-only.** Do not write `prefers-color-scheme` branches. No theme toggle, no light overrides. (Note: a few `--surface-light-*` / `--text-dark-*` tokens exist for an unrealised light form panel — do not extend; treat as dead and remove when convenient.)
+- **Dark-only.** Do not write `prefers-color-scheme` branches. No theme toggle, no light overrides.
 - Use CSS nesting (Lightning CSS handles it) — no SCSS/PostCSS plugins.
 - `@layer` order: `reset → tokens → base → components → utilities`.
 - **Sizing:** fluid `clamp()` for radii, padding, container widths and section spacing. Typography is **stepped via `@media`** in `tokens.css` (sm/md/lg/xl/2xl/3xl/4xl) so hero headings stay single-line per locale (Cyrillic/Latin character density differs). `:lang(ru) { --lang-scale }` adds an optical boost ≥768px.
@@ -131,8 +131,8 @@ Goal: Vercel/Linear/Framer feel, Lighthouse ≥ 95.
 - `en.ts` is the source of truth: it exports `Dict = typeof en`. `ru.ts` and `uz.ts` must satisfy `Dict`; missing/extra keys are a type error at build.
 - Pages get a dictionary via `getDict(locale)` from `src/i18n/index.ts` and access strings as `dict.section.key`. No string literal stays hardcoded in components.
 - `Layout.astro` emits `<link rel="alternate" hreflang="…">` for all locales (incl. `x-default → en`) and a canonical URL on `afvs.dev`.
-- For locale-prefix manipulation (switch language, build alt URLs), use `switchLocaleUrl` from `src/lib/paths.ts`. Do not re-implement the regex strip in components — `Layout.astro:36` and `Header.astro:15` currently do, and these are scheduled for unification.
-- Page routes are duplicated for now (`pages/index.astro`, `pages/ru/index.astro`, `pages/uz/index.astro`) because the default locale must not have a prefix. Migrating ru/uz to a single `pages/[locale]/index.astro` with `getStaticPaths` is acceptable; keep `pages/index.astro` for `en`.
+- For locale-prefix manipulation (switch language, build alt URLs), use `switchLocaleUrl` / `getLocaleUrl` from `src/lib/paths.ts`. Do not re-implement the regex strip in components.
+- Page routes: `pages/index.astro` serves `en` (no prefix); `pages/[locale]/index.astro` with `getStaticPaths` serves `ru`/`uz`. Both delegate to `src/layouts/Home.astro` for the section composition.
 
 ---
 
@@ -160,14 +160,14 @@ All secrets come from `.env.local` locally and Vercel env vars in deploy. Never 
 - `robots.txt` (`public/robots.txt`): `Allow: /`, `Disallow: /api/`, points to `https://afvs.dev/sitemap-index.xml`.
 - `Layout.astro` emits `Organization` + `WebSite` JSON-LD (linked via `@id`) for Google rich results, Knowledge Panel eligibility, and AI search citation.
 - DNS verification TXT records for Google Search Console and Yandex.Webmaster live in Vercel DNS on `afvs.dev` — keep them when editing DNS.
-- **OG images: dynamic** via Satori + `@resvg/resvg-js` at `/og/[locale].png` (`prerender = false`). Cache-Control on responses is `public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800`. Switching this route to `prerender = true` with `getStaticPaths` for the three locales is on the roadmap (eliminates cold starts for crawlers).
+- **OG images: prerendered at build** via Satori + `@resvg/resvg-js` at `/og/[locale].png` (`prerender = true` with `getStaticPaths` over the three locales). Crawlers hit a static asset — no cold starts. `Cache-Control: public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800`.
 - `vercel.json` ships strict security headers (HSTS preload, `X-Frame-Options: DENY`, nosniff, Permissions-Policy locking down `interest-cohort`/camera/mic/geo) and `X-Robots-Tag: noindex, nofollow` for any `*.vercel.app` host so preview URLs don't get indexed (afvsweb.vercel.app de-indexing is in progress; do not relax this rule).
 
 ---
 
 ## TypeScript & code style
 
-- `tsconfig.json` extends Astro strict; `noImplicitAny` and `strictNullChecks` are on. `noUnusedLocals` and `noUnusedParameters` are also enabled. (`exactOptionalPropertyTypes` is **not** currently enabled — turning it on is on the roadmap.)
+- `tsconfig.json` extends Astro strict; `noImplicitAny`, `strictNullChecks`, `noUnusedLocals`, `noUnusedParameters`, and `exactOptionalPropertyTypes` are all enabled.
 - Component props: `interface Props { … }` declared above the component, destructured from `Astro.props`.
 - Filenames: PascalCase for components (`Hero.astro`, `Hero.module.css`), camelCase for helpers (`formatDate.ts`).
 - No default exports for components.
