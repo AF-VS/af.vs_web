@@ -1,20 +1,10 @@
 ---
 import type { GetStaticPaths } from "astro";
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/chrome/Header/Header.astro";
-import Drawer from "../../components/chrome/Drawer/Drawer.astro";
-import Footer from "../../components/chrome/Footer/Footer.astro";
-import Hero from "../../components/hero/Hero/Hero.astro";
-import Services from "../../components/services/Services/Services.astro";
-import Cases from "../../components/cases/Cases/Cases.astro";
-import Brief from "../../components/brief/Brief/Brief.astro";
+import Home from "../../layouts/Home.astro";
 import { getDict, type Locale } from "../../i18n";
-import { buildHomeMeta } from "../../lib/seoMeta";
 
 export const prerender = true;
 
-// EN renders at the bare path "/" via pages/index.astro; this catch-all only
-// generates the prefixed locales.
 export const getStaticPaths: GetStaticPaths = () => [
   { params: { locale: "ru" } },
   { params: { locale: "uz" } },
@@ -22,33 +12,6 @@ export const getStaticPaths: GetStaticPaths = () => [
 
 const locale = Astro.params.locale as Exclude<Locale, "en">;
 const dict = getDict(locale);
-const meta = buildHomeMeta(dict, locale);
 ---
 
-<Layout
-  title={meta.title}
-  description={meta.description}
-  ogTitle={meta.ogTitle}
-  ogDescription={meta.ogDescription}
-  locale={locale}
->
-  <Header dict={dict} locale={locale} />
-  <Drawer dict={dict} locale={locale} />
-  <main id="main">
-    <Hero dict={dict} />
-    <Services
-      dict={dict}
-      ctaLabel={dict.services.ctaLabel}
-      kickerLabel={dict.services.kickerLabel}
-      headTitle={dict.services.headTitle}
-    />
-    <Cases
-      dict={dict}
-      locale={locale}
-      kickerLabel={`${dict.cases.title} / 03`}
-      headTitle={dict.cases.headTitle}
-    />
-    <Brief dict={dict} kickerLabel={`${dict.brif.title} / 04`} />
-  </main>
-  <Footer dict={dict} />
-</Layout>
+<Home dict={dict} locale={locale} />
