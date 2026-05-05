@@ -142,7 +142,7 @@ export const uz: Dict = {
       { label: 'LinkedIn', href: 'https://www.linkedin.com/company/af-venture-studio/posts/?feedView=all' },
       { label: 'Instagram', href: 'https://www.instagram.com/afventurestudio?igsh=MXB6MDZ3eGhnMzY3dQ==' },
       { label: 'Telegram', href: 'https://t.me/afvsdev' },
-      { label: 'Email', href: '' },
+      { label: 'Email', href: 'mailto:info@afvs.dev' },
       { label: 'Clutch', href: 'https://clutch.co/profile/af-venture-studio' },
     ],
   },

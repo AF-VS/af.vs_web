@@ -26,15 +26,18 @@ const { dict } = Astro.props;
     <div class={s.col}>
       <h4>{dict.footer.headings.social}</h4>
       <ul>
-        {dict.footer.social.map((soc) => (
-          <li>
-            <a
-              href={soc.href || undefined}
-              target={soc.href ? '_blank' : undefined}
-              rel={soc.href ? 'noopener noreferrer' : undefined}
-            >{soc.label}</a>
-          </li>
-        ))}
+        {dict.footer.social.map((soc) => {
+          const isExternal = soc.href.startsWith('http');
+          return (
+            <li>
+              <a
+                href={soc.href || undefined}
+                target={isExternal ? '_blank' : undefined}
+                rel={isExternal ? 'noopener noreferrer' : undefined}
+              >{soc.label}</a>
+            </li>
+          );
+        })}
       </ul>
     </div>
   </div>
